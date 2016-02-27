@@ -1,0 +1,32 @@
+{
+    "name": "pavlakis/notts-digital",
+    "description": "Nottingham Digital events retrieval",
+    "keywords": [
+        "meetup", "tito", "events integration"
+    ],
+    "homepage": "http://github.com/pavlakis/notts-digital",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Antonis Pavlakis",
+            "email": "adoni@pavlakis.info",
+            "homepage": "http://pavlakis.info"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "NottsDigital\\tests\\" : "tests/phpunit",
+            "NottsDigital\\": "app/src"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^6.0",
+        "fabpot/goutte": "^3.1",
+        "zendframework/zend-diactoros": "^1.3",
+        "pimple/pimple": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.0"
+    }
+}
