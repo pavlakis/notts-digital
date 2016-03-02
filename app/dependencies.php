@@ -35,7 +35,7 @@ $container['adapter.meetups'] = function($c){
 
 $container['event.meetups'] = function($c) {
 
-    return new NottsDigital\Event\MeetupEvent(
+    return new NottsDigital\Event\Event(
         $c['adapter.meetups']
     );
 };
@@ -49,7 +49,7 @@ $container['adapter.tito'] = function($c){
 
 $container['event.ti.to'] = function($c) {
 
-    return new NottsDigital\Event\TitoEvent(
+    return new NottsDigital\Event\Event(
         $c['adapter.tito']
     );
 };

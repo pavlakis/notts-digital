@@ -17,4 +17,29 @@ interface AdapterInterface
      * @return mixed
      */
     public function fetch($group);
+
+    /**
+     * @return string
+     */
+    public function getTitle();
+
+    /**
+     * @return \DateTime
+     */
+    public function getDate();
+
+    /**
+     * @return string
+     */
+    public function getUrl();
+
+    /**
+     * @return string
+     */
+    public function getLocation();
+
+    /**
+     * @return string
+     */
+    public function getGroupName();
 }

@@ -33,6 +33,11 @@ class MeetupAdapter implements AdapterInterface
      */
     protected $baseUrl = 'https://api.meetup.com/2/events/?group_urlname=%s&key=%s';
 
+    /**
+     * @var array
+     */
+    protected $event = [];
+
     public function __construct(Client $client, $apiKey, $config)
     {
         $this->client = $client;
@@ -55,13 +60,11 @@ class MeetupAdapter implements AdapterInterface
 
         if (isset($events['results']) && !empty($events['results'])) {
             if (isset($this->config[$group]['match'])) {
-                return $this->getByNameStringMatch($events['results'], $this->config[$group]['match']);
+                $this->event = $this->getByNameStringMatch($events['results'], $this->config[$group]['match']);
             }
 
-            return $events['results'][0];
+            $this->event = $events['results'][0];
         }
-
-        return [];
     }
 
     /**
@@ -78,4 +81,68 @@ class MeetupAdapter implements AdapterInterface
         }
         return [];
     }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        if (!isset($this->event['name'])) {
+            return '';
+        }
+
+        return $this->event['name'];
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        $time = $this->event['time'] / 1000;
+
+        $date = new \DateTime();
+        $date->setTimestamp($time);
+
+        return $date;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        if (!isset($this->event['event_url'])) {
+            return '';
+        }
+
+        return $this->event['event_url'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocation()
+    {
+        $venue = isset($this->event['venue']) ? $this->event['venue'] : '';
+
+        if ($venue) {
+            return $venue['name'] . ', ' . $venue['address_1'] . ', ' . $venue['city'];
+        }
+
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupName()
+    {
+        if(isset($this->event['group']) && isset($this->event['group']['name'])) {
+            return $this->event['group']['name'];
+        }
+
+        return '';
+    }
+
 }

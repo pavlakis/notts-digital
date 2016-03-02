@@ -6,26 +6,23 @@
  * @copyright Copyright (c) 2016 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
+
 namespace NottsDigital\Event;
 
-use NottsDigital\Adapter\MeetupAdapter;
+use NottsDigital\Adapter\AdapterInterface;
 
-class MeetupEvent implements EventInterface
+class Event implements EventInterface
 {
     /**
-     * @var MeetupAdapter
+     * @var AdapterInterface
      */
     protected $adapter;
 
-    /**
-     * @var array
-     */
-    protected $event = [];
-
-    public function __construct(MeetupAdapter $adapter)
+    public function __construct(AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
     }
+
 
     /**
      * Gets event
@@ -35,9 +32,9 @@ class MeetupEvent implements EventInterface
      */
     public function getByGroup($group)
     {
-        $this->event = $this->adapter->fetch($group);
+        $this->adapter->fetch($group);
 
-        return $this->event;
+        return $this;
     }
 
     /**
@@ -45,11 +42,7 @@ class MeetupEvent implements EventInterface
      */
     public function getTitle()
     {
-        if (!isset($this->event['name'])) {
-            return '';
-        }
-
-        return $this->event['name'];
+        return $this->adapter->getTitle();
     }
 
     /**
@@ -57,12 +50,7 @@ class MeetupEvent implements EventInterface
      */
     public function getDate()
     {
-        $time = $this->event['time'] / 1000;
-
-        $date = new \DateTime();
-        $date->setTimestamp($time);
-
-        return $date;
+        return $this->adapter->getDate();
     }
 
     /**
@@ -70,11 +58,7 @@ class MeetupEvent implements EventInterface
      */
     public function getUrl()
     {
-        if (!isset($this->event['event_url'])) {
-            return '';
-        }
-
-        return $this->event['event_url'];
+        return $this->adapter->getUrl();
     }
 
     /**
@@ -82,13 +66,7 @@ class MeetupEvent implements EventInterface
      */
     public function getLocation()
     {
-        $venue = isset($this->event['venue']) ? $this->event['venue'] : '';
-
-        if ($venue) {
-            return $venue['name'] . ', ' . $venue['address_1'] . ', ' . $venue['city'];
-        }
-
-        return '';
+        return $this->adapter->getLocation();
     }
 
     /**
@@ -96,11 +74,7 @@ class MeetupEvent implements EventInterface
      */
     public function getGroupName()
     {
-        if(isset($this->event['group']) && isset($this->event['group']['name'])) {
-            return $this->event['group']['name'];
-        }
-
-        return '';
+        return $this->adapter->getGroupName();
     }
 
     /**
@@ -108,10 +82,15 @@ class MeetupEvent implements EventInterface
      */
     public function toArray()
     {
+        $date = '';
+        try {
+            $date = $this->getDate()->format('l jS F Y') . ' at ' . $this->getDate()->format('g:ia');
+        } catch (\Exception $e) {}
+
         return [
             'group'     => $this->getGroupName(),
             'subject'   => $this->getTitle(),
-            'date_time' => $this->getDate()->format('l jS F Y') . ' at ' . $this->getDate()->format('g:ia'),
+            'date_time' => $date,
             'location'  => $this->getLocation(),
             'event_url' => $this->getUrl()
         ];

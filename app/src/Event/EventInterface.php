@@ -12,9 +12,10 @@ namespace NottsDigital\Event;
 interface EventInterface
 {
     /**
-     * @return \DateTime
+     * @param string $group
+     * @return mixed
      */
-    public function getDate();
+    public function getByGroup($group);
 
     /**
      * @return array
