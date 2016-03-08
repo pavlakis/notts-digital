@@ -56,10 +56,17 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([], $events);
     }
 
+    protected function loadEvents()
+    {
+
+    }
+
     public function testFetchValidGroupLoadsEvents()
     {
         $response = $this->getMock('Psr\Http\Message\ResponseInterface');
         $msgBody = $this->getMock('Psr\Http\Message\StreamInterface');
+        $msgBody->method('getContents')
+            ->willReturn(json_encode(['results' => [ 0 => ['name' => 'Event Name']]]));
 
         $this->httpClient->method('get')
             ->willReturn($response);
@@ -67,8 +74,6 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
         $response->method('getBody')
             ->willReturn($msgBody);
 
-        $msgBody->method('getContents')
-            ->willReturn(json_encode(['results' => [ 0 => ['name' => 'Event Name']]]));
 
 
         $this->meetupAdapter->fetch('PHPMinds');

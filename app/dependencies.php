@@ -29,6 +29,7 @@ $container['adapter.meetups'] = function($c){
     return new \NottsDigital\Adapter\MeetupAdapter(
         $c['http.client'],
         $c['config']['meetups']['api-key'],
+        $c['config']['meetups']['baseUrl'],
         $c['config']['meetups']
     );
 };
