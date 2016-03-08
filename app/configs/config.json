@@ -1,6 +1,7 @@
 {
   "meetups": {
     "api-key": "THE-MEETUP-API-KEY",
+    "baseUrl": "https://api.meetup.com/2/events/?group_urlname=%s&key=%s",
     "PHPMinds": {
       "group_urlname": "PHPMiNDS-in-Nottingham"
     },

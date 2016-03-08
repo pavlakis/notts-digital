@@ -31,17 +31,18 @@ class MeetupAdapter implements AdapterInterface
     /**
      * @var string
      */
-    protected $baseUrl = 'https://api.meetup.com/2/events/?group_urlname=%s&key=%s';
+    protected $baseUrl;
 
     /**
      * @var array
      */
     protected $event = [];
 
-    public function __construct(Client $client, $apiKey, $config)
+    public function __construct(Client $client, $apiKey, $baseUrl, $config)
     {
         $this->client = $client;
         $this->apiKey = $apiKey;
+        $this->baseUrl = $baseUrl;
         $this->config = $config;
     }
 
@@ -54,6 +55,7 @@ class MeetupAdapter implements AdapterInterface
         if (!isset($this->config[$group])) {
             return [];
         }
+
         $groupUrlName = $this->config[$group]['group_urlname'];
         $response = $this->client->get(sprintf($this->baseUrl, $groupUrlName, $this->apiKey));
         $events = json_decode($response->getBody()->getContents(), true);
