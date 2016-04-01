@@ -38,6 +38,11 @@ class MeetupAdapter implements AdapterInterface
      */
     protected $event = [];
 
+    /**
+     * @var array
+     */
+    protected $groupConfig = [];
+
     public function __construct(Client $client, $apiKey, $baseUrl, $config)
     {
         $this->client = $client;
@@ -66,6 +71,7 @@ class MeetupAdapter implements AdapterInterface
             }
 
             $this->event = $events['results'][0];
+            $this->groupConfig = $this->config[$group];
         }
     }
 
@@ -114,6 +120,10 @@ class MeetupAdapter implements AdapterInterface
      */
     public function getUrl()
     {
+        if (isset($this->groupConfig['link_to'])) {
+            return $this->groupConfig['link_to'];
+        }
+
         if (!isset($this->event['event_url'])) {
             return '';
         }
