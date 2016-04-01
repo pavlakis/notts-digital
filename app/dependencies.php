@@ -13,6 +13,10 @@ $container['config'] = function($c){
     return json_decode(file_get_contents(__DIR__.'/configs/config.json'), true);
 };
 
+$container['groups'] = function($c){
+    return json_decode(file_get_contents(__DIR__.'/configs/groups.json'), true);
+};
+
 $container['http.client'] = function($c) {
     return new GuzzleHttp\Client();
 };
@@ -30,7 +34,7 @@ $container['adapter.meetups'] = function($c){
         $c['http.client'],
         $c['config']['meetups']['api-key'],
         $c['config']['meetups']['baseUrl'],
-        $c['config']['meetups']
+        $c['groups']['meetups']
     );
 };
 
@@ -44,7 +48,8 @@ $container['event.meetups'] = function($c) {
 $container['adapter.tito'] = function($c){
     return new \NottsDigital\Adapter\TitoAdapter(
         $c['http.crawler'],
-        $c['config']['ti.to']
+        $c['config']['ti.to']['baseUrl'],
+        $c['groups']['ti.to']
     );
 };
 
