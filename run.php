@@ -12,7 +12,7 @@ require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/app/dependencies.php';
 
 
-$config = $container['config'];
+$groups = $container['groups'];
 
 $request = Zend\Diactoros\ServerRequestFactory::fromGlobals();
 
@@ -34,7 +34,7 @@ if (array_key_exists('group', $params)) {
     $group = $params['group'];
     $eventType = '';
 
-    foreach ($config as $type => $events) {
+    foreach ($groups as $type => $events) {
         if (array_key_exists($group, $events)) {
             $eventType = $type;
             break;
