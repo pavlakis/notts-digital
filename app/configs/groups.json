@@ -1,0 +1,46 @@
+{
+  "meetups": {
+    "PHPMinds": {
+      "group_urlname": "PHPMiNDS-in-Nottingham"
+    },
+    "Tech Nottingham": {
+      "group_urlname": "Tech-Nottingham"
+    },
+    "Nottingham Programmers": {
+      "group_urlname": "NottinghamProgrammers"
+    },
+    "dot net notts": {
+      "group_urlname": "dotnetnotts"
+    },
+    "Notts Mobile": {
+      "group_urlname": "Mobile-Notts"
+    },
+    "Notts Testers": {
+      "group_urlname": "SoftwareTestingClub",
+      "match" : {
+        "name" : "#NottsTest"
+      }
+    },
+    "Nottingham AWS": {
+      "group_urlname": "Nottingham-AWS-Meetup"
+    },
+    "Agile Nottingham": {
+      "group_urlname": "NottAgile"
+    },
+    "Nott Tuesday": {
+      "group_urlname": "Nott-Tuesday-Getting-Nottinghams-tech-scene-together"
+    },
+    "Women In Tech Nottingham ": {
+      "group_urlname": "Women-In-Tech-Nottingham"
+    },
+    "Design Exchange Nottingham" : {
+      "group_urlname": "Design-Exchange-Nottingham-DxN",
+      "link_to": "http://www.dxnevent.com/"
+    }
+  },
+  "ti.to" : {
+    "Notts JS" : {
+      "url" : "nottsjs"
+    }
+  }
+}
