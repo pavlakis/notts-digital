@@ -39,9 +39,10 @@ class TitoAdapter implements AdapterInterface
      */
     protected $group;
 
-    public function __construct(Client $client, $config)
+    public function __construct(Client $client, $baseUrl, $config)
     {
         $this->client = $client;
+        $this->baseUrl = $baseUrl;
         $this->config = $config;
     }
 
@@ -52,7 +53,6 @@ class TitoAdapter implements AdapterInterface
     public function fetch($group)
     {
         $this->group    = $group;
-        $this->baseUrl  = $this->config['baseUrl'];
 
         try {
             $crawler = $this->client->request('GET', $this->baseUrl . '/' . $this->config[$group]['url'] );
