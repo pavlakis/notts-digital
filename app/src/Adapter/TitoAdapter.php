@@ -56,11 +56,10 @@ class TitoAdapter implements AdapterInterface
 
         try {
             $crawler = $this->client->request('GET', $this->baseUrl . '/' . $this->config[$group]['url'] );
+            $this->event = $crawler->filter('.events .future > a')->eq(0);
         } catch (\InvalidArgumentException $e) {
-            return new Crawler();
+            $this->event = new Crawler();
         }
-
-        $this->event = $crawler->filter('.events .future > a')->eq(0);
     }
 
     /**
