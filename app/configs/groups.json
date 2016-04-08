@@ -36,11 +36,11 @@
     "Design Exchange Nottingham" : {
       "group_urlname": "Design-Exchange-Nottingham-DxN",
       "link_to": "http://www.dxnevent.com/"
+    },
+    "Notts JS" : {
+      "group_urlname": "NottsJS"
     }
   },
   "ti.to" : {
-    "Notts JS" : {
-      "url" : "nottsjs"
-    }
   }
 }
