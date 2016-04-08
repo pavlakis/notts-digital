@@ -66,11 +66,13 @@ class MeetupAdapter implements AdapterInterface
         $events = json_decode($response->getBody()->getContents(), true);
 
         if (isset($events['results']) && !empty($events['results'])) {
-            if (isset($this->config[$group]['match'])) {
-                $this->event = $this->getByNameStringMatch($events['results'], $this->config[$group]['match']);
+            if (isset($this->config[$group]['match']) && isset($this->config[$group]['match']['name'])) {
+                $this->event = $this->getByNameStringMatch($events['results'], $this->config[$group]['match']['name']);
+            } else {
+
+                $this->event = $events['results'][0];
             }
 
-            $this->event = $events['results'][0];
             $this->groupConfig = $this->config[$group];
         }
     }
