@@ -26,7 +26,8 @@ $response = new Zend\Diactoros\Response\JsonResponse([
     'subject'   => '',
     'date_time' => '',
     'location'  => '',
-    'event_url' => ''
+    'event_url' => '',
+    'iso_date' => ''
 ]);
 
 if (array_key_exists('group', $params)) {
