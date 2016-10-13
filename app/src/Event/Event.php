@@ -92,7 +92,8 @@ class Event implements EventInterface
             'subject'   => $this->getTitle(),
             'date_time' => $date,
             'location'  => $this->getLocation(),
-            'event_url' => $this->getUrl()
+            'event_url' => $this->getUrl(),
+            'iso_date'  => $this->getDate()->format('c')
         ];
     }
 }
