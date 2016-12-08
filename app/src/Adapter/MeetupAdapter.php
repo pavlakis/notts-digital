@@ -36,6 +36,11 @@ class MeetupAdapter implements AdapterInterface
     /**
      * @var array
      */
+    protected $uris;
+
+    /**
+     * @var array
+     */
     protected $event = [];
 
     /**
@@ -43,11 +48,20 @@ class MeetupAdapter implements AdapterInterface
      */
     protected $groupConfig = [];
 
-    public function __construct(Client $client, $apiKey, $baseUrl, $config)
+    /**
+     * MeetupAdapter constructor.
+     * @param Client $client
+     * @param $apiKey
+     * @param $baseUrl
+     * @param $uris
+     * @param $config
+     */
+    public function __construct(Client $client, $apiKey, $baseUrl, $uris, $config)
     {
         $this->client = $client;
         $this->apiKey = $apiKey;
         $this->baseUrl = $baseUrl;
+        $this->uris = $uris;
         $this->config = $config;
     }
 
@@ -60,9 +74,20 @@ class MeetupAdapter implements AdapterInterface
         if (!isset($this->config[$group])) {
             return [];
         }
+        
+        $this->loadEventInfo($group);
 
+        $this->loadGroupInfo($group);
+
+    }
+
+    /**
+     * @param $group
+     */
+    protected function loadEventInfo($group)
+    {
         $groupUrlName = $this->config[$group]['group_urlname'];
-        $response = $this->client->get(sprintf($this->baseUrl, $groupUrlName, $this->apiKey));
+        $response = $this->client->get($this->baseUrl .  sprintf($this->uris['events'], $groupUrlName, $this->apiKey));
         $events = json_decode($response->getBody()->getContents(), true);
 
         if (isset($events['results']) && !empty($events['results'])) {
@@ -75,6 +100,24 @@ class MeetupAdapter implements AdapterInterface
 
             $this->groupConfig = $this->config[$group];
         }
+    }
+
+    /**
+     * @param $group
+     */
+    protected function loadGroupInfo($group)
+    {
+        $groupUrlName = $this->config[$group]['group_urlname'];
+        $response = $this->client->get($this->baseUrl .  sprintf($this->uris['groups'], $groupUrlName, $this->apiKey));
+        $groupInfo = json_decode($response->getBody()->getContents(), true);
+
+        if (isset($groupInfo['results']) && !empty($groupInfo['results'])) {
+            $groupInfo = $groupInfo['results'][0];
+            $this->event['group_info'] = [];
+            $this->event['group_info']['description'] = $groupInfo['description'];
+            $this->event['group_info']['group_photo'] = $groupInfo['group_photo'];
+        }
+
     }
 
     /**
@@ -159,4 +202,15 @@ class MeetupAdapter implements AdapterInterface
         return '';
     }
 
+    /**
+     * @return array
+     */
+    public function getGroupInfo()
+    {
+        if (isset($this->event['group_info'])) {
+            return $this->event['group_info'];
+        }
+
+        return [];
+    }
 }

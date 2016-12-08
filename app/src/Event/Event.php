@@ -80,6 +80,14 @@ class Event implements EventInterface
     /**
      * @return array
      */
+    public function getGroupInfo()
+    {
+        return $this->adapter->getGroupInfo();
+    }
+
+    /**
+     * @return array
+     */
     public function toArray()
     {
         $date = '';
@@ -93,7 +101,8 @@ class Event implements EventInterface
             'date_time' => $date,
             'location'  => $this->getLocation(),
             'event_url' => $this->getUrl(),
-            'iso_date'  => $this->getDate()->format('c')
+            'iso_date'  => $this->getDate()->format('c'),
+            'group_info' => $this->getGroupInfo()
         ];
     }
 }

@@ -42,4 +42,9 @@ interface AdapterInterface
      * @return string
      */
     public function getGroupName();
+
+    /**
+     * @return array
+     */
+    public function getGroupInfo();
 }

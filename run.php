@@ -27,7 +27,8 @@ $response = new Zend\Diactoros\Response\JsonResponse([
     'date_time' => '',
     'location'  => '',
     'event_url' => '',
-    'iso_date' => ''
+    'iso_date' => '',
+    'group_info' => []
 ]);
 
 if (array_key_exists('group', $params)) {
@@ -46,7 +47,7 @@ if (array_key_exists('group', $params)) {
         $event = $container['event.' . $eventType];
         $event->getByGroup($group);
 
-        $response = new Zend\Diactoros\Response\JsonResponse($event->toArray());
+        $response = new Zend\Diactoros\Response\JsonResponse($event->toArray(), 200, [], JSON_PRETTY_PRINT);
     }
 
 }

@@ -34,6 +34,7 @@ $container['adapter.meetups'] = function($c){
         $c['http.client'],
         $c['config']['meetups']['api-key'],
         $c['config']['meetups']['baseUrl'],
+        $c['config']['meetups']['uris'],
         $c['groups']['meetups']
     );
 };

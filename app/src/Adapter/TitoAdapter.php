@@ -125,4 +125,12 @@ class TitoAdapter implements AdapterInterface
     {
         return '';
     }
+
+    /**
+     * @return array
+     */
+    public function getGroupInfo()
+    {
+        return [];
+    }
 }
