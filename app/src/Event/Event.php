@@ -91,9 +91,12 @@ class Event implements EventInterface
     public function toArray()
     {
         $date = '';
-        try {
+        $isoDate = '';
+
+        if ($this->getDate() instanceof \DateTime) {
             $date = $this->getDate()->format('l jS F Y') . ' at ' . $this->getDate()->format('g:ia');
-        } catch (\Exception $e) {}
+            $isoDate =  $this->getDate()->format('c');
+        }
 
         return [
             'group'     => $this->getGroupName(),
@@ -101,7 +104,7 @@ class Event implements EventInterface
             'date_time' => $date,
             'location'  => $this->getLocation(),
             'event_url' => $this->getUrl(),
-            'iso_date'  => $this->getDate()->format('c'),
+            'iso_date'  => $isoDate,
             'group_info' => $this->getGroupInfo()
         ];
     }
