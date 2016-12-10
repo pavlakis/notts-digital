@@ -35,7 +35,8 @@ $container['adapter.meetups'] = function($c){
         $c['config']['meetups']['api-key'],
         $c['config']['meetups']['baseUrl'],
         $c['config']['meetups']['uris'],
-        $c['groups']['meetups']
+        $c['groups']['meetups'],
+        new \NottsDigital\Event\EventEntityCollection()
     );
 };
 
