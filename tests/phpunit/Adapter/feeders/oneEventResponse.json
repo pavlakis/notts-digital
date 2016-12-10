@@ -1,0 +1,56 @@
+{
+  "results": [
+    {
+      "utc_offset": 0,
+      "venue": {
+        "country": "gb",
+        "localized_country_name": "United Kingdom",
+        "city": "Nottingham",
+        "address_1": "34a Stoney Street, Nottingham, NG1 1NB",
+        "name": "JH",
+        "lon": -1.14304,
+        "id": 24319054,
+        "lat": 52.951992,
+        "repinned": false
+      },
+      "headcount": 0,
+      "visibility": "public",
+      "waitlist_count": 0,
+      "created": 1481274431000,
+      "maybe_rsvp_count": 0,
+      "description": "<p>At this event Liam Wiltshire <a href=\"https:\/\/twitter.com\/l_wiltshire\">(@l_wiltshire) <\/a>  will be presenting an introduction to scaling. At one time or another, every developer comes across the same problem - their application starts getting slower, then starts falling over, then isn't available at all. Often, this comes down to too many users, too much stored data - in other words a scaling problem. Looking at a range of options, from horizontal and vertical scaling, to caching, sharding and optimisation, Liam will discuss approaches to scaling that can be used on new applications, and also some that can be retro-fitted to existing applications.<\/p>",
+      "event_url": "https:\/\/www.meetup.com\/PHPMiNDS-in-Nottingham\/events\/236134043\/",
+      "yes_rsvp_count": 2,
+      "announced": false,
+      "name": "'We need a bigger  boat' - Introduction to application scaling",
+      "id": "236134043",
+      "time": 1484247600000,
+      "updated": 1481275079000,
+      "group": {
+        "join_mode": "open",
+        "created": 1441480872000,
+        "name": "PHPMiNDS",
+        "group_lon": -1.1799999475479126,
+        "id": 18902351,
+        "urlname": "PHPMiNDS-in-Nottingham",
+        "group_lat": 52.970001220703125,
+        "who": "Members"
+      },
+      "status": "upcoming"
+    }
+  ],
+  "meta": {
+    "next": "",
+    "method": "Events",
+    "total_count": 1,
+    "link": "https:\/\/api.meetup.com\/2\/events\/",
+    "count": 1,
+    "description": "Access Meetup events using a group, member, or event id. Events in private groups are available only to authenticated members of those groups. To search events by topic or location, see [Open Events](\/meetup_api\/docs\/2\/open_events).",
+    "lon": "",
+    "title": "Meetup Events v2",
+    "url": "https:\/\/api.meetup.com\/2\/events\/?offset=0&format=json&limited_events=False&group_urlname=phpminds&page=200&fields=&key=403d1e347352741c50544b613c537872&order=time&desc=false&status=upcoming",
+    "id": "",
+    "updated": 1481275079000,
+    "lat": ""
+  }
+}
