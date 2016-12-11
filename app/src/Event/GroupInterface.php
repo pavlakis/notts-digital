@@ -6,17 +6,12 @@
  * @copyright Copyright (c) 2016 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
-namespace NottsDigital\Adapter;
+
+namespace NottsDigital\Event;
 
 
-interface AdapterInterface
+interface GroupInterface
 {
-    /**
-     * @param $group
-     * @return mixed
-     */
-    public function fetch($group);
-
     /**
      * @return string
      */
@@ -31,9 +26,4 @@ interface AdapterInterface
      * @return string
      */
     public function getGroupPhoto();
-
-    /**
-     * @return array
-     */
-    public function getEventEntityCollection();
 }
