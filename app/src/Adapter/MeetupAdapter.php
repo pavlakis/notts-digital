@@ -16,6 +16,10 @@ use NottsDigital\Event\GroupInfo;
 use NottsDigital\Event\NullEventEntity;
 use NottsDigital\Event\NullGroupInfo;
 
+/**
+ * Class MeetupAdapter
+ * @package NottsDigital\Adapter
+ */
 class MeetupAdapter implements AdapterInterface
 {
     /**
