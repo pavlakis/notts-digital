@@ -10,6 +10,7 @@ namespace NottsDigital\Tests\Adapter;
 
 use NottsDigital\Adapter\MeetupAdapter;
 use GuzzleHttp\Client;
+use NottsDigital\Event\EventEntityCollection;
 
 class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,18 +35,31 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
     protected $config;
 
     /**
+     * @var string json
+     */
+    private $singleEvent;
+
+    /**
+     * @var string json
+     */
+    private $multipleEvents;
+
+    /**
      * @var \NottsDigital\Adapter\MeetupAdapter
      */
     protected $meetupAdapter;
 
     public function setUp()
     {
-        $this->httpClient = $this->getMock('GuzzleHttp\Client', ['get']);
+        $this->httpClient = $this->getMockBuilder('GuzzleHttp\Client')->setMethods(['get']);
         $this->config = require __DIR__ . '/feeders/config.php';
         $this->baseUrl = $this->config['meetups']['baseUrl'];
 
+        $this->singleEvent = file_get_contents(__DIR__ . '/feeders/oneEventResponse.json');
+        $this->multipleEvents = file_get_contents(__DIR__ . '/feeders/multipleEventResponse.json');
+
         $this->meetupAdapter = new MeetupAdapter(
-            $this->httpClient, $this->apiKey, $this->baseUrl, $this->config['meetups']
+            $this->httpClient->getMock(), $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
         );
     }
 
@@ -63,21 +77,51 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchValidGroupLoadsEvents()
     {
-        $response = $this->getMock('Psr\Http\Message\ResponseInterface');
-        $msgBody = $this->getMock('Psr\Http\Message\StreamInterface');
+        $response = $this->getMockBuilder('Psr\Http\Message\ResponseInterface')->getMockForAbstractClass();
+        $msgBody = $this->getMockBuilder('Psr\Http\Message\StreamInterface')->setMethods(['getContents'])->getMockForAbstractClass();
         $msgBody->method('getContents')
             ->willReturn(json_encode(['results' => [ 0 => ['name' => 'Event Name']]]));
 
-        $this->httpClient->method('get')
+        $httpClient = $this->httpClient->getMock();
+        $httpClient->method('get')
             ->willReturn($response);
 
         $response->method('getBody')
-            ->willReturn($msgBody);
+            ->willReturnCallback(function() use ($msgBody){ return $msgBody; });
+
+        $meetupAdapter = new MeetupAdapter(
+            $httpClient, $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
+        );
+
+        $meetupAdapter->fetch('PHPMinds');
+
+        $this->assertTrue($meetupAdapter->getEventEntityCollection()[0]->getTitle() === 'Event Name');
+    }
+
+    public function testFetchCanHandleMultipleEvents()
+    {
+        $response = $this->getMockBuilder('Psr\Http\Message\ResponseInterface')->getMockForAbstractClass();
+        $msgBody = $this->getMockBuilder('Psr\Http\Message\StreamInterface')->setMethods(['getContents'])->getMockForAbstractClass();
+        $msgBody->method('getContents')
+            ->willReturnCallback(function(){
+                return $this->multipleEvents;
+            });
 
 
+        $httpClient = $this->httpClient->getMock();
+        $httpClient->method('get')
+            ->willReturn($response);
 
-        $this->meetupAdapter->fetch('PHPMinds');
+        $response->method('getBody')
+            ->willReturnCallback(function() use ($msgBody){ return $msgBody; });
 
-        $this->assertTrue($this->meetupAdapter->getTitle() === 'Event Name');
+        $meetupAdapter = new MeetupAdapter(
+            $httpClient, $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
+        );
+
+        $meetupAdapter->fetch('PHPMinds');
+        
+        $this->assertTrue($meetupAdapter->getEventEntityCollection()[0]->getTitle() === 'Industrial Control Cyber Security');
+        $this->assertTrue($meetupAdapter->getEventEntityCollection()[1]->getTitle() === 'Current Postgraudate Research');
     }
 }

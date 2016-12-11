@@ -21,7 +21,7 @@
         <whitelist>
             <directory suffix=".php">../../app/src/</directory>
             <exclude>
-                <file>../../app/src/middleware.php</file>
+                <file>../../app/src/dependencies.php</file>
             </exclude>
         </whitelist>
     </filter>
