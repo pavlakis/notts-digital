@@ -17,6 +17,11 @@ interface EventEntityInterface
     public function getTitle();
 
     /**
+     * @return string
+     */
+    public function getDescription();
+
+    /**
      * @return \DateTime
      */
     public function getDate();

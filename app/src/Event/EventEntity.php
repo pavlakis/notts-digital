@@ -45,6 +45,18 @@ final class EventEntity implements EventEntityInterface
     }
 
     /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        if (!isset($this->event['description'])) {
+            return '';
+        }
+
+        return $this->event['description'];
+    }
+
+    /**
      * @return \DateTime
      */
     public function getDate()
@@ -106,6 +118,7 @@ final class EventEntity implements EventEntityInterface
 
         return [
             'subject' => $this->getTitle(),
+            'description' => $this->getDescription(),
             'date_time' => $date,
             'location' => $this->getLocation(),
             'event_url' => $this->getUrl(),

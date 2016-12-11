@@ -23,6 +23,14 @@ final class NullEventEntity implements EventEntityInterface
     /**
      * @return string
      */
+    public function getDescription()
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
     public function getDate()
     {
         return '';
@@ -51,6 +59,7 @@ final class NullEventEntity implements EventEntityInterface
     {
         return [
             'subject' => '',
+            'description' => '',
             'date_time' => '',
             'location' => '',
             'event_url' => '',

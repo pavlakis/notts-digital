@@ -24,6 +24,7 @@ $group = '';
 $response = new Zend\Diactoros\Response\JsonResponse([
     'group'     => '',
     'subject'   => '',
+    'description'   => '',
     'date_time' => '',
     'location'  => '',
     'event_url' => '',

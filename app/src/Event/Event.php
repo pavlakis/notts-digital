@@ -47,7 +47,7 @@ class Event implements EventInterface
             'group_description' => $this->adapter->getGroupDescription(),
             'next_event' => []
         ];
-        
+
         foreach ($this->adapter->getEventEntityCollection() as $key => $eventEntity) {
 
             /** @var EventEntityInterface $eventEntity */
