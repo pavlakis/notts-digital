@@ -57,6 +57,12 @@
     },
     "AP Tech Talk":{
       "group_urlname":"AP-Tech-Talk"
+    },
+    "Tech on Toast":{
+      "group_urlname":"Tech-Nottingham",
+      "match" :{
+        "name":"Tech on Toast"
+      }
     }
   },
   "ti.to" : {

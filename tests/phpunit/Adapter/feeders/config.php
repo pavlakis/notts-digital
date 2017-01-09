@@ -18,12 +18,21 @@ return [
         ],
         'BCS-Leicester' => [
             'group_urlname' => 'BCS-Leicester'
+        ],
+        "Tech on Toast" =>
+            [
+                "group_urlname" => "Tech-Nottingham",
+                "match" =>
+                    [
+                        "name" =>
+                            "Tech on Toast"
+                    ]
+            ],
+        ],
+        'ti.to' => [
+            'baseUrl' => 'https://ti.to',
+            'Design Exchange Nottingham' => [
+                'url' => 'dxnevent'
+            ]
         ]
-    ],
-    'ti.to' => [
-        'baseUrl' => 'https://ti.to',
-        'Design Exchange Nottingham' => [
-            'url' => 'dxnevent'
-        ]
-    ]
-];
+    ];
