@@ -28,11 +28,17 @@ return [
                             "Tech on Toast"
                     ]
             ],
-        ],
-        'ti.to' => [
-            'baseUrl' => 'https://ti.to',
-            'Design Exchange Nottingham' => [
-                'url' => 'dxnevent'
-            ]
+        
+        "Tech Nottingham" =>
+            [
+                "group_urlname" => "Tech-Nottingham",
+            
+            ],
+    ],
+    'ti.to' => [
+        'baseUrl' => 'https://ti.to',
+        'Design Exchange Nottingham' => [
+            'url' => 'dxnevent'
         ]
-    ];
+    ]
+];

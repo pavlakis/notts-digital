@@ -184,10 +184,10 @@ class MeetupAdapter implements AdapterInterface
     protected function normaliseName($name)
     {
         $name = preg_replace('/\s*/', '',strtolower($name));
-
         return $name;
     }
 
+    
     /**
      * @return string
      */

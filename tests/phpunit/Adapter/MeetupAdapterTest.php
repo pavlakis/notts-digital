@@ -135,9 +135,7 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
     {
     
         $mock = new MockHandler([
-            new Response(200, ['X-Foo' => 'Bar'],file_get_contents(__DIR__ . '/feeders/nameMatch.json')),
-            new Response(404),
-            new RequestException("Error Communicating with Server", new Request('GET', 'test'))
+            new Response(200, [],file_get_contents(__DIR__ . '/feeders/nameMatch.json'))
         ]);
     
         $handler = HandlerStack::create($mock);
@@ -150,5 +148,24 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($meetupAdapter->getEventEntityCollection());
         $this->assertEquals($meetupAdapter->getEventEntityCollection()[0]->getTitle(), 'Tech on Toast January 2017 - The Launch!');
     }
-
+    
+    
+    
+    public function testFetchWillStillGetEventAsPartOfMainGroup()
+    {
+        
+        $mock = new MockHandler([
+            new Response(200, [],file_get_contents(__DIR__ . '/feeders/nameMatch.json'))
+        ]);
+        
+        $handler = HandlerStack::create($mock);
+        $httpClient = new Client(['handler' => $handler]);
+        $meetupAdapter = new MeetupAdapter(
+            $httpClient, $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
+        );
+        $meetupAdapter->fetch('Tech Nottingham');
+        
+        $this->assertNotNull($meetupAdapter->getEventEntityCollection());
+        $this->assertEquals($meetupAdapter->getEventEntityCollection()[1]->getTitle(), 'Tech on Toast January 2017 - The Launch!');
+    }
 }
