@@ -4,7 +4,10 @@
       "group_urlname": "PHPMiNDS-in-Nottingham"
     },
     "Tech Nottingham": {
-      "group_urlname": "Tech-Nottingham"
+      "group_urlname": "Tech-Nottingham",
+      "match" :{
+        "name":"Tech Nottingham"
+      }
     },
     "Nottingham Programmers": {
       "group_urlname": "NottinghamProgrammers"

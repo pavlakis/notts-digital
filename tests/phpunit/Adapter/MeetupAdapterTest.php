@@ -163,9 +163,10 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
         $meetupAdapter = new MeetupAdapter(
             $httpClient, $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
         );
+        
         $meetupAdapter->fetch('Tech Nottingham');
         
         $this->assertNotNull($meetupAdapter->getEventEntityCollection());
-        $this->assertEquals($meetupAdapter->getEventEntityCollection()[1]->getTitle(), 'Tech on Toast January 2017 - The Launch!');
+        $this->assertEquals(count($meetupAdapter->getEventEntityCollection()), 1);
     }
 }

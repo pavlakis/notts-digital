@@ -32,7 +32,11 @@ return [
         "Tech Nottingham" =>
             [
                 "group_urlname" => "Tech-Nottingham",
-            
+                "match" =>
+                    [
+                        "name" =>
+                            "Tech Nottingham"
+                    ]
             ],
     ],
     'ti.to' => [
