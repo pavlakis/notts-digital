@@ -23,7 +23,6 @@ class Event implements EventInterface
         $this->adapter = $adapter;
     }
 
-
     /**
      * Gets event
      *
@@ -38,62 +37,31 @@ class Event implements EventInterface
     }
 
     /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->adapter->getTitle();
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->adapter->getDate();
-    }
-
-    /**
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->adapter->getUrl();
-    }
-
-    /**
-     * @return string
-     */
-    public function getLocation()
-    {
-        return $this->adapter->getLocation();
-    }
-
-    /**
-     * @return string
-     */
-    public function getGroupName()
-    {
-        return $this->adapter->getGroupName();
-    }
-
-    /**
      * @return array
      */
     public function toArray()
     {
-        $date = '';
-        try {
-            $date = $this->getDate()->format('l jS F Y') . ' at ' . $this->getDate()->format('g:ia');
-        } catch (\Exception $e) {}
-
-        return [
-            'group'     => $this->getGroupName(),
-            'subject'   => $this->getTitle(),
-            'date_time' => $date,
-            'location'  => $this->getLocation(),
-            'event_url' => $this->getUrl(),
-            'iso_date'  => $this->getDate()->format('c')
+        $eventInfo = [
+            'group'     => $this->adapter->getGroupName(),
+            'group_photo' => $this->adapter->getGroupPhoto(),
+            'group_description' => $this->adapter->getGroupDescription(),
+            'next_event' => []
         ];
+
+        foreach ($this->adapter->getEventEntityCollection() as $key => $eventEntity) {
+
+            /** @var EventEntityInterface $eventEntity */
+            if ($key === 0) {
+                $eventInfo = array_merge($eventInfo, $eventEntity->toArray());
+                continue;
+            }
+
+            if ($key === 1) {
+                $eventInfo['next_event'] = $eventEntity->toArray();
+            }
+
+        }
+
+        return $eventInfo;
     }
 }

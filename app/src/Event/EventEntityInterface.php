@@ -6,34 +6,38 @@
  * @copyright Copyright (c) 2016 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
-namespace NottsDigital\Adapter;
+namespace NottsDigital\Event;
 
 
-interface AdapterInterface
+interface EventEntityInterface
 {
     /**
-     * @param $group
-     * @return mixed
+     * @return string
      */
-    public function fetch($group);
+    public function getTitle();
 
     /**
      * @return string
      */
-    public function getGroupName();
+    public function getDescription();
+
+    /**
+     * @return \DateTime
+     */
+    public function getDate();
 
     /**
      * @return string
      */
-    public function getGroupDescription();
+    public function getUrl();
 
     /**
      * @return string
      */
-    public function getGroupPhoto();
+    public function getLocation();
 
     /**
      * @return array
      */
-    public function getEventEntityCollection();
+    public function toArray();
 }

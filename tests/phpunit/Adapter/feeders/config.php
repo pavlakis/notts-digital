@@ -8,9 +8,16 @@
  */
 return [
     "meetups" => [
-        'baseUrl' => 'https://api.meetup.com/2/events/?group_urlname=%s&key=%s',
+        'baseUrl' => 'https://api.meetup.com',
+        'uris' => [
+            'events' => '/2/events/?group_urlname=%s&key=%s',
+            'groups' => '/2/groups/?group_urlname=%s&key=%s'
+        ],
         'PHPMinds' => [
             'group_urlname' => 'PHPMiNDS-in-Nottingham'
+        ],
+        'BCS-Leicester' => [
+            'group_urlname' => 'BCS-Leicester'
         ]
     ],
     'ti.to' => [

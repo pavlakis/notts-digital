@@ -1,0 +1,95 @@
+{
+  "results": [
+    {
+      "utc_offset": 0,
+      "country": "GB",
+      "visibility": "public",
+      "city": "Leicester",
+      "timezone": "Europe\/London",
+      "created": 1416519622000,
+      "topics": [
+        {
+          "urlkey": "edtech",
+          "name": "Education & Technology",
+          "id": 7203
+        },
+        {
+          "urlkey": "newtech",
+          "name": "New Technology",
+          "id": 9696
+        },
+        {
+          "urlkey": "internetpro",
+          "name": "Internet Professionals",
+          "id": 10102
+        },
+        {
+          "urlkey": "technology",
+          "name": "Technology",
+          "id": 10579
+        },
+        {
+          "urlkey": "computer-science",
+          "name": "Computer Science",
+          "id": 21751
+        },
+        {
+          "urlkey": "it-professionals",
+          "name": "IT Professionals",
+          "id": 164111
+        }
+      ],
+      "link": "https:\/\/www.meetup.com\/BCS-Leicester\/",
+      "rating": 4,
+      "description": "<p>This is the Leicester Branch of BCS - Chartered Institute for IT.<\/p>\n<p>The branch provides a local focus for BCS members. It holds regular meetings in the Leicester area, on a diverse range of computing and IT topics. The Branch offers a programme of events usually including talks and presentations about current issues and research in computing.<\/p>",
+      "lon": -1.1399999856948853,
+      "group_photo": {
+        "highres_link": "http:\/\/photos1.meetupstatic.com\/photos\/event\/6\/b\/6\/3\/highres_431727491.jpeg",
+        "photo_id": 431727491,
+        "base_url": "http:\/\/photos1.meetupstatic.com",
+        "type": "event",
+        "photo_link": "http:\/\/photos1.meetupstatic.com\/photos\/event\/6\/b\/6\/3\/600_431727491.jpeg",
+        "thumb_link": "http:\/\/photos1.meetupstatic.com\/photos\/event\/6\/b\/6\/3\/thumb_431727491.jpeg"
+      },
+      "join_mode": "open",
+      "organizer": {
+        "member_id": 139876702,
+        "name": "Antonis Pavlakis",
+        "photo": {
+          "highres_link": "http:\/\/photos3.meetupstatic.com\/photos\/member\/3\/6\/a\/8\/highres_189913992.jpeg",
+          "photo_id": 189913992,
+          "base_url": "http:\/\/photos3.meetupstatic.com",
+          "type": "member",
+          "photo_link": "http:\/\/photos3.meetupstatic.com\/photos\/member\/3\/6\/a\/8\/member_189913992.jpeg",
+          "thumb_link": "http:\/\/photos3.meetupstatic.com\/photos\/member\/3\/6\/a\/8\/thumb_189913992.jpeg"
+        }
+      },
+      "members": 227,
+      "name": "BCS Leicester",
+      "id": 18203721,
+      "state": "H5",
+      "urlname": "BCS-Leicester",
+      "category": {
+        "name": "tech",
+        "id": 34,
+        "shortname": "tech"
+      },
+      "lat": 52.630001068115234,
+      "who": "Members"
+    }
+  ],
+  "meta": {
+    "next": "",
+    "method": "Groups",
+    "total_count": 1,
+    "link": "https:\/\/api.meetup.com\/2\/groups\/",
+    "count": 1,
+    "description": "None",
+    "lon": "None",
+    "title": "Meetup Groups v2",
+    "url": "https:\/\/api.meetup.com\/2\/groups\/?offset=0&format=json&group_urlname=BCS-Leicester&page=200&radius=25.0&fields=&key=403d1e347352741c50544b613c537872&order=id&desc=false",
+    "id": "",
+    "updated": 1481281291000,
+    "lat": "None"
+  }
+}

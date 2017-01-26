@@ -39,10 +39,25 @@
     },
     "Notts JS" : {
       "group_urlname": "NottsJS"
+    },
+    "Health tech Nottingham":{
+      "group_urlname":"HealthTech-Nottingham"
+    },
+    "Blockchain Nottingham":{
+      "group_urlname":"Blockchain-Nottingham"
+    },
+    "Nottingham Artificial Intelligence Meetup":{
+      "group_urlname":"Nottingham-Artificial-Intelligence-Meetup"
+    },
+    "Web Notts":{
+      "group_urlname":"Midlands-Web-Meetup"
+    },
+    "Ideas in Play":{
+      "group_urlname":"Ideas-in-Play"
+    },
+    "AP Tech Talk":{
+      "group_urlname":"AP-Tech-Talk"
     }
-  ,"Health tech Nottingham":{
-    "group_urlname":"HealthTech-Nottingham"
-  }
   },
   "ti.to" : {
   }
