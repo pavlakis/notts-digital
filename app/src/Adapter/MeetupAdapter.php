@@ -166,14 +166,28 @@ class MeetupAdapter implements AdapterInterface
      */
     protected function getByNameStringMatch($events, $nameMatch)
     {
+        $nameMatch = $this->normaliseName($nameMatch);
         foreach ($events as $event) {
-            if (strpos($event['name'], $nameMatch) !== false) {
+            $eventName = $this->normaliseName($event['name']);
+            if (strpos($eventName, $nameMatch) !== false) {
                 return $event;
             }
         }
         return [];
     }
 
+    /**
+    *@param $name
+    *@return string 
+    *
+    */
+    protected function normaliseName($name)
+    {
+        $name = preg_replace('/\s*/', '',strtolower($name));
+        return $name;
+    }
+
+    
     /**
      * @return string
      */

@@ -8,6 +8,11 @@
  */
 namespace NottsDigital\Tests\Adapter;
 
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use NottsDigital\Adapter\MeetupAdapter;
 use GuzzleHttp\Client;
 use NottsDigital\Event\EventEntityCollection;
@@ -123,5 +128,45 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
         
         $this->assertTrue($meetupAdapter->getEventEntityCollection()[0]->getTitle() === 'Industrial Control Cyber Security');
         $this->assertTrue($meetupAdapter->getEventEntityCollection()[1]->getTitle() === 'Current Postgraudate Research');
+    }
+
+
+    public function testFetchWillMatchNameCorrectly()
+    {
+    
+        $mock = new MockHandler([
+            new Response(200, [],file_get_contents(__DIR__ . '/feeders/nameMatch.json'))
+        ]);
+    
+        $handler = HandlerStack::create($mock);
+        $httpClient = new Client(['handler' => $handler]);
+        $meetupAdapter = new MeetupAdapter(
+            $httpClient, $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
+        );
+        $meetupAdapter->fetch('Tech on Toast');
+        
+        $this->assertNotNull($meetupAdapter->getEventEntityCollection());
+        $this->assertEquals($meetupAdapter->getEventEntityCollection()[0]->getTitle(), 'Tech on Toast January 2017 - The Launch!');
+    }
+    
+    
+    
+    public function testFetchWillStillGetEventAsPartOfMainGroup()
+    {
+        
+        $mock = new MockHandler([
+            new Response(200, [],file_get_contents(__DIR__ . '/feeders/nameMatch.json'))
+        ]);
+        
+        $handler = HandlerStack::create($mock);
+        $httpClient = new Client(['handler' => $handler]);
+        $meetupAdapter = new MeetupAdapter(
+            $httpClient, $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
+        );
+        
+        $meetupAdapter->fetch('Tech Nottingham');
+        
+        $this->assertNotNull($meetupAdapter->getEventEntityCollection());
+        $this->assertEquals(count($meetupAdapter->getEventEntityCollection()), 1);
     }
 }
