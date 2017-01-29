@@ -15,10 +15,6 @@ use NottsDigital\Http\Request\MeetupRequest;
 
 class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \GuzzleHttp\Client
-     */
-    protected $httpClient;
 
     /**
      * @var MeetupRequest
@@ -57,7 +53,6 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->httpClient = $this->getMockBuilder('GuzzleHttp\Client')->setMethods(['get']);
         $this->meetupRequestMock = $this->getMockBuilder(MeetupRequest::class);
         $this->config = require __DIR__ . '/feeders/config.php';
         $this->baseUrl = $this->config['meetups']['baseUrl'];
@@ -117,7 +112,7 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
         );
 
         $meetupAdapter->fetch('PHPMinds');
-        
+
         $this->assertTrue($meetupAdapter->getEventEntityCollection()[0]->getTitle() === 'Industrial Control Cyber Security');
         $this->assertTrue($meetupAdapter->getEventEntityCollection()[1]->getTitle() === 'Current Postgraudate Research');
     }
