@@ -8,13 +8,13 @@
  */
 namespace NottsDigital\Adapter;
 
-use GuzzleHttp\Client;
-use NottsDigital\Adapter\AdapterInterface;
-use NottsDigital\Event\EventEntity;
-use NottsDigital\Event\EventEntityCollection;
-use NottsDigital\Event\GroupInfo;
-use NottsDigital\Event\NullEventEntity;
-use NottsDigital\Event\NullGroupInfo;
+
+use NottsDigital\Event\EventEntityCollection,
+    NottsDigital\Http\Request\MeetupRequest,
+    NottsDigital\Event\NullEventEntity,
+    NottsDigital\Event\NullGroupInfo,
+    NottsDigital\Event\EventEntity,
+    NottsDigital\Event\GroupInfo;
 
 /**
  * Class MeetupAdapter
@@ -23,29 +23,14 @@ use NottsDigital\Event\NullGroupInfo;
 class MeetupAdapter implements AdapterInterface
 {
     /**
-     * @var Client
-     */
-    protected $client;
-
-    /**
-     * @var string
-     */
-    protected $apiKey;
-
-    /**
      * @var array
      */
     protected $config;
 
     /**
-     * @var string
+     * @var MeetupRequest
      */
-    protected $baseUrl;
-
-    /**
-     * @var array
-     */
-    protected $uris;
+    protected $meetupRequest;
 
     /**
      * @var array
@@ -64,22 +49,21 @@ class MeetupAdapter implements AdapterInterface
 
     /**
      * MeetupAdapter constructor.
-     * @param Client $client
-     * @param $apiKey
-     * @param $baseUrl
-     * @param $uris
-     * @param $config
+     * @param array $config
+     * @param MeetupRequest $meetupRequest
      * @param EventEntityCollection $eventEntityCollection
      */
-    public function __construct(Client $client, $apiKey, $baseUrl, $uris, $config, EventEntityCollection $eventEntityCollection)
+    public function __construct(
+        array $config,
+        MeetupRequest $meetupRequest,
+        EventEntityCollection $eventEntityCollection
+    )
     {
-        $this->client = $client;
-        $this->apiKey = $apiKey;
-        $this->baseUrl = $baseUrl;
-        $this->uris = $uris;
         $this->config = $config;
+        $this->meetupRequest = $meetupRequest;
         $this->eventEntityCollection = $eventEntityCollection;
     }
+
 
     /**
      * @param string $group
@@ -105,8 +89,7 @@ class MeetupAdapter implements AdapterInterface
 
         try {
 
-            $response = $this->client->get($this->baseUrl . sprintf($this->uris['events'], $groupUrlName, $this->apiKey));
-            $events = json_decode($response->getBody()->getContents(), true);
+            $events = $this->meetupRequest->fetchEventInfo($groupUrlName);
 
             if (!isset($events['results']) || empty($events['results'])) {
                 throw new \Exception('No events found.');
@@ -119,7 +102,7 @@ class MeetupAdapter implements AdapterInterface
                     new EventEntity($this->getByNameStringMatch($events['results'], $this->config[$group]['match']['name']))
                 );
             } else {
-                
+
                 $this->eventEntityCollection->add(new EventEntity($events['results'][0], $this->groupConfig));
 
                 if (isset($events['results'][1])) {
@@ -142,9 +125,7 @@ class MeetupAdapter implements AdapterInterface
 
         try {
 
-            $response = $this->client->get($this->baseUrl . sprintf($this->uris['groups'], $groupUrlName, $this->apiKey));
-
-            $groupInfo = json_decode($response->getBody()->getContents(), true);
+            $groupInfo = $this->meetupRequest->fetchGroupInfo($groupUrlName);
 
             if (isset($groupInfo['results']) && !empty($groupInfo['results'])) {
                 $groupInfo = $groupInfo['results'][0];
