@@ -3,7 +3,7 @@
  * Nottingham Digital events
  *
  * @link      https://github.com/pavlakis/notts-digital
- * @copyright Copyright (c) 2016 Antonios Pavlakis
+ * @copyright Copyright (c) 2017 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
 namespace NottsDigital\Adapter;
@@ -132,5 +132,29 @@ class TitoAdapter implements AdapterInterface
     public function getGroupInfo()
     {
         return [];
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupDescription()
+    {
+        // TODO: Implement getGroupDescription() method.
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupPhoto()
+    {
+        // TODO: Implement getGroupPhoto() method.
+    }
+
+    /**
+     * @return array
+     */
+    public function getEventEntityCollection()
+    {
+        // TODO: Implement getEventEntityCollection() method.
     }
 }
