@@ -17,7 +17,7 @@ use GuzzleHttp\Client,
  * Class MeetupRequest
  * @package NottsDigital\Http\Request
  */
-final class MeetupRequest
+class MeetupRequest
 {
     /**
      * @var Client
