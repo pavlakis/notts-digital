@@ -8,13 +8,13 @@
  */
 namespace NottsDigital\Adapter;
 
-use GuzzleHttp\Client;
-use NottsDigital\Adapter\AdapterInterface;
-use NottsDigital\Event\EventEntity;
-use NottsDigital\Event\EventEntityCollection;
-use NottsDigital\Event\GroupInfo;
-use NottsDigital\Event\NullEventEntity;
-use NottsDigital\Event\NullGroupInfo;
+
+use NottsDigital\Event\EventEntityCollection,
+    NottsDigital\Http\Request\MeetupRequest,
+    NottsDigital\Event\NullEventEntity,
+    NottsDigital\Event\NullGroupInfo,
+    NottsDigital\Event\EventEntity,
+    NottsDigital\Event\GroupInfo;
 
 /**
  * Class MeetupAdapter
