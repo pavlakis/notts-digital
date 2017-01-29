@@ -97,7 +97,7 @@ class MeetupRequest
         }
 
         $jsonResponse = $this->cache->fetch($cacheId);
-        $events = json_decode($jsonResponse, true);
+        $events = \json_decode($jsonResponse, true);
 
         return $events;
     }
@@ -123,7 +123,7 @@ class MeetupRequest
 
         $jsonResponse = $this->cache->fetch($cacheId);
 
-        $groupInfo = json_decode($jsonResponse, true);
+        $groupInfo = \json_decode($jsonResponse, true);
 
         return $groupInfo;
     }
