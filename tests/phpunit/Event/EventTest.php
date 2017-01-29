@@ -3,7 +3,7 @@
  * Nottingham Digital events
  *
  * @link      https://github.com/pavlakis/notts-digital
- * @copyright Copyright (c) 2016 Antonios Pavlakis
+ * @copyright Copyright (c) 2017 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
 namespace NottsDigital\Tests\Event;
@@ -11,14 +11,15 @@ namespace NottsDigital\Tests\Event;
 use NottsDigital\Adapter\MeetupAdapter;
 use NottsDigital\Event\Event;
 use NottsDigital\Event\EventEntityCollection;
+use NottsDigital\Http\Request\MeetupRequest;
 use PHPUnit\Framework\TestCase;
 
 class EventTest extends TestCase
 {
     /**
-     * @var \GuzzleHttp\Client
+     * @var MeetupRequest
      */
-    protected $httpClient;
+    protected $meetupRequestMock;
 
     /**
      * @var string
@@ -67,39 +68,32 @@ class EventTest extends TestCase
         $this->multipleEventResponse = file_get_contents(dirname(__DIR__) . '/Adapter/feeders/multipleEventResponse.json');
         $this->groupReponse = file_get_contents(dirname(__DIR__) . '/Adapter/feeders/groupsBCSResponse.json');
 
+        $this->meetupRequestMock = $this->getMockBuilder(MeetupRequest::class);
         $this->meetupAdapter = new MeetupAdapter(
-            $this->httpClient->getMock(), $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
+            $this->config['meetups'],
+            $this->meetupRequestMock->disableOriginalConstructor()->getMock(),
+            new EventEntityCollection()
         );
 
     }
 
     public function testEventCanHandleMultipleEvents()
     {
-        $response = $this->getMockBuilder('Psr\Http\Message\ResponseInterface')->getMockForAbstractClass();
-        $msgBody = $this->getMockBuilder('Psr\Http\Message\StreamInterface')->setMethods(['getContents'])->getMockForAbstractClass();
-        $msgBody->expects(static::at(0))->method('getContents')
-            ->willReturnCallback(function () {
-                return $this->multipleEventResponse;
+        $meetupRequestMock = $this->meetupRequestMock->disableOriginalConstructor()->getMock();
+        $meetupRequestMock->method('fetchEventInfo')
+            ->willReturnCallback(function(){
+                return \json_decode($this->multipleEventResponse, true);
             });
 
-        $msgBody->expects(static::at(1))->method('getContents')
-            ->willReturnCallback(function () {
-                return $this->groupReponse;
+        $meetupRequestMock->method('fetchGroupInfo')
+            ->willReturnCallback(function(){
+                return \json_decode($this->groupReponse, true);
             });
-
-
-        $httpClient = $this->httpClient->getMock();
-        $httpClient->method('get')
-            ->willReturn($response);
-
-        $response->method('getBody')
-            ->willReturnCallback(function () use ($msgBody) {
-                return $msgBody;
-            });
-
 
         $meetupAdapter = new MeetupAdapter(
-            $httpClient, $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
+            $this->config['meetups'],
+            $meetupRequestMock,
+            new EventEntityCollection()
         );
 
 

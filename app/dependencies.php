@@ -3,7 +3,7 @@
  * Nottingham Digital events
  *
  * @link      https://github.com/pavlakis/notts-digital
- * @copyright Copyright (c) 2016 Antonios Pavlakis
+ * @copyright Copyright (c) 2017 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
 
@@ -29,13 +29,29 @@ $container['http.request'] = function($c){
     return Zend\Diactoros\ServerRequestFactory::fromGlobals();
 };
 
-$container['adapter.meetups'] = function($c){
-    return new \NottsDigital\Adapter\MeetupAdapter(
+$container['file.cache'] = function($c) {
+    $cacheConfig = $c['config']['cache'];
+    return new NottsDigital\Cache\Cache(
+        new \Doctrine\Common\Cache\FilesystemCache(realpath($cacheConfig['path'])), $cacheConfig['expiry']
+    );
+};
+
+$container['meetup.request'] = function($c) {
+
+    return new \NottsDigital\Http\Request\MeetupRequest(
         $c['http.client'],
+        $c['file.cache'],
         $c['config']['meetups']['api-key'],
         $c['config']['meetups']['baseUrl'],
         $c['config']['meetups']['uris'],
+        $c['groups']['meetups']
+    );
+};
+
+$container['adapter.meetups'] = function($c){
+    return new \NottsDigital\Adapter\MeetupAdapter(
         $c['groups']['meetups'],
+        $c['meetup.request'],
         new \NottsDigital\Event\EventEntityCollection()
     );
 };
