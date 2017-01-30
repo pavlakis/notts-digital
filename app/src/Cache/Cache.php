@@ -14,7 +14,7 @@ use Doctrine\Common\Cache\FilesystemCache;
  * Class Cache
  * @package NottsDigital\Cache
  */
-final class Cache
+class Cache
 {
     /**
      * @var FilesystemCache

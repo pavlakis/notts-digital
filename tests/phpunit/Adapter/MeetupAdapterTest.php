@@ -17,6 +17,7 @@ use NottsDigital\Adapter\MeetupAdapter;
 use GuzzleHttp\Client;
 use NottsDigital\Event\EventEntityCollection;
 use NottsDigital\Http\Request\MeetupRequest;
+use NottsDigital\Cache\Cache;
 
 class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
 {
@@ -132,11 +133,20 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
     
         $handler = HandlerStack::create($mock);
         $httpClient = new Client(['handler' => $handler]);
+        $mockedCache = $this->getMockBuilder(Cache::class);
+        $mockedCache = $mockedCache->disableOriginalConstructor()->getMock();
+        $mockedCache->method('fetch')
+             ->willReturn(file_get_contents(__DIR__ . '/feeders/nameMatch.json'));
+        $meetupRequest = new MeetupRequest($httpClient,$mockedCache,$this->apiKey, $this->baseUrl, $this->config['meetups']['uris'],$this->config);
+
         $meetupAdapter = new MeetupAdapter(
-            $httpClient, $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
+            $this->config['meetups'],
+            $meetupRequest,
+            new EventEntityCollection()
         );
-        $meetupAdapter->fetch('Tech on Toast');
         
+        $meetupAdapter->fetch('Tech on Toast');
+       
         $this->assertNotNull($meetupAdapter->getEventEntityCollection());
         $this->assertEquals($meetupAdapter->getEventEntityCollection()[0]->getTitle(), 'Tech on Toast January 2017 - The Launch!');
     }
@@ -152,8 +162,17 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
         
         $handler = HandlerStack::create($mock);
         $httpClient = new Client(['handler' => $handler]);
+        $mockedCache = $this->getMockBuilder(Cache::class);
+        $mockedCache = $mockedCache->disableOriginalConstructor()->getMock();
+        $mockedCache->method('fetch')
+             ->willReturn(file_get_contents(__DIR__ . '/feeders/nameMatch.json'));
+       
+        $meetupRequest = new MeetupRequest($httpClient,$mockedCache,$this->apiKey, $this->baseUrl, $this->config['meetups']['uris'],$this->config);
+
         $meetupAdapter = new MeetupAdapter(
-            $httpClient, $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
+            $this->config['meetups'],
+            $meetupRequest,
+            new EventEntityCollection()
         );
         
         $meetupAdapter->fetch('Tech Nottingham');
