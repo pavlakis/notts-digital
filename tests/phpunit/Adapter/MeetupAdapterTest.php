@@ -3,7 +3,7 @@
  * Nottingham Digital events
  *
  * @link      https://github.com/pavlakis/notts-digital
- * @copyright Copyright (c) 2016 Antonios Pavlakis
+ * @copyright Copyright (c) 2017 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
 namespace NottsDigital\Tests\Adapter;
@@ -16,13 +16,15 @@ use GuzzleHttp\Psr7\Response;
 use NottsDigital\Adapter\MeetupAdapter;
 use GuzzleHttp\Client;
 use NottsDigital\Event\EventEntityCollection;
+use NottsDigital\Http\Request\MeetupRequest;
 
 class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
-     * @var \GuzzleHttp\Client
+     * @var MeetupRequest
      */
-    protected $httpClient;
+    protected $meetupRequestMock;
 
     /**
      * @var string
@@ -56,7 +58,7 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->httpClient = $this->getMockBuilder('GuzzleHttp\Client')->setMethods(['get']);
+        $this->meetupRequestMock = $this->getMockBuilder(MeetupRequest::class);
         $this->config = require __DIR__ . '/feeders/config.php';
         $this->baseUrl = $this->config['meetups']['baseUrl'];
 
@@ -64,7 +66,9 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
         $this->multipleEvents = file_get_contents(__DIR__ . '/feeders/multipleEventResponse.json');
 
         $this->meetupAdapter = new MeetupAdapter(
-            $this->httpClient->getMock(), $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
+            $this->config['meetups'],
+            $this->meetupRequestMock->disableOriginalConstructor()->getMock(),
+            new EventEntityCollection()
         );
     }
 
@@ -82,21 +86,15 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchValidGroupLoadsEvents()
     {
-        $response = $this->getMockBuilder('Psr\Http\Message\ResponseInterface')->getMockForAbstractClass();
-        $msgBody = $this->getMockBuilder('Psr\Http\Message\StreamInterface')->setMethods(['getContents'])->getMockForAbstractClass();
-        $msgBody->method('getContents')
-            ->willReturn(json_encode(['results' => [ 0 => ['name' => 'Event Name']]]));
-
-        $httpClient = $this->httpClient->getMock();
-        $httpClient->method('get')
-            ->willReturn($response);
-
-        $response->method('getBody')
-            ->willReturnCallback(function() use ($msgBody){ return $msgBody; });
+        $meetupRequestMock = $this->meetupRequestMock->disableOriginalConstructor()->getMock();
+        $meetupRequestMock->method('fetchEventInfo')->willReturn(['results' => [ 0 => ['name' => 'Event Name']]]);
 
         $meetupAdapter = new MeetupAdapter(
-            $httpClient, $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
+            $this->config['meetups'],
+            $meetupRequestMock,
+            new EventEntityCollection()
         );
+
 
         $meetupAdapter->fetch('PHPMinds');
 
@@ -105,27 +103,21 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchCanHandleMultipleEvents()
     {
-        $response = $this->getMockBuilder('Psr\Http\Message\ResponseInterface')->getMockForAbstractClass();
-        $msgBody = $this->getMockBuilder('Psr\Http\Message\StreamInterface')->setMethods(['getContents'])->getMockForAbstractClass();
-        $msgBody->method('getContents')
+
+        $meetupRequestMock = $this->meetupRequestMock->disableOriginalConstructor()->getMock();
+        $meetupRequestMock->method('fetchEventInfo')
             ->willReturnCallback(function(){
-                return $this->multipleEvents;
-            });
-
-
-        $httpClient = $this->httpClient->getMock();
-        $httpClient->method('get')
-            ->willReturn($response);
-
-        $response->method('getBody')
-            ->willReturnCallback(function() use ($msgBody){ return $msgBody; });
+            return \json_decode($this->multipleEvents, true);
+        });
 
         $meetupAdapter = new MeetupAdapter(
-            $httpClient, $this->apiKey, $this->baseUrl, $this->config['meetups']['uris'], $this->config['meetups'], new EventEntityCollection()
+            $this->config['meetups'],
+            $meetupRequestMock,
+            new EventEntityCollection()
         );
 
         $meetupAdapter->fetch('PHPMinds');
-        
+
         $this->assertTrue($meetupAdapter->getEventEntityCollection()[0]->getTitle() === 'Industrial Control Cyber Security');
         $this->assertTrue($meetupAdapter->getEventEntityCollection()[1]->getTitle() === 'Current Postgraudate Research');
     }
