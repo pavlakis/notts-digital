@@ -92,6 +92,8 @@ class MeetupRequest
                 $this->cache->save($cacheId, $response->getBody()->getContents());
             } catch (\Exception $e) {
                 // todo - add logging
+
+                return []; // we haven't cached at this point as it would have been an empty response
             }
 
         }
@@ -118,6 +120,7 @@ class MeetupRequest
                 $this->cache->save($cacheId, $response->getBody()->getContents());
             } catch (\Exception $e) {
                 // todo - add logging
+                return [];
             }
         }
 
