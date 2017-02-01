@@ -1,4 +1,5 @@
 .idea/*
 vendor/*
 app/configs/*
+bin/*
 var/*

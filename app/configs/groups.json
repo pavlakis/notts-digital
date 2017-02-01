@@ -4,7 +4,10 @@
       "group_urlname": "PHPMiNDS-in-Nottingham"
     },
     "Tech Nottingham": {
-      "group_urlname": "Tech-Nottingham"
+      "group_urlname": "Tech-Nottingham",
+      "match" :{
+        "name":"Tech Nottingham"
+      }
     },
     "Nottingham Programmers": {
       "group_urlname": "NottinghamProgrammers"
@@ -57,6 +60,15 @@
     },
     "AP Tech Talk":{
       "group_urlname":"AP-Tech-Talk"
+    },
+    "Tech on Toast":{
+      "group_urlname":"Tech-Nottingham",
+      "match" :{
+        "name":"Tech on Toast"
+      }
+    },
+    "DevOps Nottingham":{
+      "group_urlname":"DevOps-Nottingham"
     }
   },
   "ti.to" : {

@@ -18,7 +18,26 @@ return [
         ],
         'BCS-Leicester' => [
             'group_urlname' => 'BCS-Leicester'
-        ]
+        ],
+        "Tech on Toast" =>
+            [
+                "group_urlname" => "Tech-Nottingham",
+                "match" =>
+                    [
+                        "name" =>
+                            "Tech on Toast"
+                    ]
+            ],
+        
+        "Tech Nottingham" =>
+            [
+                "group_urlname" => "Tech-Nottingham",
+                "match" =>
+                    [
+                        "name" =>
+                            "Tech Nottingham"
+                    ]
+            ],
     ],
     'ti.to' => [
         'baseUrl' => 'https://ti.to',
