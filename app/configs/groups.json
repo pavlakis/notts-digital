@@ -66,6 +66,9 @@
       "match" :{
         "name":"Tech on Toast"
       }
+    },
+    "DevOps Nottingham":{
+      "group_urlname":"DevOps-Nottingham"
     }
   },
   "ti.to" : {
