@@ -17,6 +17,15 @@ $container['groups'] = function($c){
     return json_decode(file_get_contents(__DIR__.'/configs/groups.json'), true);
 };
 
+$container['meetupapi.client'] = function ($c) {
+
+    return \DMS\Service\Meetup\MeetupKeyAuthClient::factory(
+        [
+            'key' => $c['config']['meetups']['api-key'],
+            'base_url' => $c['config']['meetups']['baseUrl']
+        ]);
+};
+
 $container['http.client'] = function($c) {
     return new GuzzleHttp\Client();
 };
@@ -39,13 +48,20 @@ $container['file.cache'] = function($c) {
 $container['meetup.request'] = function($c) {
 
     return new \NottsDigital\Http\Request\MeetupRequest(
-        $c['http.client'],
+        $c['meetupapi.client'],
         $c['file.cache'],
-        $c['config']['meetups']['api-key'],
-        $c['config']['meetups']['baseUrl'],
         $c['config']['meetups']['uris'],
         $c['groups']['meetups']
     );
+
+//    return new \NottsDigital\Http\Request\MeetupRequest(
+//        $c['http.client'],
+//        $c['file.cache'],
+//        $c['config']['meetups']['api-key'],
+//        $c['config']['meetups']['baseUrl'],
+//        $c['config']['meetups']['uris'],
+//        $c['groups']['meetups']
+//    );
 };
 
 $container['adapter.meetups'] = function($c){
