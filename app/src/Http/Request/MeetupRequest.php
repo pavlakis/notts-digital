@@ -62,9 +62,10 @@ class MeetupRequest
 
     /**
      * @param $groupUrlName
+     * @param array $args
      * @return array
      */
-    public function fetchEventInfo($groupUrlName)
+    public function fetchEventInfo($groupUrlName, $args = ['status' => 'upcoming,next_event'])
     {
         // if cached, return cache
         $cacheId = $groupUrlName . '_event-info';
@@ -72,8 +73,8 @@ class MeetupRequest
         if (!$this->cache->contains($cacheId)) {
 
             try {
-
-                $response = $this->httpClient->getEvents(array('group_urlname' => $groupUrlName))->json();
+                $eventArgs = array_merge(['group_urlname' => $groupUrlName], $args);
+                $response = $this->httpClient->getEvents($eventArgs)->json();
                 $this->cache->save($cacheId, \json_encode($response));
             } catch (\Exception $e) {
                 // todo - add logging
