@@ -65,7 +65,7 @@ class MeetupRequest
      * @param array $args
      * @return array
      */
-    public function fetchEventInfo($groupUrlName, $args = ['status' => 'upcoming,next_event'])
+    public function fetchEventInfo($groupUrlName, $args = ['status' => 'upcoming'])
     {
         // if cached, return cache
         $cacheId = $groupUrlName . '_event-info';
