@@ -78,7 +78,6 @@ class MeetupRequest
                 $this->cache->save($cacheId, \json_encode($response));
             } catch (\Exception $e) {
                 // todo - add logging
-
             }
 
         }
@@ -105,7 +104,6 @@ class MeetupRequest
                 $this->cache->save($cacheId, \json_encode($response));
             } catch (\Exception $e) {
                 // todo - add logging
-
             }
         }
 
