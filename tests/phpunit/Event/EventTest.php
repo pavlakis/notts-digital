@@ -91,7 +91,8 @@ class EventTest extends TestCase
 
         $meetupRequestMock->method('fetchGroupInfo')
             ->willReturnCallback(function(){
-                return \json_decode($this->groupReponse, true);
+                $results = \json_decode($this->groupReponse, true);
+                return $results['results'][0];
             });
 
         $meetupAdapter = new MeetupAdapter(
@@ -105,12 +106,12 @@ class EventTest extends TestCase
         $event->getByGroup('BCS-Leicester');
 
         $responseArray = $event->toArray();
-
+        
         static::assertTrue(!empty($responseArray['next_event']));
         static::assertArrayHasKey('description', $responseArray);
         static::assertEquals('Industrial Control Cyber Security', $responseArray['subject']);
         static::assertEquals('Current Postgraudate Research', $responseArray['next_event']['subject']);
-//        static::assertEquals('BCS Leicester', $responseArray['group']);
-//        static::assertEquals('http://photos1.meetupstatic.com/photos/event/6/b/6/3/highres_431727491.jpeg', $responseArray['group_photo']);
+        static::assertEquals('BCS Leicester', $responseArray['group']);
+        static::assertEquals('http://photos1.meetupstatic.com/photos/event/6/b/6/3/highres_431727491.jpeg', $responseArray['group_photo']);
     }
 }
