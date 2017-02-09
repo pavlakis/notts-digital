@@ -54,14 +54,6 @@ $container['meetup.request'] = function($c) {
         $c['groups']['meetups']
     );
 
-//    return new \NottsDigital\Http\Request\MeetupRequest(
-//        $c['http.client'],
-//        $c['file.cache'],
-//        $c['config']['meetups']['api-key'],
-//        $c['config']['meetups']['baseUrl'],
-//        $c['config']['meetups']['uris'],
-//        $c['groups']['meetups']
-//    );
 };
 
 $container['adapter.meetups'] = function($c){
