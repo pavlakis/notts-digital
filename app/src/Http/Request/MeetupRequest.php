@@ -10,7 +10,7 @@
 namespace NottsDigital\Http\Request;
 
 
-use GuzzleHttp\Client,
+use DMS\Service\Meetup\MeetupKeyAuthClient,
     NottsDigital\Cache\Cache;
 
 /**
@@ -20,7 +20,7 @@ use GuzzleHttp\Client,
 class MeetupRequest
 {
     /**
-     * @var Client
+     * @var MeetupKeyAuthClient
      */
     private $httpClient;
 
@@ -30,19 +30,9 @@ class MeetupRequest
     private $cache;
 
     /**
-     * @var string
-     */
-    private $apiKey;
-
-    /**
      * @var array
      */
     private $config;
-
-    /**
-     * @var string
-     */
-    private $baseUrl;
 
     /**
      * @var array
@@ -51,35 +41,31 @@ class MeetupRequest
 
     /**
      * MeetupRequest constructor.
-     * @param Client $httpClient
+     * @param MeetupKeyAuthClient $httpClient
      * @param Cache $cache
-     * @param $apiKey
-     * @param $baseUrl
      * @param $uris
      * @param $config
      */
     public function __construct(
-        Client $httpClient,
+        MeetupKeyAuthClient $httpClient,
         Cache $cache,
-        $apiKey,
-        $baseUrl,
         $uris,
         $config
     )
     {
+
         $this->uris = $uris;
         $this->cache = $cache;
         $this->config = $config;
-        $this->apiKey = $apiKey;
-        $this->baseUrl = $baseUrl;
         $this->httpClient = $httpClient;
     }
 
     /**
      * @param $groupUrlName
+     * @param array $args
      * @return array
      */
-    public function fetchEventInfo($groupUrlName)
+    public function fetchEventInfo($groupUrlName, $args = ['status' => 'upcoming'])
     {
         // if cached, return cache
         $cacheId = $groupUrlName . '_event-info';
@@ -87,9 +73,9 @@ class MeetupRequest
         if (!$this->cache->contains($cacheId)) {
 
             try {
-
-                $response = $this->httpClient->get($this->baseUrl . sprintf($this->uris['events'], $groupUrlName, $this->apiKey));
-                $this->cache->save($cacheId, $response->getBody()->getContents());
+                $eventArgs = array_merge(['group_urlname' => $groupUrlName], $args);
+                $response = $this->httpClient->getEvents($eventArgs)->json();
+                $this->cache->save($cacheId, \json_encode($response));
             } catch (\Exception $e) {
                 // todo - add logging
             }
@@ -114,15 +100,14 @@ class MeetupRequest
 
             try {
 
-                $response = $this->httpClient->get($this->baseUrl . sprintf($this->uris['groups'], $groupUrlName, $this->apiKey));
-                $this->cache->save($cacheId, $response->getBody()->getContents());
+                $response =  $this->httpClient->getGroup(array('urlname' => $groupUrlName))->json();
+                $this->cache->save($cacheId, \json_encode($response));
             } catch (\Exception $e) {
                 // todo - add logging
             }
         }
 
         $jsonResponse = $this->cache->fetch($cacheId);
-
         $groupInfo = \json_decode($jsonResponse, true);
 
         return $groupInfo;

@@ -90,7 +90,7 @@ class MeetupAdapter implements AdapterInterface
         try {
 
             $events = $this->meetupRequest->fetchEventInfo($groupUrlName);
-
+            
             if (!isset($events['results']) || empty($events['results'])) {
                 throw new \Exception('No events found.');
             }
@@ -127,8 +127,7 @@ class MeetupAdapter implements AdapterInterface
 
             $groupInfo = $this->meetupRequest->fetchGroupInfo($groupUrlName);
 
-            if (isset($groupInfo['results']) && !empty($groupInfo['results'])) {
-                $groupInfo = $groupInfo['results'][0];
+            if (!empty($groupInfo)) {
 
                 $this->groupInfo = new GroupInfo($groupInfo['name'], $groupInfo['description'], $groupInfo['group_photo']['highres_link']);
             } else {

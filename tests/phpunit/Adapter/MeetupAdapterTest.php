@@ -127,26 +127,27 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
     public function testFetchWillMatchNameCorrectly()
     {
     
-        $mock = new MockHandler([
-            new Response(200, [],file_get_contents(__DIR__ . '/feeders/nameMatch.json'))
-        ]);
-    
-        $handler = HandlerStack::create($mock);
-        $httpClient = new Client(['handler' => $handler]);
+        $jsonResponse = file_get_contents(__DIR__ . '/feeders/nameMatch.json');
+        $meetupRequestMock = $this->meetupRequestMock->getMock();
+        $meetupRequestMock->method('fetchEventInfo')
+            ->willReturnCallback(function() use ($jsonResponse) {
+                return \json_decode($jsonResponse, true);
+            });
+
         $mockedCache = $this->getMockBuilder(Cache::class);
         $mockedCache = $mockedCache->disableOriginalConstructor()->getMock();
+        $mockedCache->method('contains')->willReturn(true);
         $mockedCache->method('fetch')
              ->willReturn(file_get_contents(__DIR__ . '/feeders/nameMatch.json'));
-        $meetupRequest = new MeetupRequest($httpClient,$mockedCache,$this->apiKey, $this->baseUrl, $this->config['meetups']['uris'],$this->config);
 
         $meetupAdapter = new MeetupAdapter(
             $this->config['meetups'],
-            $meetupRequest,
+            $meetupRequestMock,
             new EventEntityCollection()
         );
         
         $meetupAdapter->fetch('Tech on Toast');
-       
+
         $this->assertNotNull($meetupAdapter->getEventEntityCollection());
         $this->assertEquals($meetupAdapter->getEventEntityCollection()[0]->getTitle(), 'Tech on Toast January 2017 - The Launch!');
     }
@@ -156,22 +157,21 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
     public function testFetchWillStillGetEventAsPartOfMainGroup()
     {
         
-        $mock = new MockHandler([
-            new Response(200, [],file_get_contents(__DIR__ . '/feeders/nameMatch.json'))
-        ]);
-        
-        $handler = HandlerStack::create($mock);
-        $httpClient = new Client(['handler' => $handler]);
+        $jsonResponse = file_get_contents(__DIR__ . '/feeders/nameMatch.json');
+        $meetupRequestMock = $this->meetupRequestMock->getMock();
+        $meetupRequestMock->method('fetchEventInfo')
+            ->willReturnCallback(function() use ($jsonResponse) {
+                return \json_decode($jsonResponse, true);
+            });
+
         $mockedCache = $this->getMockBuilder(Cache::class);
         $mockedCache = $mockedCache->disableOriginalConstructor()->getMock();
         $mockedCache->method('fetch')
              ->willReturn(file_get_contents(__DIR__ . '/feeders/nameMatch.json'));
-       
-        $meetupRequest = new MeetupRequest($httpClient,$mockedCache,$this->apiKey, $this->baseUrl, $this->config['meetups']['uris'],$this->config);
-
+        
         $meetupAdapter = new MeetupAdapter(
             $this->config['meetups'],
-            $meetupRequest,
+            $meetupRequestMock,
             new EventEntityCollection()
         );
         
