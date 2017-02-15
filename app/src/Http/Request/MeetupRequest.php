@@ -11,6 +11,7 @@ namespace NottsDigital\Http\Request;
 
 
 use DMS\Service\Meetup\MeetupKeyAuthClient,
+    Psr\Log\LoggerInterface,
     NottsDigital\Cache\Cache;
 
 /**
@@ -40,6 +41,11 @@ class MeetupRequest
     private $uris;
 
     /**
+     * @var LoggerInterface
+     */
+    private $log;
+
+    /**
      * MeetupRequest constructor.
      * @param MeetupKeyAuthClient $httpClient
      * @param Cache $cache
@@ -50,10 +56,12 @@ class MeetupRequest
         MeetupKeyAuthClient $httpClient,
         Cache $cache,
         $uris,
-        $config
+        $config,
+        LoggerInterface $log
     )
     {
-
+        
+        $this->log = $log;
         $this->uris = $uris;
         $this->cache = $cache;
         $this->config = $config;
@@ -77,7 +85,7 @@ class MeetupRequest
                 $response = $this->httpClient->getEvents($eventArgs)->json();
                 $this->cache->save($cacheId, \json_encode($response));
             } catch (\Exception $e) {
-                // todo - add logging
+                $this->log->alert($e->getMessage());
             }
 
         }
@@ -103,7 +111,7 @@ class MeetupRequest
                 $response =  $this->httpClient->getGroup(array('urlname' => $groupUrlName))->json();
                 $this->cache->save($cacheId, \json_encode($response));
             } catch (\Exception $e) {
-                // todo - add logging
+                $this->log->alert($e->getMessage());
             }
         }
 

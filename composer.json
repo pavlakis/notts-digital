@@ -26,7 +26,8 @@
         "zendframework/zend-diactoros": "^1.3",
         "pimple/pimple": "^3.0",
         "doctrine/cache": "^1.6",
-        "dms/meetup-api-client": "^2.3"
+        "dms/meetup-api-client": "^2.3",
+        "monolog/monolog": "^1.22"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7"

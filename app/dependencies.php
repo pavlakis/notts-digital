@@ -17,6 +17,17 @@ $container['groups'] = function($c){
     return json_decode(file_get_contents(__DIR__.'/configs/groups.json'), true);
 };
 
+$container['api.log'] = function ($c) {
+    $log = new \Monolog\Logger('api.log');
+    $log->pushHandler(
+        new \Monolog\Handler\StreamHandler(dirname(__DIR__). '/var/log/api.log',
+            \Monolog\Logger::WARNING
+        )
+    );
+
+    return $log;
+};
+
 $container['meetupapi.client'] = function ($c) {
 
     return \DMS\Service\Meetup\MeetupKeyAuthClient::factory(
@@ -51,7 +62,8 @@ $container['meetup.request'] = function($c) {
         $c['meetupapi.client'],
         $c['file.cache'],
         $c['config']['meetups']['uris'],
-        $c['groups']['meetups']
+        $c['groups']['meetups'],
+        $c['api.log']
     );
 
 };
