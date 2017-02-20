@@ -13,6 +13,7 @@ namespace NottsDigital\Http\Request;
 use DMS\Service\Meetup\MeetupKeyAuthClient,
     Psr\Log\LoggerInterface,
     NottsDigital\Cache\Cache;
+use Guzzle\Http\Exception\ClientErrorResponseException;
 
 /**
  * Class MeetupRequest
@@ -72,6 +73,7 @@ class MeetupRequest
      * @param $groupUrlName
      * @param array $args
      * @return array
+     * @throws \Exception
      */
     public function fetchEventInfo($groupUrlName, $args = ['status' => 'upcoming'])
     {
@@ -84,8 +86,14 @@ class MeetupRequest
                 $eventArgs = array_merge(['group_urlname' => $groupUrlName], $args);
                 $response = $this->httpClient->getEvents($eventArgs)->json();
                 $this->cache->save($cacheId, \json_encode($response));
-            } catch (\Exception $e) {
+            } catch (ClientErrorResponseException $e) {
+                $response = $e->getResponse();
                 $this->log->alert($e->getMessage());
+                throw new \Exception("Could not get event information.", $response->getStatusCode());
+
+            } catch (\Exception $e) {
+                $this->log->critical($e->getMessage());
+                throw new \Exception("Could not get event information.", 400);
             }
 
         }
@@ -99,6 +107,7 @@ class MeetupRequest
     /**
      * @param $groupUrlName
      * @return array
+     * @throws \Exception
      */
     public function fetchGroupInfo($groupUrlName)
     {
@@ -110,8 +119,14 @@ class MeetupRequest
 
                 $response =  $this->httpClient->getGroup(array('urlname' => $groupUrlName))->json();
                 $this->cache->save($cacheId, \json_encode($response));
-            } catch (\Exception $e) {
+            } catch (ClientErrorResponseException $e) {
+                $response = $e->getResponse();
                 $this->log->alert($e->getMessage());
+                throw new \Exception("Could not get group information.", $response->getStatusCode());
+
+            } catch (\Exception $e) {
+                $this->log->critical($e->getMessage());
+                throw new \Exception("Could not get group information.", 400);
             }
         }
 
