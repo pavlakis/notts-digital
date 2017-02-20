@@ -22,17 +22,7 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals();
 $params = $request->getQueryParams();
 $group = '';
 
-// return empty json by default
-$response = new Zend\Diactoros\Response\JsonResponse([
-    'group'     => '',
-    'subject'   => '',
-    'description'   => '',
-    'date_time' => '',
-    'location'  => '',
-    'event_url' => '',
-    'iso_date' => '',
-    'next_event' => []
-]);
+try {
 
     if (!array_key_exists('group', $params)) {
         throw new \Exception('Group name required.', 400);
@@ -45,9 +35,25 @@ $response = new Zend\Diactoros\Response\JsonResponse([
 
     $eventPlatform = $groupsContainer->get($group);
 
-        $response = new Zend\Diactoros\Response\JsonResponse($event->toArray(), 200, [], JSON_PRETTY_PRINT);
+    if (!$container->offsetExists('event.' . $eventPlatform)) {
+        throw new \Exception('Event platform does not exist', 404);
     }
 
+    /** @var EventInterface $event */
+    $event = $container['event.' . $eventPlatform];
+    $event->getByGroup($group);
+    
+    $response = new Zend\Diactoros\Response\JsonResponse($event->toArray(), 200, [], JSON_PRETTY_PRINT);
+
+} catch (\Exception $e) {
+    $problem = new \Crell\ApiProblem\ApiProblem('A problem retrieving event.');
+    $problem->setDetail($e->getMessage());
+    $response = new Zend\Diactoros\Response\JsonResponse(
+        $problem->asArray(),
+        $e->getCode(),
+        [],
+        JSON_PRETTY_PRINT
+    );
 }
 
 $response->withAddedHeader('Access-Control-Allow-Origin', '*');
