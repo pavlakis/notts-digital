@@ -4,9 +4,63 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0263e50a6ff4f13ef0920a38f3da5a5a",
-    "content-hash": "a1ad857bc50ce6eef31241320a8341cd",
+    "hash": "94587adba055e25465d206bef426fd2e",
+    "content-hash": "139ad5cf3ae624ccb61f9d9ea9e6081f",
     "packages": [
+        {
+            "name": "crell/api-problem",
+            "version": "2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Crell/ApiProblem.git",
+                "reference": "1e8dc70f9bf4363571087dc9d95f09bc8ba7d314"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Crell/ApiProblem/zipball/1e8dc70f9bf4363571087dc9d95f09bc8ba7d314",
+                "reference": "1e8dc70f9bf4363571087dc9d95f09bc8ba7d314",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5 || ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Crell\\ApiProblem\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Larry Garfield",
+                    "email": "larry@garfieldtech.com",
+                    "homepage": "http://www.garfieldtech.com/"
+                }
+            ],
+            "description": "PHP wrapper for the api-problem IETF specification",
+            "homepage": "https://github.com/Crell/ApiProblem",
+            "keywords": [
+                "api-problem",
+                "http",
+                "json",
+                "rest",
+                "xml"
+            ],
+            "time": "2016-07-24 18:53:45"
+        },
         {
             "name": "dms/meetup-api-client",
             "version": "v2.3",
@@ -575,6 +629,55 @@
                 "dependency injection"
             ],
             "time": "2015-09-11 15:10:35"
+        },
+        {
+            "name": "psr/container",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "time": "2017-02-14 16:28:37"
         },
         {
             "name": "psr/http-message",
