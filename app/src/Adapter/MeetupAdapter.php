@@ -82,6 +82,7 @@ class MeetupAdapter implements AdapterInterface
 
     /**
      * @param $group
+     * @throws \Exception
      */
     protected function loadEventInfo($group)
     {
@@ -111,13 +112,14 @@ class MeetupAdapter implements AdapterInterface
             }
 
         } catch (\Exception $e) {
-            $this->eventEntityCollection->add(new NullEventEntity());
+            throw $e;
         }
 
     }
 
     /**
      * @param $group
+     * @throws \Exception
      */
     protected function loadGroupInfo($group)
     {
@@ -135,7 +137,7 @@ class MeetupAdapter implements AdapterInterface
             }
 
         } catch (\Exception $e) {
-            $this->groupInfo = new NullGroupInfo();
+            throw $e;
         }
     }
 

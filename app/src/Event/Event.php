@@ -28,10 +28,17 @@ class Event implements EventInterface
      *
      * @param string $group
      * @return array
+     * @throws \Exception
      */
     public function getByGroup($group)
     {
-        $this->adapter->fetch($group);
+        try {
+
+            $this->adapter->fetch($group);
+        } catch (\Exception $e) {
+            throw $e;
+
+        }
 
         return $this;
     }
