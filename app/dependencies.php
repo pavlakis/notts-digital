@@ -17,6 +17,10 @@ $container['groups'] = function($c){
     return json_decode(file_get_contents(__DIR__.'/configs/groups.json'), true);
 };
 
+$container['groups.container'] = function($c) {
+  return new \NottsDigital\Group\GroupContainer($c['groups']);
+};
+
 $container['api.log'] = function ($c) {
     $log = new \Monolog\Logger('api.log');
     $log->pushHandler(
@@ -27,6 +31,7 @@ $container['api.log'] = function ($c) {
 
     return $log;
 };
+
 
 $container['meetupapi.client'] = function ($c) {
 
