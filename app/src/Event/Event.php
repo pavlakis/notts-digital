@@ -27,7 +27,7 @@ class Event implements EventInterface
      * Gets event
      *
      * @param string $group
-     * @return array
+     * @return $this
      * @throws \Exception
      */
     public function getByGroup($group)

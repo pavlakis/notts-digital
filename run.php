@@ -6,7 +6,9 @@
  * @copyright Copyright (c) 2017 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
-use NottsDigital\Event\EventInterface;
+
+use NottsDigital\Event\EventInterface,
+    Crell\ApiProblem\ApiProblem;
 
 date_default_timezone_set('Europe/London');
 
@@ -42,11 +44,11 @@ try {
     /** @var EventInterface $event */
     $event = $container['event.' . $eventPlatform];
     $event->getByGroup($group);
-    
+
     $response = new Zend\Diactoros\Response\JsonResponse($event->toArray(), 200, [], JSON_PRETTY_PRINT);
 
 } catch (\Exception $e) {
-    $problem = new \Crell\ApiProblem\ApiProblem('A problem retrieving event.');
+    $problem = new ApiProblem('A problem retrieving event.');
     $problem->setDetail($e->getMessage());
     $response = new Zend\Diactoros\Response\JsonResponse(
         $problem->asArray(),
