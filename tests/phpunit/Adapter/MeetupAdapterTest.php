@@ -72,19 +72,7 @@ class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
             new EventEntityCollection()
         );
     }
-
-    public function testFetchGroupNotExistsReturnsEmptyArray()
-    {
-        $events = $this->meetupAdapter->fetch('nothing');
-
-        $this->assertEquals([], $events);
-    }
-
-    protected function loadEvents()
-    {
-
-    }
-
+    
     public function testFetchValidGroupLoadsEvents()
     {
         $meetupRequestMock = $this->meetupRequestMock->disableOriginalConstructor()->getMock();
