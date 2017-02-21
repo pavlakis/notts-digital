@@ -71,10 +71,6 @@ class MeetupAdapter implements AdapterInterface
      */
     public function fetch($group)
     {
-        if (!isset($this->config[$group])) {
-            return [];
-        }
-
         $this->loadEventInfo($group);
 
         $this->loadGroupInfo($group);
