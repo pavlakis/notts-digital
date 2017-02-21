@@ -7,6 +7,16 @@
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
 
+use NottsDigital\Event\EventEntityCollection;
+use NottsDigital\Http\Request\MeetupRequest;
+use DMS\Service\Meetup\MeetupKeyAuthClient;
+use Doctrine\Common\Cache\FilesystemCache;
+use NottsDigital\Adapter\MeetupAdapter;
+use NottsDigital\Group\GroupContainer;
+use NottsDigital\Adapter\TitoAdapter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+
 $container = new Pimple\Container();
 
 $container['config'] = function($c){
@@ -18,14 +28,14 @@ $container['groups'] = function($c){
 };
 
 $container['groups.container'] = function($c) {
-  return new \NottsDigital\Group\GroupContainer($c['groups']);
+  return new GroupContainer($c['groups']);
 };
 
 $container['api.log'] = function ($c) {
-    $log = new \Monolog\Logger('api.log');
+    $log = new Logger('api.log');
     $log->pushHandler(
-        new \Monolog\Handler\StreamHandler(dirname(__DIR__). '/var/log/api.log',
-            \Monolog\Logger::WARNING
+        new StreamHandler(dirname(__DIR__). '/var/log/api.log',
+            Logger::WARNING
         )
     );
 
@@ -35,7 +45,7 @@ $container['api.log'] = function ($c) {
 
 $container['meetupapi.client'] = function ($c) {
 
-    return \DMS\Service\Meetup\MeetupKeyAuthClient::factory(
+    return MeetupKeyAuthClient::factory(
         [
             'key' => $c['config']['meetups']['api-key'],
             'base_url' => $c['config']['meetups']['baseUrl']
@@ -57,13 +67,13 @@ $container['http.request'] = function($c){
 $container['file.cache'] = function($c) {
     $cacheConfig = $c['config']['cache'];
     return new NottsDigital\Cache\Cache(
-        new \Doctrine\Common\Cache\FilesystemCache(realpath($cacheConfig['path'])), $cacheConfig['expiry']
+        new FilesystemCache(realpath($cacheConfig['path'])), $cacheConfig['expiry']
     );
 };
 
 $container['meetup.request'] = function($c) {
 
-    return new \NottsDigital\Http\Request\MeetupRequest(
+    return new MeetupRequest(
         $c['meetupapi.client'],
         $c['file.cache'],
         $c['config']['meetups']['uris'],
@@ -74,10 +84,10 @@ $container['meetup.request'] = function($c) {
 };
 
 $container['adapter.meetups'] = function($c){
-    return new \NottsDigital\Adapter\MeetupAdapter(
+    return new MeetupAdapter(
         $c['groups']['meetups'],
         $c['meetup.request'],
-        new \NottsDigital\Event\EventEntityCollection()
+        new EventEntityCollection()
     );
 };
 
@@ -89,7 +99,7 @@ $container['event.meetups'] = function($c) {
 };
 
 $container['adapter.tito'] = function($c){
-    return new \NottsDigital\Adapter\TitoAdapter(
+    return new TitoAdapter(
         $c['http.crawler'],
         $c['config']['ti.to']['baseUrl'],
         $c['groups']['ti.to']
