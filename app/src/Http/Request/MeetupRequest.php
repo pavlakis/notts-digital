@@ -10,10 +10,13 @@
 namespace NottsDigital\Http\Request;
 
 
-use DMS\Service\Meetup\MeetupKeyAuthClient,
-    Psr\Log\LoggerInterface,
-    NottsDigital\Cache\Cache;
-use Guzzle\Http\Exception\ClientErrorResponseException;
+use Guzzle\Http\Exception\ClientErrorResponseException,
+    Guzzle\Http\Exception\ServerErrorResponseException,
+    NottsDigital\Http\Client\HttpClientException,
+    GuzzleHttp\Exception\BadResponseException,
+    DMS\Service\Meetup\MeetupKeyAuthClient,
+    NottsDigital\Cache\Cache,
+    Psr\Log\LoggerInterface;
 
 /**
  * Class MeetupRequest
@@ -73,7 +76,7 @@ class MeetupRequest
      * @param $groupUrlName
      * @param array $args
      * @return array
-     * @throws \Exception
+     * @throws HttpClientException
      */
     public function fetchEventInfo($groupUrlName, $args = ['status' => 'upcoming'])
     {
@@ -87,13 +90,21 @@ class MeetupRequest
                 $response = $this->httpClient->getEvents($eventArgs)->json();
                 $this->cache->save($cacheId, \json_encode($response));
             } catch (ClientErrorResponseException $e) {
+
                 $response = $e->getResponse();
                 $this->log->alert($e->getMessage());
-                throw new \Exception("Could not get event information.", $response->getStatusCode());
+                throw new HttpClientException("Could not retrieve event information.", $response->getStatusCode());
 
-            } catch (\Exception $e) {
+            } catch (ServerErrorResponseException $e) {
+
+                $response = $e->getResponse();
                 $this->log->critical($e->getMessage());
-                throw new \Exception("Could not get event information.", 400);
+                throw new HttpClientException($e->getMessage(), $response->getStatusCode());
+            } catch (BadResponseException $e) {
+
+                $response = $e->getResponse();
+                $this->log->critical($e->getMessage());
+                throw new HttpClientException($e->getMessage(), $response->getStatusCode());
             }
 
         }
@@ -107,7 +118,7 @@ class MeetupRequest
     /**
      * @param $groupUrlName
      * @return array
-     * @throws \Exception
+     * @throws HttpClientException
      */
     public function fetchGroupInfo($groupUrlName)
     {
@@ -120,13 +131,20 @@ class MeetupRequest
                 $response =  $this->httpClient->getGroup(array('urlname' => $groupUrlName))->json();
                 $this->cache->save($cacheId, \json_encode($response));
             } catch (ClientErrorResponseException $e) {
+
                 $response = $e->getResponse();
                 $this->log->alert($e->getMessage());
-                throw new \Exception("Could not get group information.", $response->getStatusCode());
+                throw new HttpClientException("Could not retrieve group information.", $response->getStatusCode());
+            } catch (ServerErrorResponseException $e) {
 
-            } catch (\Exception $e) {
+                $response = $e->getResponse();
                 $this->log->critical($e->getMessage());
-                throw new \Exception("Could not get group information.", 400);
+                throw new HttpClientException($e->getMessage(), $response->getStatusCode());
+            } catch (BadResponseException $e) {
+
+                $response = $e->getResponse();
+                $this->log->critical($e->getMessage());
+                throw new HttpClientException($e->getMessage(), $response->getStatusCode());
             }
         }
 
