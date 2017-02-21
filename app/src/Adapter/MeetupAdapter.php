@@ -14,6 +14,7 @@ use NottsDigital\Event\EventEntityCollection,
     NottsDigital\Event\NullGroupInfo,
     NottsDigital\Event\EventEntity,
     NottsDigital\Event\GroupInfo;
+use NottsDigital\Http\Client\HttpClientException;
 
 /**
  * Class MeetupAdapter
@@ -78,7 +79,7 @@ class MeetupAdapter implements AdapterInterface
 
     /**
      * @param $group
-     * @throws \Exception
+     * @throws HttpClientException
      */
     protected function loadEventInfo($group)
     {
@@ -89,7 +90,8 @@ class MeetupAdapter implements AdapterInterface
             $events = $this->meetupRequest->fetchEventInfo($groupUrlName);
             
             if (!isset($events['results']) || empty($events['results'])) {
-                throw new \Exception('No events found.');
+                // note that 204 will return an empty body (no content)
+                throw new HttpClientException("No events found.", 204);
             }
 
             $this->groupConfig = $this->config[$group];
@@ -107,7 +109,7 @@ class MeetupAdapter implements AdapterInterface
                 }
             }
 
-        } catch (\Exception $e) {
+        } catch (HttpClientException $e) {
             throw $e;
         }
 
