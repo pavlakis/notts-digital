@@ -28,6 +28,7 @@ $container['api.log'] = function ($c) {
     return $log;
 };
 
+
 $container['meetupapi.client'] = function ($c) {
 
     return \DMS\Service\Meetup\MeetupKeyAuthClient::factory(

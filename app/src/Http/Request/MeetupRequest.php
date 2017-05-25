@@ -60,7 +60,7 @@ class MeetupRequest
         LoggerInterface $log
     )
     {
-        
+
         $this->log = $log;
         $this->uris = $uris;
         $this->cache = $cache;
