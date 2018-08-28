@@ -81,6 +81,9 @@
 		},
 		"Notts PowerShell Usergroup": {
 			"group_urlname": "Nottingham-PowerShell-UserGroup"
+		},
+		"Notts Rust": {
+			"group_urlname": "NottsRs"
 		}
 	},
 	"ti.to": {}
