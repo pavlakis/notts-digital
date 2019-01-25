@@ -84,6 +84,9 @@
 		},
 		"Notts Rust": {
 			"group_urlname": "NottsRs"
+		},
+		"Craftin Notts" :{
+			"group_urlname": "Craftin-Notts"
 		}
 	},
 	"ti.to": {}
