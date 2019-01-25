@@ -79,6 +79,9 @@
 		"Notts PowerShell Usergroup": {
 			"group_urlname": "Nottingham-PowerShell-UserGroup"
 		},
+    "Notts IoT Meetup":{
+     "group_urlname": "Nottingham-IoT-Meetup"
+   },
 		"Notts Rust": {
 			"group_urlname": "NottsRs"
 		},
