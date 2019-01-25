@@ -43,9 +43,6 @@
 		"Notts JS": {
 			"group_urlname": "NottsJS"
 		},
-		"Health tech Nottingham": {
-			"group_urlname": "HealthTech-Nottingham"
-		},
 		"Blockchain Nottingham": {
 			"group_urlname": "Blockchain-Nottingham"
 		},
@@ -84,7 +81,13 @@
 		},
     "Notts IoT Meetup":{
      "group_urlname": "Nottingham-IoT-Meetup"
-   }
+   },
+		"Notts Rust": {
+			"group_urlname": "NottsRs"
+		},
+		"Craftin Notts" :{
+			"group_urlname": "Craftin-Notts"
+		}
 	},
 	"ti.to": {}
 }
