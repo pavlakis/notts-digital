@@ -10,8 +10,8 @@
 namespace NottsDigital\Tests\Cache;
 
 use Doctrine\Common\Cache\FilesystemCache;
-use NottsDigital\Cache\Cache;
 use PHPUnit\Framework\TestCase;
+use NottsDigital\Cache\Cache;
 
 /**
  * Class CacheTest

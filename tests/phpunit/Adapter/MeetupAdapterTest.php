@@ -18,8 +18,9 @@ use GuzzleHttp\Client;
 use NottsDigital\Event\EventEntityCollection;
 use NottsDigital\Http\Request\MeetupRequest;
 use NottsDigital\Cache\Cache;
+use PHPUnit\Framework\TestCase;
 
-class MeetupAdapterTest extends \PHPUnit_Framework_TestCase
+class MeetupAdapterTest extends TestCase
 {
 
     /**
