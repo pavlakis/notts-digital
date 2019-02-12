@@ -127,13 +127,12 @@ class MeetupAdapter implements AdapterInterface
 
             $groupInfo = $this->meetupRequest->fetchGroupInfo($groupUrlName);
 
+            $this->groupInfo = new NullGroupInfo();
             if (!empty($groupInfo)) {
 
-                $this->groupInfo = new GroupInfo($groupInfo['name'], $groupInfo['description'], $groupInfo['group_photo']['highres_link']);
-            } else {
-                $this->groupInfo = new NullGroupInfo();
+                $groupPhoto = isset($groupInfo['group_photo']) ? $groupInfo['group_photo']['highres_link'] : '';
+                $this->groupInfo = new GroupInfo($groupInfo['name'], $groupInfo['description'], $groupPhoto);
             }
-
         } catch (\Exception $e) {
             $this->groupInfo = new NullGroupInfo();
         }
@@ -142,7 +141,7 @@ class MeetupAdapter implements AdapterInterface
     /**
      * @param $events
      * @param $nameMatch
-     * @return bool
+     * @return array
      */
     protected function getByNameStringMatch($events, $nameMatch)
     {
