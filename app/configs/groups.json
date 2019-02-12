@@ -55,15 +55,6 @@
 		"Ideas in Play": {
 			"group_urlname": "Ideas-in-Play"
 		},
-		"AP Tech Talk": {
-			"group_urlname": "AP-Tech-Talk"
-		},
-		"Tech on Toast": {
-			"group_urlname": "Tech-Nottingham",
-			"match": {
-				"name": "Tech on Toast"
-			}
-		},
 		"DevOps Nottingham": {
 			"group_urlname": "DevOps-Nottingham"
 		},
