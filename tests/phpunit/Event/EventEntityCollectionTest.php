@@ -30,6 +30,6 @@ class EventEntityCollectionTest extends TestCase
     {
         $this->eventEntityCollection->add(new NullEventEntity());
 
-        $this->assertInstanceOf(NullEventEntity::class, $this->eventEntityCollection[0]);
+        static::assertInstanceOf(NullEventEntity::class, $this->eventEntityCollection[0]);
     }
 }

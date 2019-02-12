@@ -8,11 +8,11 @@
  */
 namespace NottsDigital\Tests\Event;
 
-use NottsDigital\Adapter\MeetupAdapter;
-use NottsDigital\Event\Event;
 use NottsDigital\Event\EventEntityCollection;
 use NottsDigital\Http\Request\MeetupRequest;
+use NottsDigital\Adapter\MeetupAdapter;
 use PHPUnit\Framework\TestCase;
+use NottsDigital\Event\Event;
 
 class EventTest extends TestCase
 {

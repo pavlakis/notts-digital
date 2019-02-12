@@ -8,17 +8,11 @@
  */
 namespace NottsDigital\Tests\Adapter;
 
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
-use NottsDigital\Adapter\MeetupAdapter;
-use GuzzleHttp\Client;
 use NottsDigital\Event\EventEntityCollection;
 use NottsDigital\Http\Request\MeetupRequest;
-use NottsDigital\Cache\Cache;
+use NottsDigital\Adapter\MeetupAdapter;
 use PHPUnit\Framework\TestCase;
+use NottsDigital\Cache\Cache;
 
 class MeetupAdapterTest extends TestCase
 {
@@ -78,12 +72,7 @@ class MeetupAdapterTest extends TestCase
     {
         $events = $this->meetupAdapter->fetch('nothing');
 
-        $this->assertEquals([], $events);
-    }
-
-    protected function loadEvents()
-    {
-
+        static::assertEquals([], $events);
     }
 
     public function testFetchValidGroupLoadsEvents()
@@ -100,7 +89,7 @@ class MeetupAdapterTest extends TestCase
 
         $meetupAdapter->fetch('PHPMinds');
 
-        $this->assertTrue($meetupAdapter->getEventEntityCollection()[0]->getTitle() === 'Event Name');
+        static::assertTrue($meetupAdapter->getEventEntityCollection()[0]->getTitle() === 'Event Name');
     }
 
     public function testFetchCanHandleMultipleEvents()
@@ -120,8 +109,8 @@ class MeetupAdapterTest extends TestCase
 
         $meetupAdapter->fetch('PHPMinds');
 
-        $this->assertTrue($meetupAdapter->getEventEntityCollection()[0]->getTitle() === 'Industrial Control Cyber Security');
-        $this->assertTrue($meetupAdapter->getEventEntityCollection()[1]->getTitle() === 'Current Postgraudate Research');
+        static::assertTrue($meetupAdapter->getEventEntityCollection()[0]->getTitle() === 'Industrial Control Cyber Security');
+        static::assertTrue($meetupAdapter->getEventEntityCollection()[1]->getTitle() === 'Current Postgraudate Research');
     }
 
 
@@ -149,8 +138,8 @@ class MeetupAdapterTest extends TestCase
         
         $meetupAdapter->fetch('Tech on Toast');
 
-        $this->assertNotNull($meetupAdapter->getEventEntityCollection());
-        $this->assertEquals($meetupAdapter->getEventEntityCollection()[0]->getTitle(), 'Tech on Toast January 2017 - The Launch!');
+        static::assertNotNull($meetupAdapter->getEventEntityCollection());
+        static::assertEquals($meetupAdapter->getEventEntityCollection()[0]->getTitle(), 'Tech on Toast January 2017 - The Launch!');
     }
     
     
@@ -177,8 +166,8 @@ class MeetupAdapterTest extends TestCase
         );
         
         $meetupAdapter->fetch('Tech Nottingham');
-        
-        $this->assertNotNull($meetupAdapter->getEventEntityCollection());
-        $this->assertEquals(count($meetupAdapter->getEventEntityCollection()), 1);
+
+        static::assertNotNull($meetupAdapter->getEventEntityCollection());
+        static::assertEquals(count($meetupAdapter->getEventEntityCollection()), 1);
     }
 }
