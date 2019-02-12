@@ -89,5 +89,14 @@
 			"group_urlname": "Craftin-Notts"
 		}
 	},
+	"Notts Techfast":{
+		"group_urlname":"Notts-Techfast"
+	},
+	"All about Data Viz" :{
+		"group_url":"All-About-Data-Viz-Nottingham"
+	},
+	"Data Science Nottingham" :{
+		"group_url":"Data-Science-Nottingham"
+	},
 	"ti.to": {}
 }
