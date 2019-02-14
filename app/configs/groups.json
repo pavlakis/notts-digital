@@ -79,24 +79,24 @@
 		"Notts PowerShell Usergroup": {
 			"group_urlname": "Nottingham-PowerShell-UserGroup"
 		},
-    "Notts IoT Meetup":{
-     "group_urlname": "Nottingham-IoT-Meetup"
-   },
+		"Notts IoT Meetup":{
+		 "group_urlname": "Nottingham-IoT-Meetup"
+	   },
+		"Notts Techfast":{
+			"group_urlname":"Notts-Techfast"
+		},
 		"Notts Rust": {
 			"group_urlname": "NottsRs"
 		},
 		"Craftin Notts" :{
 			"group_urlname": "Craftin-Notts"
+		},
+		"All about Data Viz" :{
+			"group_url":"All-About-Data-Viz-Nottingham"
+		},
+		"Data Science Nottingham" :{
+			"group_url":"Data-Science-Nottingham"
 		}
-	},
-	"Notts Techfast":{
-		"group_urlname":"Notts-Techfast"
-	},
-	"All about Data Viz" :{
-		"group_url":"All-About-Data-Viz-Nottingham"
-	},
-	"Data Science Nottingham" :{
-		"group_url":"Data-Science-Nottingham"
 	},
 	"ti.to": {}
 }

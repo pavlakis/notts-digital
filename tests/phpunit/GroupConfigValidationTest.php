@@ -8,7 +8,9 @@
  */
 namespace NottsDigital\Tests;
 
-class GroupConfigValidationTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class GroupConfigValidationTest extends TestCase
 {
 
     public function testGroupConfigIsValidJson()
