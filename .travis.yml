@@ -4,4 +4,4 @@ php:
   - 7.2
   - 7.3
 install: composer install
-script: bin/phpunit tests/phpunit
+script: composer test-docs

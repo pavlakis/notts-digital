@@ -1,0 +1,19 @@
+<?php
+
+return [
+  "meetups"=> [
+    "api-key"=> "THE-MEETUP-API-KEY",
+    "baseUrl"=> "https://api.meetup.com",
+    "uris"=> [
+      "events"=> "/2/events/?group_urlname=%s&key=%s",
+      "groups"=> "/2/groups/?group_urlname=%s&key=%s"
+    ]
+  ],
+  "ti.to"=> [
+    "baseUrl"=> "https://ti.to"
+  ],
+  "cache" => [
+    "expiry"=> "3600",
+    "path"=> "../var/cache/"
+  ]
+];

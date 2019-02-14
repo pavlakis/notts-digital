@@ -12,13 +12,50 @@ use PHPUnit\Framework\TestCase;
 
 class GroupConfigValidationTest extends TestCase
 {
+    /**
+     * @var array
+     */
+    private $groupConfig;
 
-    public function testGroupConfigIsValidJson()
+    protected function setUp()
     {
         $rootDir = dirname(dirname(__DIR__));
-        
-        $groupConfig = \json_decode(file_get_contents($rootDir . '/app/configs/groups.json'), true);
+        $this->groupConfig = include($rootDir . '/app/configs/groups.php');
+    }
 
-        static::assertTrue(is_array($groupConfig));
+    /**
+     * @test
+     * @dataProvider serviceDataProvider
+     * @param $service
+     */
+    public function group_config_includes_supported_service($service)
+    {
+        static::assertArrayHasKey($service, $this->groupConfig);
+    }
+
+    /**
+     * @test
+     */
+    public function group_config_supports_two_services()
+    {
+        static::assertCount(2, $this->groupConfig);
+    }
+
+    /**
+     * @test
+     */
+    public function meetup_groups_include_group_url_name()
+    {
+        foreach ($this->groupConfig['meetups'] as $meetup) {
+            static::assertArrayHasKey('group_urlname', $meetup);
+        }
+    }
+
+    public function serviceDataProvider()
+    {
+        return [
+            ['meetups'],
+            ['ti.to']
+        ];
     }
 }

@@ -9,8 +9,7 @@ $baseUrl = 'https://notts-digital.pavlakis.info/index.php?group=';
 
 $client = new \GuzzleHttp\Client();
 
-
-$groups = json_decode(file_get_contents(dirname(__DIR__) . '/app/configs/groups.json'), true);
+$groups = include(dirname(__DIR__) . '/app/configs/groups.php');
 
 if (array_key_exists('meetups', $groups)) {
     $meetupGroups = $groups['meetups'];
@@ -21,7 +20,8 @@ if (array_key_exists('meetups', $groups)) {
             sleep(1);
         } catch (\Exception $e) {
             continue;
+        } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+            continue;
         }
-
     }
 }
