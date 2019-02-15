@@ -10,11 +10,11 @@
 $container = new Pimple\Container();
 
 $container['config'] = function($c){
-    return json_decode(file_get_contents(__DIR__.'/configs/config.json'), true);
+    return include(__DIR__.'/configs/config.php');
 };
 
 $container['groups'] = function($c){
-    return json_decode(file_get_contents(__DIR__.'/configs/groups.json'), true);
+    return include(__DIR__.'/configs/groups.php');
 };
 
 $container['api.log'] = function ($c) {
@@ -62,8 +62,6 @@ $container['meetup.request'] = function($c) {
     return new \NottsDigital\Http\Request\MeetupRequest(
         $c['meetupapi.client'],
         $c['file.cache'],
-        $c['config']['meetups']['uris'],
-        $c['groups']['meetups'],
         $c['api.log']
     );
 

@@ -31,16 +31,6 @@ class MeetupRequest
     private $cache;
 
     /**
-     * @var array
-     */
-    private $config;
-
-    /**
-     * @var array
-     */
-    private $uris;
-
-    /**
      * @var LoggerInterface
      */
     private $log;
@@ -48,28 +38,23 @@ class MeetupRequest
     /**
      * MeetupRequest constructor.
      * @param MeetupKeyAuthClient $httpClient
-     * @param Cache $cache
-     * @param $uris
-     * @param $config
+     * @param Cache               $cache
+     * @param LoggerInterface     $log
      */
     public function __construct(
         MeetupKeyAuthClient $httpClient,
         Cache $cache,
-        $uris,
-        $config,
         LoggerInterface $log
     )
     {
 
         $this->log = $log;
-        $this->uris = $uris;
         $this->cache = $cache;
-        $this->config = $config;
         $this->httpClient = $httpClient;
     }
 
     /**
-     * @param $groupUrlName
+     * @param string $groupUrlName
      * @param array $args
      * @return array
      */

@@ -47,8 +47,12 @@ if (array_key_exists('group', $params)) {
     if ($container->offsetExists('event.' . $eventType) === true) {
         $event = $container['event.' . $eventType];
         $event->getByGroup($group);
-
-        $response = new Zend\Diactoros\Response\JsonResponse($event->toArray(), 200, [], JSON_PRETTY_PRINT);
+        $response = new Zend\Diactoros\Response\JsonResponse(
+            $event->toArray(),
+            200,
+            [],
+            JSON_PRETTY_PRINT
+        );
     }
 
 }

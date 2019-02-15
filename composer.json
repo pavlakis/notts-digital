@@ -37,6 +37,11 @@
     "require-dev": {
         "phpunit/phpunit": "^7"
     },
+    "scripts": {
+        "run-static-analysis": "phpstan analyse app/src --level 1",
+        "test": "phpunit -c tests/phpunit/phpunit.xml --colors=always",
+        "test-docs": "phpunit -c tests/phpunit/phpunit.xml --colors=always --testdox"
+    },
     "config": {
         "bin-dir": "bin",
         "preferred-install": {

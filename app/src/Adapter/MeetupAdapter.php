@@ -81,7 +81,7 @@ class MeetupAdapter implements AdapterInterface
     }
 
     /**
-     * @param $group
+     * @param string $group
      */
     protected function loadEventInfo($group)
     {
@@ -90,7 +90,7 @@ class MeetupAdapter implements AdapterInterface
         try {
 
             $events = $this->meetupRequest->fetchEventInfo($groupUrlName);
-            
+
             if (!isset($events['results']) || empty($events['results'])) {
                 throw new \Exception('No events found.');
             }
@@ -192,7 +192,7 @@ class MeetupAdapter implements AdapterInterface
     }
 
     /**
-     * @return array
+     * @return EventEntityCollection
      */
     public function getEventEntityCollection()
     {
