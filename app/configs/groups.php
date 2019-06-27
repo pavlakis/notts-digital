@@ -66,8 +66,8 @@ return [
                 "name" => "Tech on Toast"
             ]
         ],
-        "DevOps Nottingham" => [
-            "group_urlname" => "DevOps-Nottingham"
+        "DevOps Notts" => [
+            "group_urlname" => "DevOps-Notts"
         ],
         "Drink Digital" => [
             "group_urlname" => "Drink-Digital-Marketing-Meetup"
