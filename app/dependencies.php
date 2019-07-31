@@ -31,12 +31,10 @@ $container['api.log'] = function ($c) {
 
 $container['meetupapi.client'] = function ($c) {
 
-    $config = array(
+    return \DMS\Service\Meetup\MeetupOAuthClient::factory([
         'consumer_key'    => $c['config']['meetups']['consumer_key'],
         'consumer_secret'    => $c['config']['meetups']['consumer_secret'],
-    );
-
-    return \DMS\Service\Meetup\MeetupOAuthClient::factory($config);
+    ]);
 };
 
 $container['http.client'] = function($c) {
