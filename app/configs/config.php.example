@@ -2,7 +2,8 @@
 
 return [
   "meetups"=> [
-    "api-key"=> "THE-MEETUP-API-KEY",
+    'consumer_key'    => 'THE-CONSUMER-KEY',
+    'consumer_secret' => 'THE-CONSUMER-SECRET',
     "baseUrl"=> "https://api.meetup.com",
     "uris"=> [
       "events"=> "/2/events/?group_urlname=%s&key=%s",
