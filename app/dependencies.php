@@ -10,11 +10,11 @@
 $container = new Pimple\Container();
 
 $container['config'] = function($c){
-    return include(__DIR__.'/configs/config.php');
+    return include __DIR__.'/configs/config.php';
 };
 
 $container['groups'] = function($c){
-    return include(__DIR__.'/configs/groups.php');
+    return include __DIR__.'/configs/groups.php';
 };
 
 $container['api.log'] = function ($c) {
@@ -31,11 +31,10 @@ $container['api.log'] = function ($c) {
 
 $container['meetupapi.client'] = function ($c) {
 
-    return \DMS\Service\Meetup\MeetupKeyAuthClient::factory(
-        [
-            'key' => $c['config']['meetups']['api-key'],
-            'base_url' => $c['config']['meetups']['baseUrl']
-        ]);
+    return \DMS\Service\Meetup\MeetupOAuthClient::factory([
+        'consumer_key'    => $c['config']['meetups']['consumer_key'],
+        'consumer_secret'    => $c['config']['meetups']['consumer_secret'],
+    ]);
 };
 
 $container['http.client'] = function($c) {

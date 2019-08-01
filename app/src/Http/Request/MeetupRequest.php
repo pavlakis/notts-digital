@@ -10,7 +10,7 @@
 namespace NottsDigital\Http\Request;
 
 
-use DMS\Service\Meetup\MeetupKeyAuthClient,
+use DMS\Service\Meetup\MeetupOAuthClient,
     Psr\Log\LoggerInterface,
     NottsDigital\Cache\Cache;
 
@@ -36,13 +36,12 @@ class MeetupRequest
     private $log;
 
     /**
-     * MeetupRequest constructor.
-     * @param MeetupKeyAuthClient $httpClient
-     * @param Cache               $cache
-     * @param LoggerInterface     $log
+     * @param MeetupOAuthClient $httpClient
+     * @param Cache             $cache
+     * @param LoggerInterface   $log
      */
     public function __construct(
-        MeetupKeyAuthClient $httpClient,
+        MeetupOAuthClient $httpClient,
         Cache $cache,
         LoggerInterface $log
     )
