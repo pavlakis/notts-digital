@@ -44,17 +44,16 @@ if (array_key_exists('group', $params)) {
         }
     }
 
-    if ($container->offsetExists('event.' . $eventType) === true) {
-        $event = $container['event.' . $eventType];
-        $event->getByGroup($group);
+    try {
+        $event = \NottsDigital\Event\EventFactory::createFromEventType($eventType, $container)->getByGroup($group);
         $response = new Zend\Diactoros\Response\JsonResponse(
             $event->toArray(),
             200,
             [],
             JSON_PRETTY_PRINT
         );
+    } catch (\InvalidArgumentException $e) {
     }
-
 }
 
 $response->withAddedHeader('Access-Control-Allow-Origin', '*');
