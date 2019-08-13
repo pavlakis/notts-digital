@@ -17,7 +17,7 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals();
 // index.php?group=PHPMinds
 $params = $request->getQueryParams();
 
-$getEventDetails = new \NottsDigital\Event\GetEventDetails($groups, $container);
+$getEventDetails = new \NottsDigital\Event\GetEventDetails($groups, $container['event.factory']);
 $response = $getEventDetails->getEvent($params);
 
 $response->withAddedHeader('Access-Control-Allow-Origin', '*');

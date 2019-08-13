@@ -13,14 +13,14 @@ class GetEventDetails
     private $groups;
 
     /**
-     * @var Container
+     * @var EventFactory
      */
-    private $container;
+    private $eventFactory;
 
-    public function __construct(array $groups, Container $container)
+    public function __construct(array $groups, EventFactory $eventFactory)
     {
         $this->groups = $groups;
-        $this->container = $container;
+        $this->eventFactory = $eventFactory;
     }
 
     public function getEvent(array $params): JsonResponse
@@ -32,10 +32,7 @@ class GetEventDetails
         $group = $params['group'];
 
         try {
-            $event = \NottsDigital\Event\EventFactory::createFromEventType(
-                $this->getEventType($group),
-                $this->container
-            )->getByGroup($group);
+            $event = $this->eventFactory->createFromEventType($this->getEventType($group))->getByGroup($group);
 
             return new JsonResponse(
                 $event->toArray(),
