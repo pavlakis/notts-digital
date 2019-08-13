@@ -3,7 +3,6 @@
 namespace NottsDigital\Event;
 
 use Zend\Diactoros\Response\JsonResponse;
-use Pimple\Container;
 
 class GetEventDetails
 {
@@ -23,10 +22,14 @@ class GetEventDetails
         $this->eventFactory = $eventFactory;
     }
 
+    /**
+     * @param array $params
+     * @return JsonResponse
+     */
     public function getEvent(array $params): JsonResponse
     {
         if (!$this->hasGroup($params)) {
-            return $this->defaultResponse();
+            return $this->getResponse($this->getDefaultPayload());
         }
 
         $group = $params['group'];
@@ -34,20 +37,45 @@ class GetEventDetails
         try {
             $event = $this->eventFactory->createFromEventType($this->getEventType($group))->getByGroup($group);
 
-            return new JsonResponse(
-                $event->toArray(),
-                200,
-                [],
-                JSON_PRETTY_PRINT
-            );
+            return $this->getResponse($event->toArray());
         } catch (\InvalidArgumentException $e) {
-            return $this->defaultResponse();
+            return $this->getResponse($this->getDefaultPayload());
         }
     }
 
-    private function defaultResponse(): JsonResponse
+    /**
+     * @param array $payload
+     * @return JsonResponse
+     */
+    private function getResponse(array $payload): JsonResponse
     {
-        return new JsonResponse([
+        return new JsonResponse($payload, 200, [], JSON_PRETTY_PRINT);
+    }
+
+    private function hasGroup( array $params): bool
+    {
+        return array_key_exists('group', $params);
+    }
+
+    /**
+     * @param string $group
+     * @return string|null
+     */
+    private function getEventType(string $group): ?string
+    {
+        foreach ($this->groups as $type => $events) {
+            if (array_key_exists($group, $events)) {
+                return $type;
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    private function getDefaultPayload(): array
+    {
+        return [
             'group'     => '',
             'subject'   => '',
             'description'   => '',
@@ -56,20 +84,6 @@ class GetEventDetails
             'event_url' => '',
             'iso_date' => '',
             'next_event' => []
-        ]);
-    }
-
-    private function hasGroup( array $params): bool
-    {
-        return array_key_exists('group', $params);
-    }
-
-    private function getEventType(string $group)
-    {
-        foreach ($this->groups as $type => $events) {
-            if (array_key_exists($group, $events)) {
-                return $type;
-            }
-        }
+        ];
     }
 }

@@ -2,22 +2,23 @@
 
 namespace NottsDigital\Event;
 
+use NottsDigital\Adapter\AdapterInterface;
 use NottsDigital\Adapter\MeetupAdapter;
 use NottsDigital\Adapter\TitoAdapter;
 
 class EventFactory
 {
     /**
-     * @var MeetupAdapter
+     * @var MeetupAdapter|AdapterInterface
      */
     private $meetupAdapter;
 
     /**
-     * @var TitoAdapter
+     * @var TitoAdapter|AdapterInterface
      */
     private $titoAdapter;
 
-    public function __construct(MeetupAdapter $meetupAdapter, TitoAdapter $titoAdapter)
+    public function __construct(AdapterInterface $meetupAdapter, AdapterInterface $titoAdapter)
     {
         $this->meetupAdapter = $meetupAdapter;
         $this->titoAdapter = $titoAdapter;
