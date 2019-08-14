@@ -21,7 +21,7 @@ use DMS\Service\Meetup\MeetupOAuthClient,
 class MeetupRequest
 {
     /**
-     * @var MeetupKeyAuthClient
+     * @var MeetupOAuthClient
      */
     private $httpClient;
 

@@ -95,3 +95,11 @@ $container['event.ti.to'] = function($c) {
         $c['adapter.tito']
     );
 };
+
+$container['event.factory'] = function($c) {
+
+    return new NottsDigital\Event\EventFactory(
+        $c['adapter.meetups'],
+        $c['adapter.tito']
+    );
+};
