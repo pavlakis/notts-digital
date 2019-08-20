@@ -3,3 +3,4 @@ vendor/*
 app/configs/*
 bin/*
 var/*
+.token
