@@ -2,7 +2,7 @@
 
 namespace NottsDigital\Authentication;
 
-use League\OAuth2\Client\Grant\AuthorizationCode;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessTokenInterface,
     WitteStier\OAuth2\Client\Provider\Meetup;
 
@@ -24,16 +24,27 @@ class OAuth2 implements AuthenticationInterface
         $this->tokenProvider = $tokenProvider;
     }
 
+    /**
+     * @return bool
+     * @throws IdentityProviderException
+     */
     public function isAuthenticated(): bool
     {
         return !$this->getAccessToken()->hasExpired();
     }
 
+    /**
+     * @return bool
+     */
     public function isAuthorised(): bool
     {
         return !empty($this->tokenProvider->getToken());
     }
 
+    /**
+     * @return AccessTokenInterface
+     * @throws IdentityProviderException
+     */
     private function getAccessToken(): AccessTokenInterface
     {
         return $this->provider->getAccessToken('authorization_code', [
@@ -41,6 +52,9 @@ class OAuth2 implements AuthenticationInterface
         ]);
     }
 
+    /**
+     * @return void
+     */
     public function authorise(): void
     {
         if (isset($_GET['code'])) {
@@ -51,6 +65,9 @@ class OAuth2 implements AuthenticationInterface
         $this->requestAuthorisation();
     }
 
+    /**
+     * @return void
+     */
     private function requestAuthorisation(): void
     {
         if (isset($_GET['authorise']) && 'meetup' === $_GET['authorise']) {
@@ -59,6 +76,9 @@ class OAuth2 implements AuthenticationInterface
         }
     }
 
+    /**
+     * @throws IdentityProviderException
+     */
     public function refresh(): void
     {
         $newAccessToken = $this->provider->getAccessToken('refresh_token', [
