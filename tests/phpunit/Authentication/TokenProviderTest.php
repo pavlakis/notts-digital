@@ -7,11 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 class TokenProviderTest extends TestCase
 {
-    private static $tokenFilename = __DIR__ . '/fixtures/.token';
+    public const TOKEN_FIXTURE_FILENAME = __DIR__ . '/fixtures/.token';
 
     public static function tearDownAfterClass()
     {
-        file_put_contents(static::$tokenFilename, '');
+        file_put_contents(self::TOKEN_FIXTURE_FILENAME, '');
     }
 
     /**
@@ -28,7 +28,7 @@ class TokenProviderTest extends TestCase
      */
     public function empty_token_set_as_empty_string(): void
     {
-        $token = new TokenProvider(static::$tokenFilename);
+        $token = new TokenProvider(self::TOKEN_FIXTURE_FILENAME);
 
         static::assertEmpty($token->getToken());
     }
@@ -38,10 +38,10 @@ class TokenProviderTest extends TestCase
      */
     public function can_save_token(): void
     {
-        $token = new TokenProvider(static::$tokenFilename);
+        $token = new TokenProvider(self::TOKEN_FIXTURE_FILENAME);
         $token->saveToken('test token');
 
         static::assertSame('test token', $token->getToken());
-        static::assertSame('test token', file_get_contents(static::$tokenFilename));
+        static::assertSame('test token', file_get_contents(self::TOKEN_FIXTURE_FILENAME));
     }
 }

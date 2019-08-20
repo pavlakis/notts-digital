@@ -26,7 +26,7 @@ $container['token.provider'] = function($c){
 };
 
 $container['meetup.authentication'] = function($c){
-    return new \NottsDigital\Authentication\OAuth2($c['oauth2.provider'], $c['token.provider']);
+    return new \NottsDigital\Authentication\OAuth2($c['oauth2.provider'], $c['token.provider'], $c['http.request']);
 };
 
 $container['meetup.client'] = function($c){

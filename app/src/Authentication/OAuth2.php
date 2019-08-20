@@ -2,9 +2,10 @@
 
 namespace NottsDigital\Authentication;
 
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use League\OAuth2\Client\Token\AccessTokenInterface,
-    WitteStier\OAuth2\Client\Provider\Meetup;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException,
+    League\OAuth2\Client\Token\AccessTokenInterface,
+    WitteStier\OAuth2\Client\Provider\Meetup,
+    Psr\Http\Message\ServerRequestInterface;
 
 class OAuth2 implements AuthenticationInterface
 {
@@ -18,10 +19,16 @@ class OAuth2 implements AuthenticationInterface
      */
     private $tokenProvider;
 
-    public function __construct(Meetup $provider, TokenProvider $tokenProvider)
+    /**
+     * @var ServerRequestInterface
+     */
+    private $request;
+
+    public function __construct(Meetup $provider, TokenProvider $tokenProvider, ServerRequestInterface $request)
     {
         $this->provider = $provider;
         $this->tokenProvider = $tokenProvider;
+        $this->request = $request;
     }
 
     /**
@@ -57,8 +64,8 @@ class OAuth2 implements AuthenticationInterface
      */
     public function authorise(): void
     {
-        if (isset($_GET['code'])) {
-            $this->tokenProvider->saveToken($_GET['code']);
+        if (null !== $this->getRequestParam('code')) {
+            $this->tokenProvider->saveToken($this->getRequestParam('code'));
             return;
         }
 
@@ -70,7 +77,7 @@ class OAuth2 implements AuthenticationInterface
      */
     private function requestAuthorisation(): void
     {
-        if (isset($_GET['authorise']) && 'meetup' === $_GET['authorise']) {
+        if ('meetup' === $this->getRequestParam('authorise', '')) {
             header('Location: ' . $this->provider->getAuthorizationUrl());
             exit;
         }
@@ -86,5 +93,19 @@ class OAuth2 implements AuthenticationInterface
         ]);
 
         $this->tokenProvider->saveToken($newAccessToken->getToken());
+    }
+
+    /**
+     * @param string $param
+     * @param mixed $default
+     * @return mixed
+     */
+    private function getRequestParam(string $param, $default = null)
+    {
+        if (!array_key_exists($param, $this->request->getQueryParams())) {
+            return $default;
+        }
+
+        return $this->request->getQueryParams()[$param];
     }
 }
