@@ -2,11 +2,12 @@
 
 namespace NottsDigital\tests\Authentication;
 
-use NottsDigital\Authentication\OAuth2;
-use NottsDigital\Authentication\TokenProvider,
+use League\OAuth2\Client\Token\AccessTokenInterface,
+    NottsDigital\Authentication\TokenProvider,
     WitteStier\OAuth2\Client\Provider\Meetup,
     PHPUnit\Framework\MockObject\MockObject,
     Psr\Http\Message\ServerRequestInterface,
+    NottsDigital\Authentication\OAuth2,
     PHPUnit\Framework\TestCase;
 
 class OAuth2Test extends TestCase
@@ -71,5 +72,35 @@ class OAuth2Test extends TestCase
         $oAuth2 = new OAuth2($this->provider, $this->tokenProvider, $this->request);
         $oAuth2->authorise();
         static::assertSame('the-token', $this->tokenProvider->getToken());
+    }
+
+    /**
+     * @test
+     *
+     * @throws \League\OAuth2\Client\Provider\Exception\IdentityProviderException
+     */
+    public function is_authenticated_returns_false_on_expired_access_token(): void
+    {
+        $accessToken = $this->createMock(AccessTokenInterface::class);
+        $accessToken->method('hasExpired')->willReturn(true);
+        $this->provider->method('getAccessToken')->willReturn($accessToken);
+        $oAuth2 = new OAuth2($this->provider, $this->tokenProvider, $this->request);
+
+        static::assertFalse($oAuth2->isAuthenticated());
+    }
+
+    /**
+     * @test
+     * @throws \League\OAuth2\Client\Provider\Exception\IdentityProviderException
+     */
+    public function refresh_updates_token(): void
+    {
+        $accessToken = $this->createMock(AccessTokenInterface::class);
+        $accessToken->method('getToken')->willReturn('refreshed-token');
+        $this->provider->method('getAccessToken')->willReturn($accessToken);
+        $oAuth2 = new OAuth2($this->provider, $this->tokenProvider, $this->request);
+
+        $oAuth2->refresh();
+        static::assertSame('refreshed-token', $this->tokenProvider->getToken());
     }
 }
