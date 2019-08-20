@@ -4,3 +4,4 @@ app/configs/*
 bin/*
 var/*
 .token
+tests/coverage/*

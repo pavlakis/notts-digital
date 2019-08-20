@@ -41,7 +41,8 @@
     "scripts": {
         "run-static-analysis": "phpstan analyse app/src --level 1",
         "test": "phpunit -c tests/phpunit/phpunit.xml --colors=always",
-        "test-docs": "phpunit -c tests/phpunit/phpunit.xml --colors=always --testdox"
+        "test-docs": "phpunit -c tests/phpunit/phpunit.xml --colors=always --testdox",
+        "test-coverage": "phpunit -c tests/phpunit/phpunit.xml --colors=always --coverage-html=tests/coverage/ "
     },
     "config": {
         "bin-dir": "bin",
