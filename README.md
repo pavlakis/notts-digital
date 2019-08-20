@@ -24,6 +24,9 @@ Use as:
 
 > Note: Initial authorisation requires a manual opt-in through Meetup.com
 
+When creating an API consumer, ensure `Website` and `Redirect URI` are set to where is used for.
+(e.g. when testing locally, pointing to the `ngrok` URL)
+
 Default `TokenProvider` uses `.token` file to save and access `token`.
 
 Built for [Nottingham.Digital](http://nottingham.digital/)
