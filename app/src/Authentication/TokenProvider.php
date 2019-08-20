@@ -2,7 +2,7 @@
 
 namespace NottsDigital\Authentication;
 
-class TokenProvider implements TokenProviderInterface
+final class TokenProvider implements TokenProviderInterface
 {
     /** @var string */
     private $token;
