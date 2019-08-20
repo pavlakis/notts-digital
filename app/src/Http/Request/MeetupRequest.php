@@ -9,8 +9,7 @@
 
 namespace NottsDigital\Http\Request;
 
-
-use DMS\Service\Meetup\MeetupOAuthClient,
+use NottsDigital\Http\Client\MeetupClient,
     Psr\Log\LoggerInterface,
     NottsDigital\Cache\Cache;
 
@@ -21,7 +20,7 @@ use DMS\Service\Meetup\MeetupOAuthClient,
 class MeetupRequest
 {
     /**
-     * @var MeetupOAuthClient
+     * @var MeetupClient
      */
     private $httpClient;
 
@@ -36,17 +35,15 @@ class MeetupRequest
     private $log;
 
     /**
-     * @param MeetupOAuthClient $httpClient
+     * @param MeetupClient      $httpClient
      * @param Cache             $cache
      * @param LoggerInterface   $log
      */
     public function __construct(
-        MeetupOAuthClient $httpClient,
+        MeetupClient $httpClient,
         Cache $cache,
         LoggerInterface $log
-    )
-    {
-
+    ) {
         $this->log = $log;
         $this->cache = $cache;
         $this->httpClient = $httpClient;
@@ -57,7 +54,7 @@ class MeetupRequest
      * @param array $args
      * @return array
      */
-    public function fetchEventInfo($groupUrlName, $args = ['status' => 'upcoming'])
+    public function fetchEventInfo($groupUrlName, $args = ['status' => 'upcoming']): array
     {
         // if cached, return cache
         $cacheId = $groupUrlName . '_event-info';
@@ -75,16 +72,15 @@ class MeetupRequest
         }
 
         $jsonResponse = $this->cache->fetch($cacheId);
-        $events = \json_decode($jsonResponse, true);
 
-        return $events;
+        return \json_decode($jsonResponse, true);
     }
 
     /**
-     * @param $groupUrlName
+     * @param string $groupUrlName
      * @return array
      */
-    public function fetchGroupInfo($groupUrlName)
+    public function fetchGroupInfo(string $groupUrlName): array
     {
         // if cached, return cache
         $cacheId = $groupUrlName . '_group-info';
@@ -100,8 +96,7 @@ class MeetupRequest
         }
 
         $jsonResponse = $this->cache->fetch($cacheId);
-        $groupInfo = \json_decode($jsonResponse, true);
 
-        return $groupInfo;
+        return \json_decode($jsonResponse, true);
     }
 }
