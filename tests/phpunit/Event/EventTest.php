@@ -107,7 +107,7 @@ class EventTest extends TestCase
 
         $responseArray = $event->toArray();
         
-        static::assertTrue(!empty($responseArray['next_event']));
+        static::assertNotEmpty($responseArray['next_event']);
         static::assertArrayHasKey('description', $responseArray);
         static::assertEquals('Industrial Control Cyber Security', $responseArray['subject']);
         static::assertEquals('Current Postgraudate Research', $responseArray['next_event']['subject']);
