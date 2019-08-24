@@ -20,6 +20,17 @@ class GetEventDetailsTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function getEvent()
+    {
+        $eventFactory = $this->createMock(EventFactory::class);
+        $getEventDetails = new GetEventDetails(['group'=>['name'=>'phpMinds']], $eventFactory);
+
+        static::assertSame(\json_encode($this->getDefaultPayload(), JSON_PRETTY_PRINT), $getEventDetails->getEvent(['phpMinds'])->getBody()->getContents());
+
+    }
+    /**
      * @return array
      */
     private function getDefaultPayload(): array
