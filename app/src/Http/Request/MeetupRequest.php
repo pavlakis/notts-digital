@@ -71,9 +71,7 @@ class MeetupRequest
 
         }
 
-        $jsonResponse = $this->cache->fetch($cacheId);
-
-        return \json_decode($jsonResponse, true);
+        return $this->getDecodedFromCache($cacheId);
     }
 
     /**
@@ -95,8 +93,19 @@ class MeetupRequest
             }
         }
 
+        return $this->getDecodedFromCache($cacheId);
+    }
+
+    private function getDecodedFromCache(string $cacheId): array
+    {
         $jsonResponse = $this->cache->fetch($cacheId);
 
-        return \json_decode($jsonResponse, true);
+        $event = \json_decode($jsonResponse, true);
+
+        if (!is_array($event)) {
+            return [];
+        }
+
+        return $event;
     }
 }
