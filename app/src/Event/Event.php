@@ -39,7 +39,7 @@ class Event implements EventInterface
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $eventInfo = [
             'group'     => $this->adapter->getGroupName(),

@@ -67,7 +67,7 @@ class MeetupAdapter implements AdapterInterface
 
     /**
      * @param string $group
-     * @return array
+     * @return mixed
      */
     public function fetch($group)
     {
@@ -83,7 +83,7 @@ class MeetupAdapter implements AdapterInterface
     /**
      * @param string $group
      */
-    protected function loadEventInfo($group)
+    protected function loadEventInfo($group): void
     {
         $groupUrlName = $this->config[$group]['group_urlname'];
 
@@ -119,7 +119,7 @@ class MeetupAdapter implements AdapterInterface
     /**
      * @param $group
      */
-    protected function loadGroupInfo($group)
+    protected function loadGroupInfo($group): void
     {
         $groupUrlName = $this->config[$group]['group_urlname'];
 
@@ -143,7 +143,7 @@ class MeetupAdapter implements AdapterInterface
      * @param $nameMatch
      * @return array
      */
-    protected function getByNameStringMatch($events, $nameMatch)
+    protected function getByNameStringMatch($events, $nameMatch): array
     {
         $nameMatch = $this->normaliseName($nameMatch);
         foreach ($events as $event) {
@@ -156,11 +156,10 @@ class MeetupAdapter implements AdapterInterface
     }
 
     /**
-    *@param $name
-    *@return string 
-    *
-    */
-    protected function normaliseName($name)
+     * @param $name
+     * @return string
+     */
+    protected function normaliseName($name): string
     {
         $name = preg_replace('/\s*/', '',strtolower($name));
         return $name;
@@ -170,7 +169,7 @@ class MeetupAdapter implements AdapterInterface
     /**
      * @return string
      */
-    public function getGroupName()
+    public function getGroupName(): string
     {
         return $this->groupInfo->getGroupName();
     }
@@ -178,7 +177,7 @@ class MeetupAdapter implements AdapterInterface
     /**
      * @return string
      */
-    public function getGroupDescription()
+    public function getGroupDescription(): string
     {
         return $this->groupInfo->getGroupDescription();
     }
@@ -186,7 +185,7 @@ class MeetupAdapter implements AdapterInterface
     /**
      * @return string
      */
-    public function getGroupPhoto()
+    public function getGroupPhoto(): string
     {
         return $this->groupInfo->getGroupPhoto();
     }
@@ -194,7 +193,7 @@ class MeetupAdapter implements AdapterInterface
     /**
      * @return EventEntityCollection
      */
-    public function getEventEntityCollection()
+    public function getEventEntityCollection(): EventEntityCollection
     {
         return $this->eventEntityCollection;
     }
