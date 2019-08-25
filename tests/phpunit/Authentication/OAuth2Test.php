@@ -57,6 +57,10 @@ class OAuth2Test extends TestCase
         $this->request->method('getQueryParams')->willReturn([
             'code' => 'the-token',
         ]);
+        $accessToken = $this->createMock(AccessTokenInterface::class);
+        $accessToken->method('getRefreshToken')->willReturn('refreshed-token');
+        $this->provider->method('getAccessToken')->willReturn($accessToken);
+
         $oAuth2 = new OAuth2($this->provider, $this->tokenProvider, $this->request);
         $oAuth2->authorise();
         static::assertSame('the-token', $this->tokenProvider->getToken());
@@ -96,11 +100,13 @@ class OAuth2Test extends TestCase
     public function refresh_updates_token(): void
     {
         $accessToken = $this->createMock(AccessTokenInterface::class);
-        $accessToken->method('getToken')->willReturn('refreshed-token');
+        $accessToken->method('getToken')->willReturn('new-token');
+        $accessToken->method('getRefreshToken')->willReturn('new-refreshed-token');
         $this->provider->method('getAccessToken')->willReturn($accessToken);
         $oAuth2 = new OAuth2($this->provider, $this->tokenProvider, $this->request);
 
         $oAuth2->refresh();
-        static::assertSame('refreshed-token', $this->tokenProvider->getToken());
+        static::assertSame('new-token', $this->tokenProvider->getToken());
+        static::assertSame('new-refreshed-token', $this->tokenProvider->getRefreshToken());
     }
 }

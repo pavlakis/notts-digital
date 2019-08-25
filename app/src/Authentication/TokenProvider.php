@@ -25,7 +25,23 @@ final class TokenProvider implements TokenProviderInterface
      */
     public function getToken(): string
     {
-        return $this->token;
+        if (empty($this->token)) {
+            return '';
+        }
+
+        if (empty($this->token)) {
+            return '';
+        }
+
+        return \json_decode($this->token, true)['token'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getRefreshToken(): string
+    {
+        return \json_decode($this->token, true)['refresh_token'];
     }
 
     /**

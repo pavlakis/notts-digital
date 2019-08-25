@@ -39,9 +39,11 @@ class TokenProviderTest extends TestCase
     public function can_save_token(): void
     {
         $token = new TokenProvider(self::TOKEN_FIXTURE_FILENAME);
-        $token->saveToken('test token');
+        $token->saveToken(
+            \json_encode(['token' => 'test token', 'refresh_token' => 'refreshed token'])
+        );
 
         static::assertSame('test token', $token->getToken());
-        static::assertSame('test token', file_get_contents(self::TOKEN_FIXTURE_FILENAME));
+        static::assertSame('test token', \json_decode(file_get_contents(self::TOKEN_FIXTURE_FILENAME), true)['token']);
     }
 }

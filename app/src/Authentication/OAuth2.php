@@ -33,11 +33,14 @@ class OAuth2 implements AuthenticationInterface
 
     /**
      * @return bool
-     * @throws IdentityProviderException
      */
     public function isAuthenticated(): bool
     {
-        return !$this->getAccessToken()->hasExpired();
+        try {
+            return !$this->getAccessToken()->hasExpired();
+        } catch (IdentityProviderException $e) {
+            return false;
+        }
     }
 
     /**
@@ -61,11 +64,16 @@ class OAuth2 implements AuthenticationInterface
 
     /**
      * @return void
+     * @throws IdentityProviderException
      */
     public function authorise(): void
     {
         if (null !== $this->getRequestParam('code')) {
-            $this->tokenProvider->saveToken($this->getRequestParam('code'));
+            $accessToken = $this->provider->getAccessToken('authorization_code', [
+                'code' => $this->getRequestParam('code')
+            ]);
+
+            $this->saveToken($this->getRequestParam('code'),  $accessToken->getRefreshToken());
             return;
         }
 
@@ -88,11 +96,15 @@ class OAuth2 implements AuthenticationInterface
      */
     public function refresh(): void
     {
-        $newAccessToken = $this->provider->getAccessToken('refresh_token', [
-            'refresh_token' => $this->getAccessToken()->getRefreshToken()
+        $existingRefreshToken = $this->provider->getAccessToken('refresh_token', [
+            'refresh_token' => $this->tokenProvider->getRefreshToken()
         ]);
 
-        $this->tokenProvider->saveToken($newAccessToken->getToken());
+        $newAccessToken = $this->provider->getAccessToken('refresh_token', [
+            'refresh_token' => $existingRefreshToken->getRefreshToken()
+        ]);
+
+        $this->saveToken($newAccessToken->getToken(), $newAccessToken->getRefreshToken());
     }
 
     /**
@@ -107,5 +119,15 @@ class OAuth2 implements AuthenticationInterface
         }
 
         return $this->request->getQueryParams()[$param];
+    }
+
+    private function saveToken(string $accessToken, string $refreshToken): void
+    {
+        $token = \json_encode([
+            'token' => $accessToken,
+            'refresh_token' => $refreshToken,
+        ]);
+
+        $this->tokenProvider->saveToken($token);
     }
 }
