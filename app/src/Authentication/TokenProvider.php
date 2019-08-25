@@ -25,15 +25,7 @@ final class TokenProvider implements TokenProviderInterface
      */
     public function getToken(): string
     {
-        if (empty($this->token)) {
-            return '';
-        }
-
-        if (empty($this->token)) {
-            return '';
-        }
-
-        return \json_decode($this->token, true)['token'];
+        return $this->getPayload()['token'];
     }
 
     /**
@@ -41,7 +33,7 @@ final class TokenProvider implements TokenProviderInterface
      */
     public function getRefreshToken(): string
     {
-        return \json_decode($this->token, true)['refresh_token'];
+        return $this->getPayload()['refresh_token'];
     }
 
     /**
@@ -51,5 +43,15 @@ final class TokenProvider implements TokenProviderInterface
     {
         $this->token = $token;
         file_put_contents($this->tokenFilename, $this->token);
+    }
+
+    private function getPayload(): array
+    {
+        $payload = \json_decode($this->token, true);
+        if (!is_array($payload)) {
+            return ['token' => '', 'refresh_token' => ''];
+        }
+
+        return $payload;
     }
 }
