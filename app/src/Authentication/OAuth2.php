@@ -9,6 +9,8 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException,
 
 class OAuth2 implements AuthenticationInterface
 {
+    private const AUTHORISATION_REQUEST = 'meetup';
+
     /**
      * @var Meetup
      */
@@ -85,7 +87,7 @@ class OAuth2 implements AuthenticationInterface
      */
     private function requestAuthorisation(): void
     {
-        if ('meetup' === $this->getRequestParam('authorise', '')) {
+        if (self::AUTHORISATION_REQUEST === $this->getRequestParam('authorise', '')) {
             header('Location: ' . $this->provider->getAuthorizationUrl());
             exit;
         }
