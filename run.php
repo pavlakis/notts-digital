@@ -20,12 +20,10 @@ $params = $request->getQueryParams();
 $getEventDetails = new \NottsDigital\Event\GetEventDetails($groups, $container['api.log'], $container['event.factory']);
 $response = $getEventDetails->getEvent($params);
 
-$response->withAddedHeader('Access-Control-Allow-Origin', '*');
-
 $server = new Zend\Diactoros\Server(
     function(){},
     $request,
-    $response
+    $response->withAddedHeader('Access-Control-Allow-Origin', '*')
 );
 
 $server->listen();
