@@ -68,6 +68,8 @@ class GetEventDetails
                 return $type;
             }
         }
+
+        return null;
     }
 
     /**
