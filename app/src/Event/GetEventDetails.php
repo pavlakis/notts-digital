@@ -2,8 +2,9 @@
 
 namespace NottsDigital\Event;
 
-use Psr\Log\LoggerInterface;
-use Zend\Diactoros\Response\JsonResponse;
+use NottsDigital\Event\Exception\EventDoesNotExistException,
+    Zend\Diactoros\Response\JsonResponse,
+    Psr\Log\LoggerInterface;
 
 class GetEventDetails
 {
@@ -45,8 +46,10 @@ class GetEventDetails
             $event = $this->eventFactory->createFromEventType($this->getEventType($group))->getByGroup($group);
 
             return $this->getResponse($event->toArray());
-        } catch (\InvalidArgumentException $e) {
-            $this->logger->warning($e->getMessage());
+        } catch (EventDoesNotExistException $e) {
+            $this->logger->warning('Group {group} not found.', [
+                'group' => $group,
+            ]);
             return $this->getResponse($this->getDefaultPayload());
         }
     }
@@ -67,9 +70,11 @@ class GetEventDetails
 
     /**
      * @param string $group
-     * @return string|null
+     * @return string
+     *
+     * @throws EventDoesNotExistException
      */
-    private function getEventType(string $group): ?string
+    private function getEventType(string $group): string
     {
         foreach ($this->groups as $type => $events) {
             if (array_key_exists($group, $events)) {
@@ -77,7 +82,7 @@ class GetEventDetails
             }
         }
 
-        return null;
+        throw EventDoesNotExistException::forGroup($group);
     }
 
     /**
