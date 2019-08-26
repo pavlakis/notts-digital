@@ -17,7 +17,7 @@ $request = $container['http.request'];
 // index.php?group=PHPMinds
 $params = $request->getQueryParams();
 
-$getEventDetails = new \NottsDigital\Event\GetEventDetails($groups, $container['event.factory']);
+$getEventDetails = new \NottsDigital\Event\GetEventDetails($groups, $container['api.log'], $container['event.factory']);
 $response = $getEventDetails->getEvent($params);
 
 $response->withAddedHeader('Access-Control-Allow-Origin', '*');

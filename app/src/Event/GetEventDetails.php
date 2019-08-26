@@ -2,6 +2,7 @@
 
 namespace NottsDigital\Event;
 
+use Psr\Log\LoggerInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
 class GetEventDetails
@@ -12,13 +13,19 @@ class GetEventDetails
     private $groups;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @var EventFactory
      */
     private $eventFactory;
 
-    public function __construct(array $groups, EventFactory $eventFactory)
+    public function __construct(array $groups, LoggerInterface $logger, EventFactory $eventFactory)
     {
         $this->groups = $groups;
+        $this->logger = $logger;
         $this->eventFactory = $eventFactory;
     }
 
@@ -39,6 +46,7 @@ class GetEventDetails
 
             return $this->getResponse($event->toArray());
         } catch (\InvalidArgumentException $e) {
+            $this->logger->warning($e->getMessage());
             return $this->getResponse($this->getDefaultPayload());
         }
     }
