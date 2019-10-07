@@ -15,6 +15,7 @@ use NottsDigital\Event\EventEntityCollection,
     NottsDigital\Event\NullGroupInfo,
     NottsDigital\Event\EventEntity,
     NottsDigital\Event\GroupInfo;
+use NottsDigital\Event\GroupInterface;
 
 /**
  * Class MeetupAdapter
@@ -43,7 +44,7 @@ class MeetupAdapter implements AdapterInterface
     protected $eventEntityCollection;
 
     /**
-     * @var GroupInfo
+     * @var GroupInterface
      */
     protected $groupInfo;
 
@@ -97,7 +98,7 @@ class MeetupAdapter implements AdapterInterface
 
             $this->groupConfig = $this->config[$group];
 
-            if (isset($this->config[$group]['match']) && isset($this->config[$group]['match']['name'])) {
+            if (isset($this->config[$group]['match'], $this->config[$group]['match']['name'])) {
                 $this->eventEntityCollection->add(
                     new EventEntity($this->getByNameStringMatch($events['results'], $this->config[$group]['match']['name']))
                 );
@@ -117,7 +118,7 @@ class MeetupAdapter implements AdapterInterface
     }
 
     /**
-     * @param $group
+     * @param string $group
      */
     protected function loadGroupInfo($group): void
     {
@@ -139,8 +140,9 @@ class MeetupAdapter implements AdapterInterface
     }
 
     /**
-     * @param $events
-     * @param $nameMatch
+     * @param array  $events
+     * @param string $nameMatch
+     *
      * @return array
      */
     protected function getByNameStringMatch($events, $nameMatch): array
@@ -156,13 +158,14 @@ class MeetupAdapter implements AdapterInterface
     }
 
     /**
-     * @param $name
+     * @param string $name
+     *
      * @return string
      */
     protected function normaliseName($name): string
     {
         $name = preg_replace('/\s*/', '',strtolower($name));
-        return $name;
+        return (string) $name;
     }
 
     

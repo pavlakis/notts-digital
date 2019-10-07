@@ -79,7 +79,8 @@ $container['http.request'] = function($c){
 $container['file.cache'] = function($c) {
     $cacheConfig = $c['config']['cache'];
     return new NottsDigital\Cache\Cache(
-        new \Doctrine\Common\Cache\FilesystemCache(realpath($cacheConfig['path'])), $cacheConfig['expiry']
+        new \Doctrine\Common\Cache\FilesystemCache((string) realpath($cacheConfig['path'])),
+        (int) $cacheConfig['expiry']
     );
 };
 

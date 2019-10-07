@@ -75,7 +75,7 @@ class OAuth2 implements AuthenticationInterface
                 'code' => $this->getRequestParam('code')
             ]);
 
-            $this->saveToken($this->getRequestParam('code'),  $accessToken->getRefreshToken());
+            $this->saveToken($this->getRequestParam('code'),  (string) $accessToken->getRefreshToken());
             return;
         }
 
@@ -106,7 +106,7 @@ class OAuth2 implements AuthenticationInterface
             'refresh_token' => $existingRefreshToken->getRefreshToken()
         ]);
 
-        $this->saveToken($newAccessToken->getToken(), $newAccessToken->getRefreshToken());
+        $this->saveToken($newAccessToken->getToken(), (string) $newAccessToken->getRefreshToken());
     }
 
     /**
@@ -125,6 +125,7 @@ class OAuth2 implements AuthenticationInterface
 
     private function saveToken(string $accessToken, string $refreshToken): void
     {
+        /** @var string $token */
         $token = \json_encode([
             'token' => $accessToken,
             'refresh_token' => $refreshToken,

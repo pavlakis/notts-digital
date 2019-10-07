@@ -22,7 +22,7 @@ interface EventEntityInterface
     public function getDescription();
 
     /**
-     * @return \DateTime
+     * @return string|\DateTime
      */
     public function getDate();
 

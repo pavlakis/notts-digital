@@ -22,23 +22,22 @@ class Cache
     private $cache;
 
     /**
-     * @var
+     * @var int
      */
     private $lifetime;
 
     /**
-     * Cache constructor.
      * @param FilesystemCache $cache
-     * @param $lifetime
+     * @param int             $lifetime
      */
-    public function __construct(FilesystemCache $cache, $lifetime)
+    public function __construct(FilesystemCache $cache, int $lifetime)
     {
         $this->cache = $cache;
         $this->lifetime = $lifetime;
     }
 
     /**
-     * @param $id
+     * @param string $id
      * @return bool
      */
     public function contains($id)
@@ -47,7 +46,7 @@ class Cache
     }
 
     /**
-     * @param $id
+     * @param string $id
      * @return false|mixed
      */
     public function fetch($id)
@@ -56,8 +55,8 @@ class Cache
     }
 
     /**
-     * @param $id
-     * @param $data
+     * @param string $id
+     * @param string $data
      * @return bool
      */
     public function save($id, $data)

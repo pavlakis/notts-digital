@@ -57,6 +57,7 @@ class MeetupRequest
     public function fetchEventInfo($groupUrlName, $args = ['status' => 'upcoming']): array
     {
         // if cached, return cache
+        /** @var string $cacheId */
         $cacheId = $groupUrlName . '_event-info';
 
         if (!$this->cache->contains($cacheId)) {
@@ -64,7 +65,7 @@ class MeetupRequest
             try {
                 $eventArgs = array_merge(['group_urlname' => $groupUrlName], $args);
                 $response = $this->httpClient->getEvents($eventArgs)->json();
-                $this->cache->save($cacheId, \json_encode($response));
+                $this->cache->save($cacheId, (string) \json_encode($response));
             } catch (\Exception $e) {
                 $this->log->alert($e->getMessage());
             }
@@ -87,7 +88,7 @@ class MeetupRequest
             try {
 
                 $response =  $this->httpClient->getGroup(array('urlname' => $groupUrlName))->json();
-                $this->cache->save($cacheId, \json_encode($response));
+                $this->cache->save($cacheId, (string) \json_encode($response));
             } catch (\Exception $e) {
                 $this->log->alert($e->getMessage());
             }
