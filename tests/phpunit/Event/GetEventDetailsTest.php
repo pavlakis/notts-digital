@@ -5,6 +5,7 @@ namespace NottsDigital\tests\Event;
 use NottsDigital\Event\GetEventDetails;
 use NottsDigital\Event\EventFactory;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 class GetEventDetailsTest extends TestCase
 {
@@ -14,7 +15,8 @@ class GetEventDetailsTest extends TestCase
     public function invalid_group_returns_default_response()
     {
         $eventFactory = $this->createMock(EventFactory::class);
-        $getEventDetails = new GetEventDetails([], $eventFactory);
+        $logger = $this->createMock(LoggerInterface::class);
+        $getEventDetails = new GetEventDetails([], $logger, $eventFactory);
 
         static::assertSame(\json_encode($this->getDefaultPayload(), JSON_PRETTY_PRINT), $getEventDetails->getEvent([])->getBody()->getContents());
     }
@@ -25,7 +27,8 @@ class GetEventDetailsTest extends TestCase
     public function getEvent()
     {
         $eventFactory = $this->createMock(EventFactory::class);
-        $getEventDetails = new GetEventDetails(['group'=>['name'=>'phpMinds']], $eventFactory);
+        $logger = $this->createMock(LoggerInterface::class);
+        $getEventDetails = new GetEventDetails(['group'=>['name'=>'phpMinds']], $logger, $eventFactory);
 
         static::assertSame(\json_encode($this->getDefaultPayload(), JSON_PRETTY_PRINT), $getEventDetails->getEvent(['phpMinds'])->getBody()->getContents());
 
