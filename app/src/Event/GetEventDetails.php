@@ -51,6 +51,9 @@ class GetEventDetails
                 'group' => $group,
             ]);
             return $this->getResponse($this->getDefaultPayload());
+        } catch(\Exception $e) {
+            $this->logger->error($e->getMessage());
+            return $this->getResponse($this->getDefaultPayload());
         }
     }
 
