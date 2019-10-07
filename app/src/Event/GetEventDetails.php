@@ -50,11 +50,11 @@ class GetEventDetails
             $this->logger->warning('Group {group} not found.', [
                 'group' => $group,
             ]);
-            return $this->getResponse($this->getDefaultPayload());
         } catch(\Exception $e) {
             $this->logger->error($e->getMessage());
-            return $this->getResponse($this->getDefaultPayload());
         }
+
+        return $this->getResponse($this->getDefaultPayload());
     }
 
     /**

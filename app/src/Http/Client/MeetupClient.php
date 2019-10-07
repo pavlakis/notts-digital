@@ -2,6 +2,7 @@
 
 namespace NottsDigital\Http\Client;
 
+use DMS\Service\Meetup\AbstractMeetupClient;
 use NottsDigital\Authentication\AuthenticationInterface,
     DMS\Service\Meetup\Response\MultiResultResponse,
     DMS\Service\Meetup\MeetupOAuth2Client;
@@ -13,7 +14,7 @@ use NottsDigital\Authentication\AuthenticationInterface,
 class MeetupClient
 {
     /**
-     * @var MeetupOAuth2Client
+     * @var AbstractMeetupClient
      */
     private $httpClient;
 
@@ -22,7 +23,7 @@ class MeetupClient
      */
     private $authentication;
 
-    public function __construct(MeetupOAuth2Client $httpClient, AuthenticationInterface $authentication)
+    public function __construct(AbstractMeetupClient $httpClient, AuthenticationInterface $authentication)
     {
         $this->httpClient = $httpClient;
         $this->authentication = $authentication;
@@ -44,6 +45,10 @@ class MeetupClient
      */
     private function verifyAuthentication(): void
     {
+        if ($this->httpClient instanceof MeetupOAuth2Client) {
+            return;
+        }
+
         if (!$this->authentication->isAuthorised()) {
             $this->authentication->authorise();
             return;

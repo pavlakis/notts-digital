@@ -31,10 +31,28 @@ $container['meetup.authentication'] = function($c){
 
 $container['meetup.client'] = function($c){
     return new \NottsDigital\Http\Client\MeetupClient(
-        $c['meetup.httpclient'],
+        $c['meetup.client.oauth'], // change to meetup.client.oauth2
         $c['meetup.authentication']
     );
 };
+
+/****************************************************** OAuth *****************************************************/
+$container['meetup.client.oauth'] = function ($c) {
+    return \DMS\Service\Meetup\MeetupOAuthClient::factory([
+        'consumer_key'    => $c['config']['meetups']['consumer_key'],
+        'consumer_secret'    => $c['config']['meetups']['consumer_secret'],
+    ]);
+};
+
+$container['meetup.oauth.request'] = function($c) {
+    return new \NottsDigital\Http\Request\MeetupRequest(
+        $c['meetup.client.oauth'],
+        $c['file.cache'],
+        $c['api.log']
+    );
+};
+
+/******************************************* ********************************************************/
 
 $container['api.log'] = function ($c) {
     $log = new \Monolog\Logger('api.log');
@@ -57,7 +75,7 @@ $container['oauth2.provider'] = function ($c) {
     return $provider;
 };
 
-$container['meetup.httpclient'] = function ($c) {
+$container['meetup.client.oauth2'] = function ($c) {
 
     return \DMS\Service\Meetup\MeetupOAuth2Client::factory([
         'access_token' => $c['token.provider']->getToken()
