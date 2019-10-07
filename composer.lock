@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73cc8b174602c2c6993f9663f0baa3e8",
+    "content-hash": "3a2c513b20e7f2456fc536b51687942b",
     "packages": [
         {
             "name": "dms/meetup-api-client",
-            "version": "dev-master",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nitinjavakid/meetup-api-client.git",
-                "reference": "20ebb68b7350207333391c721ee4f79acf3b5a32"
+                "url": "https://github.com/rdohms/meetup-api-client.git",
+                "reference": "e6344cfecc874954de3011fe7af2a8c312d129e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nitinjavakid/meetup-api-client/zipball/20ebb68b7350207333391c721ee4f79acf3b5a32",
-                "reference": "20ebb68b7350207333391c721ee4f79acf3b5a32",
+                "url": "https://api.github.com/repos/rdohms/meetup-api-client/zipball/e6344cfecc874954de3011fe7af2a8c312d129e6",
+                "reference": "e6344cfecc874954de3011fe7af2a8c312d129e6",
                 "shasum": ""
             },
             "require": {
@@ -46,6 +46,7 @@
                     ]
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -57,15 +58,12 @@
             ],
             "description": "Meetup.com API client written on top of Guzzle. This supports all API operations.",
             "keywords": [
+                "Guzzle",
                 "api",
                 "dms",
-                "guzzle",
                 "meetup.com"
             ],
-            "support": {
-                "source": "https://github.com/nitinjavakid/meetup-api-client/tree/master"
-            },
-            "time": "2019-07-28T01:12:27+00:00"
+            "time": "2019-09-01T08:23:44+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -2659,9 +2657,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "dms/meetup-api-client": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
