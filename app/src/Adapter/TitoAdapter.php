@@ -47,7 +47,7 @@ class TitoAdapter implements AdapterInterface
     }
 
     /**
-     * @param $group
+     * @param string $group
      * @return \Symfony\Component\DomCrawler\Crawler
      */
     public function fetch($group)
@@ -86,7 +86,10 @@ class TitoAdapter implements AdapterInterface
             throw new \InvalidArgumentException('Date does not exist or format unknown.');
         }
 
-        return \DateTime::createFromFormat('F jS\, Y', $date[0]);
+        /** @var \DateTime $date */
+        $date = \DateTime::createFromFormat('F jS\, Y', $date[0]);
+
+        return $date;
     }
 
     /**

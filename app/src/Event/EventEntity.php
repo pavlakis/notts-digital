@@ -57,7 +57,8 @@ final class EventEntity implements EventEntityInterface
     }
 
     /**
-     * @return \DateTime
+     * @return string|\DateTime
+     * @throws \Exception
      */
     public function getDate()
     {

@@ -12,6 +12,7 @@ namespace NottsDigital\Adapter;
 use NottsDigital\Event\EventEntityCollection,
     NottsDigital\Http\Request\MeetupRequest,
     NottsDigital\Event\NullEventEntity,
+    NottsDigital\Event\GroupInterface,
     NottsDigital\Event\NullGroupInfo,
     NottsDigital\Event\EventEntity,
     NottsDigital\Event\GroupInfo;
@@ -43,12 +44,11 @@ class MeetupAdapter implements AdapterInterface
     protected $eventEntityCollection;
 
     /**
-     * @var GroupInfo
+     * @var GroupInterface
      */
     protected $groupInfo;
 
     /**
-     * MeetupAdapter constructor.
      * @param array $config
      * @param MeetupRequest $meetupRequest
      * @param EventEntityCollection $eventEntityCollection
@@ -117,7 +117,7 @@ class MeetupAdapter implements AdapterInterface
     }
 
     /**
-     * @param $group
+     * @param string $group
      */
     protected function loadGroupInfo($group)
     {
@@ -139,8 +139,9 @@ class MeetupAdapter implements AdapterInterface
     }
 
     /**
-     * @param $events
-     * @param $nameMatch
+     * @param array $events
+     * @param string $nameMatch
+     *
      * @return array
      */
     protected function getByNameStringMatch($events, $nameMatch)
@@ -156,14 +157,13 @@ class MeetupAdapter implements AdapterInterface
     }
 
     /**
-    *@param $name
-    *@return string 
-    *
+    * @param string $name
+     *
+    * @return string
     */
     protected function normaliseName($name)
     {
-        $name = preg_replace('/\s*/', '',strtolower($name));
-        return $name;
+        return (string) preg_replace('/\s*/', '',strtolower($name));
     }
 
     

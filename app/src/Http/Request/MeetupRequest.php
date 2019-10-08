@@ -21,7 +21,7 @@ use DMS\Service\Meetup\MeetupOAuthClient,
 class MeetupRequest
 {
     /**
-     * @var MeetupKeyAuthClient
+     * @var MeetupOAuthClient
      */
     private $httpClient;
 
@@ -67,7 +67,7 @@ class MeetupRequest
             try {
                 $eventArgs = array_merge(['group_urlname' => $groupUrlName], $args);
                 $response = $this->httpClient->getEvents($eventArgs)->json();
-                $this->cache->save($cacheId, \json_encode($response));
+                $this->cache->save($cacheId, (string) \json_encode($response));
             } catch (\Exception $e) {
                 $this->log->alert($e->getMessage());
             }
@@ -75,13 +75,14 @@ class MeetupRequest
         }
 
         $jsonResponse = $this->cache->fetch($cacheId);
+        /** @var array $events */
         $events = \json_decode($jsonResponse, true);
 
         return $events;
     }
 
     /**
-     * @param $groupUrlName
+     * @param string $groupUrlName
      * @return array
      */
     public function fetchGroupInfo($groupUrlName)
@@ -93,13 +94,14 @@ class MeetupRequest
             try {
 
                 $response =  $this->httpClient->getGroup(array('urlname' => $groupUrlName))->json();
-                $this->cache->save($cacheId, \json_encode($response));
+                $this->cache->save($cacheId, (string) \json_encode($response));
             } catch (\Exception $e) {
                 $this->log->alert($e->getMessage());
             }
         }
 
         $jsonResponse = $this->cache->fetch($cacheId);
+        /** @var array $groupInfo */
         $groupInfo = \json_decode($jsonResponse, true);
 
         return $groupInfo;
