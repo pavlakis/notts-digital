@@ -14,10 +14,8 @@ date_default_timezone_set('Europe/London');
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/app/dependencies.php';
 
-
 $groups = $container['groups'];
-
-$request = Zend\Diactoros\ServerRequestFactory::fromGlobals();
+$request = $container['http.request'];
 
 // index.php?group=PHPMinds
 

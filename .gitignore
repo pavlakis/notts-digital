@@ -3,5 +3,6 @@ vendor/*
 app/configs/*
 bin/*
 var/*
+.token
 tests/coverage/*
 tests/phpunit/coverage.xml

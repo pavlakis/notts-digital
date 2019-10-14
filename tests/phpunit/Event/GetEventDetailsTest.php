@@ -25,6 +25,17 @@ class GetEventDetailsTest extends TestCase
         $this->eventFactory = $this->createMock(EventFactory::class);
         $this->request = $this->createMock(ServerRequestInterface::class);
     }
+   
+    /**
+     * @test
+     */
+    public function invalid_group_returns_default_response()
+    {
+        $eventFactory = $this->createMock(EventFactory::class);
+        $getEventDetails = new GetEventDetails([], $eventFactory);
+
+        static::assertSame(\json_encode($this->getDefaultPayload(), JSON_PRETTY_PRINT), $getEventDetails->getEvent([])->getBody()->getContents());
+    }
 
     /**
      * @test
@@ -37,5 +48,21 @@ class GetEventDetailsTest extends TestCase
         $response = $getEventDetails->getEvent($this->request);
         static::assertSame(200, $response->getStatusCode());
         static::assertSame('*', $response->getHeader('Access-Control-Allow-Origin')[0]);
+    }
+      
+    public function getEvent()
+    {
+        $eventFactory = $this->createMock(EventFactory::class);
+        $getEventDetails = new GetEventDetails(['group'=>['name'=>'phpMinds']], $eventFactory);
+
+        static::assertSame(\json_encode($this->getDefaultPayload(), JSON_PRETTY_PRINT), $getEventDetails->getEvent(['phpMinds'])->getBody()->getContents());
+
+    }
+    /**
+     * @return array
+     */
+    private function getDefaultPayload(): array
+    {
+        return GetEventDetailsInterface::DEFAULT_PAYLOAD;
     }
 }

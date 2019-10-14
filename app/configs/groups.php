@@ -98,6 +98,9 @@ return [
         ],
         "Data Science Nottingham" => [
             "group_urlname" => "Data-Science-Nottingham"
+        ],
+        "Cyber Security Nottingham Meetup" => [
+            "group_urlname" => "Nottingham-Cyber-Capital-One"
         ]
     ],
     "ti.to" => []

@@ -9,6 +9,7 @@
 namespace NottsDigital\Tests\Adapter;
 
 use NottsDigital\Event\EventEntityCollection;
+use NottsDigital\Event\NullEventEntity;
 use NottsDigital\Http\Request\MeetupRequest;
 use NottsDigital\Adapter\MeetupAdapter;
 use PHPUnit\Framework\TestCase;
@@ -114,6 +115,27 @@ class MeetupAdapterTest extends TestCase
     }
 
 
+    public function testNoEvents()
+    {
+        $jsonResponse = "{\"results\": []}";
+        $meetupRequestMock = $this->meetupRequestMock->getMock();
+        $meetupRequestMock->method('fetchEventInfo')
+            ->willReturnCallback(function() use ($jsonResponse) {
+                return \json_decode($jsonResponse, true);
+            });
+        $meetupAdapter = new MeetupAdapter(
+            $this->config['meetups'],
+            $meetupRequestMock,
+            new EventEntityCollection()
+        );
+        $meetupAdapter->fetch('PHPMinds');
+
+        $this->assertEquals(1, count($meetupAdapter->getEventEntityCollection()));
+        $this->assertInstanceOf(NullEventEntity::class, $meetupAdapter->getEventEntityCollection()[0]);
+        $this->assertEmpty($meetupAdapter->getGroupName());
+
+    }
+
     public function testFetchWillMatchNameCorrectly()
     {
     
@@ -141,7 +163,8 @@ class MeetupAdapterTest extends TestCase
         static::assertNotNull($meetupAdapter->getEventEntityCollection());
         static::assertEquals($meetupAdapter->getEventEntityCollection()[0]->getTitle(), 'Tech on Toast January 2017 - The Launch!');
     }
-    
+
+
     
     
     public function testFetchWillStillGetEventAsPartOfMainGroup()
