@@ -3,3 +3,5 @@ vendor/*
 app/configs/*
 bin/*
 var/*
+tests/coverage/*
+tests/phpunit/coverage.xml
