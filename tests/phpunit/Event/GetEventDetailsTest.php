@@ -2,6 +2,7 @@
 
 namespace NottsDigital\tests\Event;
 
+use NottsDigital\Event\GetEventDetailsInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ServerRequestInterface;
 use NottsDigital\Event\GetEventDetails;
@@ -34,7 +35,8 @@ class GetEventDetailsTest extends TestCase
         $eventFactory = $this->createMock(EventFactory::class);
         $getEventDetails = new GetEventDetails([], $eventFactory);
 
-        static::assertSame(\json_encode($this->getDefaultPayload(), JSON_PRETTY_PRINT), $getEventDetails->getEvent([])->getBody()->getContents());
+        $this->request->method('getQueryParams')->willReturn([]);
+        static::assertSame(\json_encode($this->getDefaultPayload(), JSON_PRETTY_PRINT), $getEventDetails->getEvent($this->request)->getBody()->getContents());
     }
 
     /**
@@ -55,7 +57,8 @@ class GetEventDetailsTest extends TestCase
         $eventFactory = $this->createMock(EventFactory::class);
         $getEventDetails = new GetEventDetails(['group'=>['name'=>'phpMinds']], $eventFactory);
 
-        static::assertSame(\json_encode($this->getDefaultPayload(), JSON_PRETTY_PRINT), $getEventDetails->getEvent(['phpMinds'])->getBody()->getContents());
+        $this->request->method('getQueryParams')->willReturn([]);
+        static::assertSame(\json_encode($this->getDefaultPayload(), JSON_PRETTY_PRINT), $getEventDetails->getEvent($this->request)->getBody()->getContents());
 
     }
     /**
