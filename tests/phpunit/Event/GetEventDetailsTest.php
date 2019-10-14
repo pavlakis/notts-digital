@@ -2,13 +2,11 @@
 
 namespace NottsDigital\tests\Event;
 
-use NottsDigital\Event\GetEventDetails;
-use NottsDigital\Event\GetEventDetailsInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Http\Message\ServerRequestInterface;
+use NottsDigital\Event\GetEventDetails;
 use NottsDigital\Event\EventFactory;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\JsonResponse;
 
 class GetEventDetailsTest extends TestCase
 {

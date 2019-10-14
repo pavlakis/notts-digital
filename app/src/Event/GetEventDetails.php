@@ -76,6 +76,8 @@ final class GetEventDetails implements GetEventDetailsInterface
                 return $type;
             }
         }
+
+        return null;
     }
 
     /**
