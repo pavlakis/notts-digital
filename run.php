@@ -14,18 +14,16 @@ date_default_timezone_set('Europe/London');
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/app/dependencies.php';
 
-$groups = $container['groups'];
-$request = $container['http.request'];
-
 // index.php?group=PHPMinds
 
 /** @var GetEventDetails $getEventDetails */
 $getEventDetails = $container[GetEventDetails::class];
+$request = $container['http.request'];
 
 $server = new Zend\Diactoros\Server(
     static function(){},
     $request,
-    $getEventDetails->getEvent($request)
+    $getEventDetails->getEvent($container['http.request'])
 );
 
 $server->listen();
