@@ -55,7 +55,7 @@ final class GetEventDetails implements GetEventDetailsInterface
         return new JsonResponse(
             $payload,
             200,
-            ['Access-Control-Allow-Origin' => '*'],
+            ['access-control-allow-origin' => ['*']],
             JSON_PRETTY_PRINT
         );
     }
