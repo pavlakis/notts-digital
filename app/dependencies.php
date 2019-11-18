@@ -79,7 +79,8 @@ $container['http.request'] = function($c){
 $container['file.cache'] = function($c) {
     $cacheConfig = $c['config']['cache'];
     return new NottsDigital\Cache\Cache(
-        new \Doctrine\Common\Cache\FilesystemCache(realpath($cacheConfig['path'])), $cacheConfig['expiry']
+        new \Doctrine\Common\Cache\FilesystemCache((string) realpath($cacheConfig['path'])),
+        (int) $cacheConfig['expiry']
     );
 };
 
@@ -124,9 +125,15 @@ $container['event.ti.to'] = function($c) {
 };
 
 $container['event.factory'] = function($c) {
-
     return new NottsDigital\Event\EventFactory(
         $c['adapter.meetups'],
         $c['adapter.tito']
+    );
+};
+
+$container[\NottsDigital\Event\GetEventDetails::class] = function($c) {
+    return new \NottsDigital\Event\GetEventDetails(
+        $c['groups'],
+        $c['event.factory']
     );
 };

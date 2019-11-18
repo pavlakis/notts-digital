@@ -12,7 +12,7 @@ namespace NottsDigital\Adapter;
 interface AdapterInterface
 {
     /**
-     * @param $group
+     * @param string $group
      * @return mixed
      */
     public function fetch($group);
@@ -33,7 +33,7 @@ interface AdapterInterface
     public function getGroupPhoto();
 
     /**
-     * @return array
+     * @return \Iterator|array
      */
     public function getEventEntityCollection();
 }

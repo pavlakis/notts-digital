@@ -29,7 +29,7 @@ final class NullEventEntity implements EventEntityInterface
     }
 
     /**
-     * @return string
+     * @return string|\DateTime
      */
     public function getDate()
     {

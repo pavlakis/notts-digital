@@ -2,9 +2,10 @@
 
 namespace NottsDigital\Event;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
-class GetEventDetails
+final class GetEventDetails implements GetEventDetailsInterface
 {
     /**
      * @var array
@@ -23,11 +24,13 @@ class GetEventDetails
     }
 
     /**
-     * @param array $params
+     * @param ServerRequestInterface $request
+     *
      * @return JsonResponse
      */
-    public function getEvent(array $params): JsonResponse
+    public function getEvent(ServerRequestInterface $request): JsonResponse
     {
+        $params = $request->getQueryParams();
         if (!$this->hasGroup($params)) {
             return $this->getResponse($this->getDefaultPayload());
         }
@@ -49,10 +52,15 @@ class GetEventDetails
      */
     private function getResponse(array $payload): JsonResponse
     {
-        return new JsonResponse($payload, 200, [], JSON_PRETTY_PRINT);
+        return new JsonResponse(
+            $payload,
+            200,
+            ['access-control-allow-origin' => '*'],
+            JSON_PRETTY_PRINT
+        );
     }
 
-    private function hasGroup( array $params): bool
+    private function hasGroup(array $params): bool
     {
         return array_key_exists('group', $params);
     }
@@ -68,6 +76,8 @@ class GetEventDetails
                 return $type;
             }
         }
+      
+        return null;
     }
 
     /**
@@ -75,15 +85,6 @@ class GetEventDetails
      */
     private function getDefaultPayload(): array
     {
-        return [
-            'group'     => '',
-            'subject'   => '',
-            'description'   => '',
-            'date_time' => '',
-            'location'  => '',
-            'event_url' => '',
-            'iso_date' => '',
-            'next_event' => []
-        ];
+        return GetEventDetailsInterface::DEFAULT_PAYLOAD;
     }
 }
