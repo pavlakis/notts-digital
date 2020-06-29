@@ -98,7 +98,8 @@ final class EventEntity implements EventEntityInterface
         $venue = $this->event['venue'] ?? '';
 
         if ($venue) {
-            $location = $venue['name'];
+            $location = $venue['name'] ?? '';
+
             if (isset($venue['address_1'])) {
                 $location .= ', ' . $venue['address_1'];
             }
