@@ -24,13 +24,13 @@ class CacheTest extends TestCase
      */
     private $cache;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->cache = new Cache(new FilesystemCache(dirname(dirname(dirname(__DIR__))) . '/var/cache/'), 5);
 
     }
     
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         $cache = new Cache(new FilesystemCache(dirname(dirname(dirname(__DIR__))) . '/var/cache/'), 5);
         $cache->flushAll();

@@ -27,7 +27,7 @@ class MeetupRequestTest extends TestCase
      */
     private $log;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->httpClient = $this->createMock(MeetupClient::class);
         $this->cache = $this->createMock(Cache::class);

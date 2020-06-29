@@ -17,7 +17,7 @@ class GroupConfigValidationTest extends TestCase
      */
     private $groupConfig;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $rootDir = dirname(dirname(__DIR__));
         $this->groupConfig = include($rootDir . '/app/configs/groups.php');

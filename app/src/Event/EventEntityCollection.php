@@ -8,18 +8,22 @@
  */
 namespace NottsDigital\Event;
 
-
+/**
+ * @phpstan-template T of EventEntityInterface
+ * @phpstan-implements \ArrayAccess<int, T>
+ * @phpstan-implements \Iterator<int, T>
+ */
 final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
 {
     /**
-     * @var array
+     * @var array<int, EventEntityInterface>
      */
     private $container = [];
 
     /**
      * @param EventEntityInterface $eventEntity
      */
-    public function add(EventEntityInterface $eventEntity)
+    public function add(EventEntityInterface $eventEntity): void
     {
         $this->container[] = $eventEntity;
     }
@@ -35,7 +39,7 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
      * The return value will be casted to boolean if non-boolean was returned.
      * @since 5.0.0
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return array_key_exists($offset, $this->container);
     }
@@ -66,7 +70,7 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
      * @return void
      * @since 5.0.0
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->container[$offset] = $value;
     }
@@ -80,7 +84,7 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
      * @return void
      * @since 5.0.0
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->container[$offset]);
     }
@@ -102,7 +106,7 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function next()
+    public function next(): void
     {
         next($this->container);
     }
@@ -125,12 +129,10 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
      * Returns true on success or false on failure.
      * @since 5.0.0
      */
-    public function valid()
+    public function valid(): bool
     {
         $key = key($this->container);
-        $var = ($key !== NULL && $key !== FALSE);
-
-        return $var;
+        return $key !== NULL && $key !== FALSE;
     }
 
     /**
@@ -139,7 +141,7 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->container);
     }
@@ -153,7 +155,7 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
      * The return value is cast to an integer.
      * @since 5.1.0
      */
-    public function count()
+    public function count(): int
     {
         return count($this->container);
     }

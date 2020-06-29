@@ -18,9 +18,9 @@ class EventEntityCollectionTest extends TestCase
      * @var EventEntityCollection
      */
     private $eventEntityCollection;
-    
 
-    public function setUp()
+
+    protected function setUp(): void
     {
         $this->eventEntityCollection = new EventEntityCollection();
 

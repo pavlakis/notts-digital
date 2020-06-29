@@ -39,7 +39,7 @@ class MeetupAdapter implements AdapterInterface
     protected $groupConfig = [];
 
     /**
-     * @var EventEntityCollection
+     * @var EventEntityCollection<EventEntity|NullEventEntity>
      */
     protected $eventEntityCollection;
 
@@ -51,7 +51,7 @@ class MeetupAdapter implements AdapterInterface
     /**
      * @param array $config
      * @param MeetupRequest $meetupRequest
-     * @param EventEntityCollection $eventEntityCollection
+     * @param EventEntityCollection<EventEntity|NullEventEntity> $eventEntityCollection
      */
     public function __construct(
         array $config,
@@ -69,7 +69,7 @@ class MeetupAdapter implements AdapterInterface
      * @param string $group
      * @return mixed
      */
-    public function fetch($group)
+    public function fetch(string $group)
     {
         if (!isset($this->config[$group])) {
             return [];
@@ -191,7 +191,7 @@ class MeetupAdapter implements AdapterInterface
     }
 
     /**
-     * @return EventEntityCollection
+     * @return EventEntityCollection<EventEntity|NullEventEntity>
      */
     public function getEventEntityCollection(): EventEntityCollection
     {

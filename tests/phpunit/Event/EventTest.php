@@ -58,7 +58,7 @@ class EventTest extends TestCase
 
     protected $event;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->httpClient = $this->getMockBuilder('GuzzleHttp\Client')->setMethods(['get']);
         $this->config = require dirname(__DIR__) . '/Adapter/feeders/config.php';

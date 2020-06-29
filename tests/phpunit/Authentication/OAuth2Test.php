@@ -34,7 +34,7 @@ class OAuth2Test extends TestCase
         $this->request = $this->createMock(ServerRequestInterface::class);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         TokenProviderTest::tearDownAfterClass();
     }

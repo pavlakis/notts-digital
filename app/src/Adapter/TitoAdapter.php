@@ -39,7 +39,7 @@ class TitoAdapter implements AdapterInterface
      */
     protected $group;
 
-    public function __construct(Client $client, $baseUrl, $config)
+    public function __construct(Client $client, string $baseUrl, array $config)
     {
         $this->client = $client;
         $this->baseUrl = $baseUrl;
@@ -48,9 +48,9 @@ class TitoAdapter implements AdapterInterface
 
     /**
      * @param string $group
-     * @return \Symfony\Component\DomCrawler\Crawler
+     * @return void
      */
-    public function fetch($group)
+    public function fetch(string $group)
     {
         $this->group    = $group;
 
@@ -65,7 +65,7 @@ class TitoAdapter implements AdapterInterface
     /**
      * @return string
      */
-    public function getBaseUrl()
+    public function getBaseUrl(): string
     {
         return $this->baseUrl;
     }
@@ -73,7 +73,7 @@ class TitoAdapter implements AdapterInterface
     /**
      * @return \DateTime
      */
-    public function getDate()
+    public function getDate(): \DateTime
     {
         $dateStr = '';
         try {
@@ -95,7 +95,7 @@ class TitoAdapter implements AdapterInterface
     /**
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         $url = '';
         try {
@@ -108,7 +108,7 @@ class TitoAdapter implements AdapterInterface
     /**
      * @return string
      */
-    public function getGroupName()
+    public function getGroupName(): string
     {
         return $this->group;
     }
@@ -116,7 +116,7 @@ class TitoAdapter implements AdapterInterface
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return '';
     }
@@ -124,7 +124,7 @@ class TitoAdapter implements AdapterInterface
     /**
      * @return string
      */
-    public function getLocation()
+    public function getLocation(): string
     {
         return '';
     }
@@ -132,7 +132,7 @@ class TitoAdapter implements AdapterInterface
     /**
      * @return array
      */
-    public function getGroupInfo()
+    public function getGroupInfo(): array
     {
         return [];
     }
@@ -140,24 +140,24 @@ class TitoAdapter implements AdapterInterface
     /**
      * @return string
      */
-    public function getGroupDescription()
+    public function getGroupDescription(): string
     {
-        // TODO: Implement getGroupDescription() method.
+        return '';
     }
 
     /**
      * @return string
      */
-    public function getGroupPhoto()
+    public function getGroupPhoto(): string
     {
-        // TODO: Implement getGroupPhoto() method.
+        return '';
     }
 
     /**
      * @return array
      */
-    public function getEventEntityCollection()
+    public function getEventEntityCollection(): array
     {
-        // TODO: Implement getEventEntityCollection() method.
+        return [];
     }
 }
