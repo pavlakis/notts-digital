@@ -20,7 +20,7 @@ require __DIR__ . '/app/dependencies.php';
 $getEventDetails = $container[GetEventDetails::class];
 $request = $container['http.request'];
 
-$server = new Zend\Diactoros\Server(
+$server = new Laminas\Diactoros\Server(
     static function(){},
     $request,
     $getEventDetails->getEvent($container['http.request'])
