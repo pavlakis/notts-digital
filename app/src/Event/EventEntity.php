@@ -95,10 +95,19 @@ final class EventEntity implements EventEntityInterface
      */
     public function getLocation()
     {
-        $venue = isset($this->event['venue']) ? $this->event['venue'] : '';
+        $venue = $this->event['venue'] ?? '';
 
         if ($venue) {
-            return $venue['name'] . ', ' . $venue['address_1'] . ', ' . $venue['city'];
+            $location = $venue['name'];
+            if (isset($venue['address_1'])) {
+                $location .= ', ' . $venue['address_1'];
+            }
+
+            if (isset($venue['city'])) {
+                $location .= ', ' . $venue['city'];
+            }
+
+            return $location;
         }
 
         return '';
