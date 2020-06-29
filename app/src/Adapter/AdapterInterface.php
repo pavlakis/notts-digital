@@ -15,22 +15,22 @@ interface AdapterInterface
      * @param string $group
      * @return mixed
      */
-    public function fetch($group);
+    public function fetch(string $group);
 
     /**
      * @return string
      */
-    public function getGroupName();
+    public function getGroupName(): string;
 
     /**
      * @return string
      */
-    public function getGroupDescription();
+    public function getGroupDescription(): string;
 
     /**
      * @return string
      */
-    public function getGroupPhoto();
+    public function getGroupPhoto(): string;
 
     /**
      * @return \Iterator|array

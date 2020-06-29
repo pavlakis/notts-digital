@@ -35,25 +35,17 @@ final class EventEntity implements EventEntityInterface
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
-        if (!isset($this->event['name'])) {
-            return '';
-        }
-
-        return $this->event['name'];
+        return $this->event['name'] ?? '';
     }
 
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
-        if (!isset($this->event['description'])) {
-            return '';
-        }
-
-        return $this->event['description'];
+        return $this->event['description'] ?? '';
     }
 
     /**
@@ -77,7 +69,7 @@ final class EventEntity implements EventEntityInterface
     /**
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         if (isset($this->config['link_to'])) {
             return $this->config['link_to'];
@@ -93,7 +85,7 @@ final class EventEntity implements EventEntityInterface
     /**
      * @return string
      */
-    public function getLocation()
+    public function getLocation(): string
     {
         $venue = $this->event['venue'] ?? '';
 
@@ -116,8 +108,9 @@ final class EventEntity implements EventEntityInterface
 
     /**
      * @return array
+     * @throws \Exception
      */
-    public function toArray()
+    public function toArray(): array
     {
         $date = '';
         $isoDate = '';

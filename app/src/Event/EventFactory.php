@@ -30,10 +30,6 @@ class EventFactory
      */
     public function createFromEventType(?string $eventType): EventInterface
     {
-        if (!in_array($eventType, ['ti.to', 'meetups'])) {
-            throw new \InvalidArgumentException(sprintf('Event [%s] does not exist', $eventType));
-        }
-
         if ('meetups' === $eventType) {
             return new Event($this->meetupAdapter);
         }
@@ -41,5 +37,7 @@ class EventFactory
         if ('ti.to' === $eventType) {
             return new Event($this->titoAdapter);
         }
+
+        throw new \InvalidArgumentException(sprintf('Event [%s] does not exist', $eventType));
     }
 }
