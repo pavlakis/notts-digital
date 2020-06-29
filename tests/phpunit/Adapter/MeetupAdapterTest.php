@@ -53,7 +53,7 @@ class MeetupAdapterTest extends TestCase
      */
     protected $meetupAdapter;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->meetupRequestMock = $this->getMockBuilder(MeetupRequest::class);
         $this->config = require __DIR__ . '/feeders/config.php';

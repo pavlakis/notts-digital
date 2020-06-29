@@ -9,7 +9,7 @@ class TokenProviderTest extends TestCase
 {
     public const TOKEN_FIXTURE_FILENAME = __DIR__ . '/fixtures/.token';
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         file_put_contents(self::TOKEN_FIXTURE_FILENAME, '');
     }

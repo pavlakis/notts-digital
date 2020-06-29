@@ -21,7 +21,7 @@ class GetEventDetailsTest extends TestCase
      */
     private $request;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->eventFactory = $this->createMock(EventFactory::class);
         $this->request = $this->createMock(ServerRequestInterface::class);
