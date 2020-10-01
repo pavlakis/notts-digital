@@ -8,7 +8,7 @@ return [
     "baseUrl"=> "https://ti.to"
   ],
   'groups' => [
-      'path' => 'https://raw.githubusercontent.com/pavlakis/api-notts-digital/feature/1-add-pipeline-to-verify-groups-json-structure/groups.json',
+      'path' => 'https://raw.githubusercontent.com/pavlakis/api-notts-digital/master/groups.json',
   ],
   "cache" => [
     "expiry"=> "3600",
