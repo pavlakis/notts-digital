@@ -13,8 +13,8 @@ $container['config'] = function ($c) {
     return include __DIR__.'/configs/config.php';
 };
 
-$container['groups'] = function ($c) {
-    return include __DIR__.'/configs/groups.php';
+$container['groups'] = function ($c){
+    return (new \NottsDigital\Config\ArrayGroupConfig(__DIR__.'/configs'))->fetchConfig();
 };
 
 $container['api.log'] = function ($c) {
