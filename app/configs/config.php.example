@@ -14,6 +14,9 @@ return [
   "ti.to"=> [
     "baseUrl"=> "https://ti.to"
   ],
+  'groups' => [
+      'path' => 'https://raw.githubusercontent.com/pavlakis/api-notts-digital/master/groups.json',
+  ],
   "cache" => [
     "expiry"=> "3600",
     "path"=> "../var/cache/"

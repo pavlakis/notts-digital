@@ -97,11 +97,20 @@ final class EventEntity implements EventEntityInterface
     {
         $venue = isset($this->event['venue']) ? $this->event['venue'] : '';
 
+        $address = '';
         if ($venue) {
-            return $venue['name'] . ', ' . $venue['address_1'] . ', ' . $venue['city'];
+            $venueDetails = ['name', 'address_1', 'city'];
+            foreach ($venueDetails as $details) {
+                if (isset($venue[$details])) {
+                    if ('' !== \trim($address)) {
+                        $address .= ', ';
+                    }
+                    $address .= $venue[$details];
+                }
+            }
         }
 
-        return '';
+        return $address;
     }
 
     /**

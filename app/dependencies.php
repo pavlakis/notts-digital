@@ -14,7 +14,12 @@ $container['config'] = function($c){
 };
 
 $container['groups'] = function($c){
-    return include __DIR__.'/configs/groups.php';
+    return (new \NottsDigital\Config\ApiGroupConfig(
+        $c['config']['groups']['path'],
+        $c['http.client'],
+        $c['api.log'],
+        $c['file.cache']
+    ))->fetchConfig();
 };
 
 $container['token.filename'] = function($c){
@@ -73,7 +78,7 @@ $container['http.crawler'] = function($c) {
 };
 
 $container['http.request'] = function($c){
-    return Zend\Diactoros\ServerRequestFactory::fromGlobals();
+    return Laminas\Diactoros\ServerRequestFactory::fromGlobals();
 };
 
 $container['file.cache'] = function($c) {
