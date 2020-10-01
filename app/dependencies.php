@@ -73,7 +73,7 @@ $container['http.crawler'] = function($c) {
 };
 
 $container['http.request'] = function($c){
-    return Zend\Diactoros\ServerRequestFactory::fromGlobals();
+    return Laminas\Diactoros\ServerRequestFactory::fromGlobals();
 };
 
 $container['file.cache'] = function($c) {
