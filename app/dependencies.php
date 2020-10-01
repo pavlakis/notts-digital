@@ -15,8 +15,10 @@ $container['config'] = function($c){
 
 $container['groups'] = function($c){
     return (new \NottsDigital\Config\ApiGroupConfig(
+        $c['config']['groups']['path'],
         $c['http.client'],
-        $c['config']['groups']['path']
+        $c['api.log'],
+        $c['file.cache']
     ))->fetchConfig();
 };
 
