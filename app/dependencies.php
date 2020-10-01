@@ -14,7 +14,10 @@ $container['config'] = function($c){
 };
 
 $container['groups'] = function($c){
-    return (new \NottsDigital\Config\ArrayGroupConfig(__DIR__.'/configs'))->fetchConfig();
+    return (new \NottsDigital\Config\ApiGroupConfig(
+        $c['http.client'],
+        $c['config']['groups']['path']
+    ))->fetchConfig();
 };
 
 $container['token.filename'] = function($c){
