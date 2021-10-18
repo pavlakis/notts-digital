@@ -9,6 +9,10 @@
 namespace NottsDigital\Adapter;
 
 use Goutte\Client;
+use NottsDigital\Event\EventEntity;
+use NottsDigital\Event\EventEntityCollection;
+use NottsDigital\Event\MeetupCrawlerEventEntity;
+use NottsDigital\Event\NullEventEntity;
 use Symfony\Component\DomCrawler\Crawler;
 
 class MeetupCrawlerAdapter implements AdapterInterface
@@ -20,15 +24,26 @@ class MeetupCrawlerAdapter implements AdapterInterface
     private string $group;
 
     private ?Crawler $pageCrawler =  null;
+    private string $meetupGroupUrl = '';
     private string $upcomingEventUrl = '';
 
     private ?Crawler $meetupMainPage = null;
 
-    public function __construct(Client $client, string $baseUrl, array $config)
-    {
+    /**
+     * @var EventEntityCollection<EventEntity|NullEventEntity>
+     */
+    private $eventEntityCollection;
+
+    public function __construct(
+        Client $client,
+        string $baseUrl,
+        array $config,
+        EventEntityCollection $eventEntityCollection
+    ) {
         $this->client = $client;
         $this->baseUrl = $baseUrl;
         $this->config = $config;
+        $this->eventEntityCollection = $eventEntityCollection;
     }
 
     /**
@@ -40,8 +55,9 @@ class MeetupCrawlerAdapter implements AdapterInterface
         $this->group = $group;
 
         try {
-            $this->meetupMainPage = $this->client->request('GET', $this->baseUrl . '/' . $this->config[$group]['group_urlname']);
-            $crawler = $this->client->request('GET', $this->baseUrl . '/' . $this->config[$group]['group_urlname'] . '/events/' );
+            $this->meetupGroupUrl = $this->baseUrl . '/' . $this->config[$group]['group_urlname'];
+            $this->meetupMainPage = $this->client->request('GET', $this->meetupGroupUrl);
+            $crawler = $this->client->request('GET', $this->meetupGroupUrl . '/events/' );
 
             $crawler = $crawler->filter('.eventList-list a');
             if (null === $crawler) {
@@ -49,6 +65,14 @@ class MeetupCrawlerAdapter implements AdapterInterface
             }
             $this->upcomingEventUrl = $crawler->link()->getUri();
             $this->pageCrawler = $this->client->click($crawler->link());
+
+            if ($this->pageCrawler instanceof Crawler) {
+                // add page to collection
+                // todo - move page info to the entity class
+                $this->eventEntityCollection->add(
+                    new MeetupCrawlerEventEntity($this->pageCrawler, $this->upcomingEventUrl)
+                );
+            }
         } catch (\InvalidArgumentException $e) {
 
         }
@@ -57,71 +81,9 @@ class MeetupCrawlerAdapter implements AdapterInterface
     /**
      * @return string
      */
-    public function getBaseUrl(): string
-    {
-        return $this->baseUrl;
-    }
-
-    /**
-     * // Tuesday, October 19, 2021
-     *
-     * // .eventTimeDisplay.eventDateTime--hover
-     * // .eventTimeDisplay-startDate (Tuesday, October 19, 2021)
-     * // .eventTimeDisplay-startDate-time (8:00 PM)
-     *
-     * @return \DateTime
-     */
-    public function getDate(): \DateTime
-    {
-        try {
-            $dateStr =  $this->pageCrawler->filter('span.eventTimeDisplay-startDate')->text();
-            $timeStr =  $this->pageCrawler->filter('span.eventTimeDisplay-startDate-time')->text();
-        } catch (\Exception $e) {
-            throw new \InvalidArgumentException('Could not retrieve date.');
-        }
-
-        $date = \DateTime::createFromFormat(
-            'l, F j, Y g:i A',
-            $dateStr. ' ' . $timeStr
-        );
-
-        if (!$date instanceof \DateTime) {
-            throw new \InvalidArgumentException('Date does not exist or format unknown.');
-        }
-
-        return $date;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUrl(): string
-    {
-        return $this->upcomingEventUrl;
-    }
-
-    /**
-     * @return string
-     */
     public function getGroupName(): string
     {
-        return $this->group;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle(): string
-    {
-        return $this->pageCrawler->filter('.pageHead-headline.text--pageTitle');
-    }
-
-    /**
-     * @return string
-     */
-    public function getLocation(): string
-    {
-        return '';
+        return $this->meetupMainPage->filter('a.groupHomeHeader-groupNameLink')->text();
     }
 
     /**
@@ -155,10 +117,13 @@ class MeetupCrawlerAdapter implements AdapterInterface
     }
 
     /**
-     * @return array
+     * @return \Iterator|array
      */
-    public function getEventEntityCollection(): array
+    public function getEventEntityCollection()
     {
-        return [];
+        if (!$this->pageCrawler instanceof Crawler) {
+            return [];
+        }
+        return $this->eventEntityCollection;
     }
 }
