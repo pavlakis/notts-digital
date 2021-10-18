@@ -3,7 +3,7 @@
  * Nottingham Digital events
  *
  * @link      https://github.com/pavlakis/notts-digital
- * @copyright Copyright (c) 2017 Antonios Pavlakis
+ * @copyright Copyright (c) 2021 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
 namespace NottsDigital\Adapter;
@@ -22,6 +22,8 @@ class MeetupCrawlerAdapter implements AdapterInterface
     private ?Crawler $pageCrawler =  null;
     private string $upcomingEventUrl = '';
 
+    private ?Crawler $meetupMainPage = null;
+
     public function __construct(Client $client, string $baseUrl, array $config)
     {
         $this->client = $client;
@@ -38,7 +40,8 @@ class MeetupCrawlerAdapter implements AdapterInterface
         $this->group = $group;
 
         try {
-            $crawler = $this->client->request('GET', $this->baseUrl . '/' . $this->config[$group]['url'] . '/events/' );
+            $this->meetupMainPage = $this->client->request('GET', $this->baseUrl . '/' . $this->config[$group]['group_urlname']);
+            $crawler = $this->client->request('GET', $this->baseUrl . '/' . $this->config[$group]['group_urlname'] . '/events/' );
 
             $crawler = $crawler->filter('.eventList-list a');
             if (null === $crawler) {
@@ -134,7 +137,13 @@ class MeetupCrawlerAdapter implements AdapterInterface
      */
     public function getGroupDescription(): string
     {
-        return '';
+        if (!$this->meetupMainPage instanceof Crawler) {
+            return '';
+        }
+
+        $pageDescription = $this->meetupMainPage->filter('div.group-description--wrapper');
+
+        return $pageDescription->filter('p.group-description')->getNode(1)->textContent;
     }
 
     /**
