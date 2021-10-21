@@ -109,6 +109,14 @@ $container['event.meetups'] = function($c) {
     );
 };
 
+$container['adapter.crawler.meetups'] = function($c){
+    return new \NottsDigital\Adapter\MeetupCrawlerAdapter(
+        $c['http.crawler'],
+        $c['config']['meetups']['baseUrl'],
+        $c['groups']['meetups']
+    );
+};
+
 $container['adapter.tito'] = function($c){
     return new \NottsDigital\Adapter\TitoAdapter(
         $c['http.crawler'],
@@ -126,7 +134,7 @@ $container['event.ti.to'] = function($c) {
 
 $container['event.factory'] = function($c) {
     return new NottsDigital\Event\EventFactory(
-        $c['adapter.meetups'],
+        $c['adapter.crawler.meetups'],
         $c['adapter.tito']
     );
 };
