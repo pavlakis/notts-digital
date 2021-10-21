@@ -113,7 +113,8 @@ $container['adapter.crawler.meetups'] = function($c){
     return new \NottsDigital\Adapter\MeetupCrawlerAdapter(
         $c['http.crawler'],
         $c['config']['meetups']['baseUrl'],
-        $c['groups']['meetups']
+        $c['groups']['meetups'],
+        new \NottsDigital\Event\EventEntityCollection()
     );
 };
 
