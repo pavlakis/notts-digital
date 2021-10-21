@@ -34,6 +34,12 @@ class MeetupCrawlerAdapter implements AdapterInterface
      */
     private $eventEntityCollection;
 
+    /**
+     * @param Client $client
+     * @param string $baseUrl
+     * @param array $config
+     * @param EventEntityCollection<EventEntity|NullEventEntity> $eventEntityCollection
+     */
     public function __construct(
         Client $client,
         string $baseUrl,
@@ -60,7 +66,7 @@ class MeetupCrawlerAdapter implements AdapterInterface
             $crawler = $this->client->request('GET', $this->meetupGroupUrl . '/events/' );
 
             $crawler = $crawler->filter('.eventList-list a');
-            if (null === $crawler) {
+            if (!$crawler instanceof Crawler) {
                 return;
             }
             $this->upcomingEventUrl = $crawler->link()->getUri();
