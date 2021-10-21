@@ -17,25 +17,6 @@ $container['groups'] = function($c){
     return include __DIR__.'/configs/groups.php';
 };
 
-$container['token.filename'] = function($c){
-    return dirname(__DIR__) . '/.token';
-};
-
-$container['token.provider'] = function($c){
-    return new \NottsDigital\Authentication\TokenProvider($c['token.filename']);
-};
-
-$container['meetup.authentication'] = function($c){
-    return new \NottsDigital\Authentication\OAuth2($c['oauth2.provider'], $c['token.provider'], $c['http.request']);
-};
-
-$container['meetup.client'] = function($c){
-    return new \NottsDigital\Http\Client\MeetupClient(
-        $c['meetup.httpclient'],
-        $c['meetup.authentication']
-    );
-};
-
 $container['api.log'] = function ($c) {
     $log = new \Monolog\Logger('api.log');
     $log->pushHandler(
@@ -45,23 +26,6 @@ $container['api.log'] = function ($c) {
     );
 
     return $log;
-};
-
-$container['oauth2.provider'] = function ($c) {
-    $provider = new \WitteStier\OAuth2\Client\Provider\Meetup([
-        'clientId' => $c['config']['meetups']['consumer_key'],
-        'clientSecret' => $c['config']['meetups']['consumer_secret'],
-        'redirectUri' => $c['config']['meetups']['redirect_uri'],
-    ]);
-
-    return $provider;
-};
-
-$container['meetup.httpclient'] = function ($c) {
-
-    return \DMS\Service\Meetup\MeetupOAuth2Client::factory([
-        'access_token' => $c['token.provider']->getToken()
-    ]);
 };
 
 $container['http.client'] = function($c) {
@@ -82,16 +46,6 @@ $container['file.cache'] = function($c) {
         new \Doctrine\Common\Cache\FilesystemCache((string) realpath($cacheConfig['path'])),
         (int) $cacheConfig['expiry']
     );
-};
-
-$container['meetup.request'] = function($c) {
-
-    return new \NottsDigital\Http\Request\MeetupRequest(
-        $c['meetup.client'],
-        $c['file.cache'],
-        $c['api.log']
-    );
-
 };
 
 $container['adapter.meetups'] = function($c){

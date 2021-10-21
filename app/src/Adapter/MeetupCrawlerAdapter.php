@@ -67,8 +67,6 @@ class MeetupCrawlerAdapter implements AdapterInterface
             $this->pageCrawler = $this->client->click($crawler->link());
 
             if ($this->pageCrawler instanceof Crawler) {
-                // add page to collection
-                // todo - move page info to the entity class
                 $this->eventEntityCollection->add(
                     new MeetupCrawlerEventEntity($this->pageCrawler, $this->upcomingEventUrl)
                 );
