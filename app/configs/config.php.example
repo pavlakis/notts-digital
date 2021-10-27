@@ -2,14 +2,7 @@
 
 return [
   "meetups"=> [
-    'consumer_key'    => 'THE-CONSUMER-KEY',
-    'consumer_secret' => 'THE-CONSUMER-SECRET',
-    'redirect_uri' => 'https://URL/index.php?group=PHPMinds',
-    "baseUrl"=> "https://api.meetup.com",
-    "uris"=> [
-      "events"=> "/2/events/?group_urlname=%s&key=%s",
-      "groups"=> "/2/groups/?group_urlname=%s&key=%s"
-    ]
+    "baseUrl"=> "https://www.meetup.com",
   ],
   "ti.to"=> [
     "baseUrl"=> "https://ti.to"

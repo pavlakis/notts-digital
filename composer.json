@@ -21,18 +21,17 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "NottsDigital\\tests\\" : "tests/phpunit"
+            "NottsDigital\\Tests\\" : "tests/phpunit"
         }
     },
     "require": {
+        "php": "^7.4||^8.0",
         "guzzlehttp/guzzle": "^6.0",
-        "fabpot/goutte": "^3.1",
+        "fabpot/goutte": "~3.1",
         "pimple/pimple": "^3.0",
         "doctrine/cache": "^1.6",
-        "dms/meetup-api-client": "^2.4",
         "monolog/monolog": "^1.22",
         "ext-json": "*",
-        "wittestier/oauth2-meetup": "^1.0",
         "laminas/laminas-diactoros": "^1"
     },
     "require-dev": {
