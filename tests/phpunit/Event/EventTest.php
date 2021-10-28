@@ -8,110 +8,95 @@
  */
 namespace NottsDigital\Tests\Event;
 
-use NottsDigital\Event\EventEntityCollection;
-use NottsDigital\Http\Request\MeetupRequest;
-use NottsDigital\Adapter\MeetupAdapter;
+use Goutte\Client;
 use PHPUnit\Framework\TestCase;
-use NottsDigital\Event\Event;
+use NottsDigital\Adapter\MeetupCrawlerAdapter;
+use NottsDigital\Event\EventEntityCollection;
+use NottsDigital\Event\EventEntityInterface;
+use Symfony\Component\DomCrawler\Crawler;
 
 class EventTest extends TestCase
 {
     /**
-     * @var MeetupRequest
-     */
-    protected $meetupRequestMock;
-
-    /**
-     * @var string
-     */
-    protected $apiKey = 'abc123';
-
-    /**
-     * @var string
-     */
-    protected $baseUrl;
-
-    /**
-     * @var
-     */
-    protected $config;
-
-    /**
-     * @var string json
-     */
-    private $singleEventResponse;
-
-    /**
-     * @var string json
-     */
-    private $multipleEventResponse;
-
-    /**
-     * @var string json
-     */
-    private $groupReponse;
-
-    /**
-     * @var \NottsDigital\Adapter\MeetupAdapter
+     * @var MeetupCrawlerAdapter
      */
     protected $meetupAdapter;
 
-    protected $event;
+    /**
+     * @var Crawler
+     */
+    private $mainPageCrawler;
+
+    /**
+     * @var Crawler
+     */
+    private $eventsListingPageCrawler;
+
+    /**
+     * @var Crawler
+     */
+    private $upcomingEventPageCrawler;
+
+    private $client;
 
     protected function setUp(): void
     {
-        $this->httpClient = $this->getMockBuilder('GuzzleHttp\Client')->setMethods(['get']);
-        $this->config = require dirname(__DIR__) . '/Adapter/feeders/config.php';
-        $this->baseUrl = $this->config['meetups']['baseUrl'];
+        $this->mainPageCrawler = new Crawler(null, null, 'https://www.meetup.com/Notts-Techfast/');
+        $this->mainPageCrawler->addHtmlContent(file_get_contents(dirname(__DIR__) . '/Adapter/feeders/NottsTechFast-main-page.meetup.html'));
 
-        $this->singleEventResponse = file_get_contents(dirname(__DIR__) . '/Adapter/feeders/oneEventResponse.json');
-        $this->multipleEventResponse = file_get_contents(dirname(__DIR__) . '/Adapter/feeders/multipleEventResponse.json');
-        $this->groupReponse = file_get_contents(dirname(__DIR__) . '/Adapter/feeders/groupsBCSResponse.json');
+        $this->eventsListingPageCrawler = new Crawler(null, null, 'https://www.meetup.com/Notts-Techfast/events/');
+        $this->eventsListingPageCrawler->addHtmlContent(file_get_contents(dirname(__DIR__) . '/Adapter/feeders/NottsTechFast-events.meetup.html'));
 
-        $this->meetupRequestMock = $this->getMockBuilder(MeetupRequest::class)->setMethods([
-            'fetchEventInfo',
-            'fetchGroupInfo'
-        ]);
+        $this->upcomingEventPageCrawler = new Crawler(null, null, 'https://www.meetup.com/Notts-Techfast/events/281441655/');
+        $this->upcomingEventPageCrawler->addHtmlContent(file_get_contents(dirname(__DIR__) . '/Adapter/feeders/NottsTechFast-upcoming-event.meetup.html'));
 
-        $this->meetupAdapter = new MeetupAdapter(
-            $this->config['meetups'],
-            $this->meetupRequestMock->disableOriginalConstructor()->getMock(),
+        $this->client = $this->createMock(Client::class);
+
+        $this->meetupAdapter = new MeetupCrawlerAdapter(
+            $this->client,
+            'https://www.meetup.com',
+            [
+                "Notts Techfast" => [
+                    "group_urlname" => "Notts-Techfast"
+                ],
+            ],
             new EventEntityCollection()
         );
-
     }
 
     public function testEventCanHandleMultipleEvents()
     {
-        $meetupRequestMock = $this->meetupRequestMock->disableOriginalConstructor()->getMock();
-        $meetupRequestMock->method('fetchEventInfo')
-            ->willReturnCallback(function(){
-                return \json_decode($this->multipleEventResponse, true);
-            });
+        $this->client->expects($this->exactly(2))
+            ->method('request')
+            ->willReturnOnConsecutiveCalls(
+                $this->mainPageCrawler,
+                $this->eventsListingPageCrawler
+            );
 
-        $meetupRequestMock->method('fetchGroupInfo')
-            ->willReturnCallback(function(){
-                $results = \json_decode($this->groupReponse, true);
-                return $results['results'][0];
-            });
+        $this->client->method('click')
+            ->willReturn($this->upcomingEventPageCrawler);
 
-        $meetupAdapter = new MeetupAdapter(
-            $this->config['meetups'],
-            $meetupRequestMock,
+        $meetupAdapter = new MeetupCrawlerAdapter(
+            $this->client,
+            'https://www.meetup.com',
+            [
+                "Notts Techfast" => [
+                    "group_urlname" => "Notts-Techfast"
+                ],
+            ],
             new EventEntityCollection()
         );
 
+        $meetupAdapter->fetch('Notts Techfast');
 
-        $event = new Event($meetupAdapter);
-        $event->getByGroup('BCS-Leicester');
+        /** @var EventEntityInterface $meetupCrawlerEventEntity */
+        $meetupCrawlerEventEntity = $meetupAdapter->getEventEntityCollection()[0];
 
-        $responseArray = $event->toArray();
-        
-        static::assertNotEmpty($responseArray['next_event']);
-        static::assertArrayHasKey('description', $responseArray);
-        static::assertEquals('Industrial Control Cyber Security', $responseArray['subject']);
-        static::assertEquals('Current Postgraudate Research', $responseArray['next_event']['subject']);
-        static::assertEquals('BCS Leicester', $responseArray['group']);
-        static::assertEquals('http://photos1.meetupstatic.com/photos/event/6/b/6/3/highres_431727491.jpeg', $responseArray['group_photo']);
+
+        $this->assertSame('Design for Developers', $meetupCrawlerEventEntity->getTitle());
+        $this->assertSame('Online event', $meetupCrawlerEventEntity->getLocation());
+
+        $eventInfo = $meetupCrawlerEventEntity->toArray();
+        $this->assertSame('Thursday 4th November 2021 at 8:00am', $eventInfo['date_time']);
     }
 }

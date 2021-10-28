@@ -38,13 +38,17 @@ final class MeetupCrawlerEventEntity implements EventEntityInterface
      * // .eventTimeDisplay-startDate (Tuesday, October 19, 2021)
      * // .eventTimeDisplay-startDate-time (8:00 PM)
      *
+     * $this->meetupPageCrawler->filter('span.eventTimeDisplay-startDate')->html();
+     * <span>Thursday, October 28, 2021</span><br><span class="eventTimeDisplay-startDate-time"><span>7:00 PM</span></span>
+     *
      * @return \DateTime
      */
     public function getDate(): \DateTime
     {
         try {
-            $dateStr =  $this->meetupPageCrawler->filter('span.eventTimeDisplay-startDate')->text();
             $timeStr =  $this->meetupPageCrawler->filter('span.eventTimeDisplay-startDate-time')->text();
+            $dateStrMixed =  $this->meetupPageCrawler->filter('span.eventTimeDisplay-startDate')->text();
+            $dateStr = str_ireplace($timeStr, '', $dateStrMixed);
         } catch (\Exception $e) {
             throw new \InvalidArgumentException('Could not retrieve date.');
         }
