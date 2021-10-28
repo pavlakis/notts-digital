@@ -6,8 +6,6 @@ jobs:
     steps:
       - name: checkout project
         uses: actions/checkout@v2
-      - name: Roave Security advisories
-        run: composer require --dev roave/security-advisories:dev-latest
       - name: The PHP Security Checker
         uses: symfonycorp/security-checker-action@v2
   tests:
