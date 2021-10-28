@@ -2,14 +2,14 @@
 
 namespace NottsDigital\Event;
 
-use NottsDigital\Adapter\AdapterInterface;
-use NottsDigital\Adapter\MeetupAdapter;
 use NottsDigital\Adapter\TitoAdapter;
+use NottsDigital\Adapter\AdapterInterface;
+use NottsDigital\Adapter\MeetupCrawlerAdapter;
 
 class EventFactory
 {
     /**
-     * @var MeetupAdapter|AdapterInterface
+     * @var MeetupCrawlerAdapter|AdapterInterface
      */
     private $meetupAdapter;
 
