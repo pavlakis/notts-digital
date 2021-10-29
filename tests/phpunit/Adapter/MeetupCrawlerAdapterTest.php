@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace NottsDigital\Tests\Adapter;
 
 use Goutte\Client;
-use NottsDigital\Event\EventEntityCollection;
-use NottsDigital\Event\MeetupCrawlerEventEntity;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\DomCrawler\Crawler;
-use NottsDigital\Adapter\MeetupCrawlerAdapter;
 use Symfony\Component\DomCrawler\Link;
+use Symfony\Component\DomCrawler\Crawler;
+use NottsDigital\Event\EventEntityCollection;
+use NottsDigital\Adapter\MeetupCrawlerAdapter;
+use NottsDigital\Event\MeetupCrawlerEventEntity;
 
 final class MeetupCrawlerAdapterTest extends TestCase
 {
@@ -34,8 +34,8 @@ final class MeetupCrawlerAdapterTest extends TestCase
             $client,
             'https://www.meetup.com',
             [
-                "PHPMinds" => [
-                    "group_urlname" => "PHPMiNDS-in-Nottingham"
+                'PHPMinds' => [
+                    'group_urlname' => 'PHPMiNDS-in-Nottingham',
                 ],
             ],
             new EventEntityCollection()

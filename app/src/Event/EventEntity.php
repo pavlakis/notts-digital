@@ -1,13 +1,14 @@
 <?php
 /**
- * Nottingham Digital events
+ * Nottingham Digital events.
  *
- * @link      https://github.com/pavlakis/notts-digital
+ * @see      https://github.com/pavlakis/notts-digital
+ *
  * @copyright Copyright (c) 2017 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
-namespace NottsDigital\Event;
 
+namespace NottsDigital\Event;
 
 final class EventEntity implements EventEntityInterface
 {
@@ -23,6 +24,7 @@ final class EventEntity implements EventEntityInterface
 
     /**
      * EventEntity constructor.
+     *
      * @param array $eventData
      * @param array $config
      */
@@ -50,6 +52,7 @@ final class EventEntity implements EventEntityInterface
 
     /**
      * @return string|\DateTime
+     *
      * @throws \Exception
      */
     public function getDate()
@@ -93,11 +96,11 @@ final class EventEntity implements EventEntityInterface
             $location = $venue['name'] ?? '';
 
             if (isset($venue['address_1'])) {
-                $location .= ', ' . $venue['address_1'];
+                $location .= ', '.$venue['address_1'];
             }
 
             if (isset($venue['city'])) {
-                $location .= ', ' . $venue['city'];
+                $location .= ', '.$venue['city'];
             }
 
             return $location;
@@ -108,6 +111,7 @@ final class EventEntity implements EventEntityInterface
 
     /**
      * @return array
+     *
      * @throws \Exception
      */
     public function toArray(): array
@@ -116,7 +120,7 @@ final class EventEntity implements EventEntityInterface
         $isoDate = '';
 
         if ($this->getDate() instanceof \DateTime) {
-            $date = $this->getDate()->format('l jS F Y') . ' at ' . $this->getDate()->format('g:ia');
+            $date = $this->getDate()->format('l jS F Y').' at '.$this->getDate()->format('g:ia');
             $isoDate = $this->getDate()->format('c');
         }
 
@@ -126,7 +130,7 @@ final class EventEntity implements EventEntityInterface
             'date_time' => $date,
             'location' => $this->getLocation(),
             'event_url' => $this->getUrl(),
-            'iso_date' => $isoDate
+            'iso_date' => $isoDate,
         ];
     }
 }

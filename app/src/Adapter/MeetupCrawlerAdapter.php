@@ -1,19 +1,21 @@
 <?php
 /**
- * Nottingham Digital events
+ * Nottingham Digital events.
  *
- * @link      https://github.com/pavlakis/notts-digital
+ * @see      https://github.com/pavlakis/notts-digital
+ *
  * @copyright Copyright (c) 2021 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
+
 namespace NottsDigital\Adapter;
 
 use Goutte\Client;
 use NottsDigital\Event\EventEntity;
-use NottsDigital\Event\EventEntityCollection;
-use NottsDigital\Event\MeetupCrawlerEventEntity;
 use NottsDigital\Event\NullEventEntity;
 use Symfony\Component\DomCrawler\Crawler;
+use NottsDigital\Event\EventEntityCollection;
+use NottsDigital\Event\MeetupCrawlerEventEntity;
 
 class MeetupCrawlerAdapter implements AdapterInterface
 {
@@ -23,7 +25,7 @@ class MeetupCrawlerAdapter implements AdapterInterface
 
     private string $group;
 
-    private ?Crawler $pageCrawler =  null;
+    private ?Crawler $pageCrawler = null;
     private string $meetupGroupUrl = '';
     private string $upcomingEventUrl = '';
 
@@ -35,9 +37,9 @@ class MeetupCrawlerAdapter implements AdapterInterface
     private $eventEntityCollection;
 
     /**
-     * @param Client $client
-     * @param string $baseUrl
-     * @param array $config
+     * @param Client                                             $client
+     * @param string                                             $baseUrl
+     * @param array                                              $config
      * @param EventEntityCollection<EventEntity|NullEventEntity> $eventEntityCollection
      */
     public function __construct(
@@ -54,6 +56,7 @@ class MeetupCrawlerAdapter implements AdapterInterface
 
     /**
      * @param string $group
+     *
      * @return void
      */
     public function fetch(string $group)
@@ -61,9 +64,9 @@ class MeetupCrawlerAdapter implements AdapterInterface
         $this->group = $group;
 
         try {
-            $this->meetupGroupUrl = $this->baseUrl . '/' . $this->config[$group]['group_urlname'];
+            $this->meetupGroupUrl = $this->baseUrl.'/'.$this->config[$group]['group_urlname'];
             $this->meetupMainPage = $this->client->request('GET', $this->meetupGroupUrl);
-            $crawler = $this->client->request('GET', $this->meetupGroupUrl . '/events/' );
+            $crawler = $this->client->request('GET', $this->meetupGroupUrl.'/events/');
 
             $crawler = $crawler->filter('.eventList-list a');
             if (!$crawler instanceof Crawler) {
@@ -78,7 +81,6 @@ class MeetupCrawlerAdapter implements AdapterInterface
                 );
             }
         } catch (\InvalidArgumentException $e) {
-
         }
     }
 
@@ -128,6 +130,7 @@ class MeetupCrawlerAdapter implements AdapterInterface
         if (!$this->pageCrawler instanceof Crawler) {
             return [];
         }
+
         return $this->eventEntityCollection;
     }
 }

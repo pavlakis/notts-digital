@@ -1,11 +1,13 @@
 <?php
 /**
- * Nottingham Digital events
+ * Nottingham Digital events.
  *
- * @link      https://github.com/pavlakis/notts-digital
+ * @see      https://github.com/pavlakis/notts-digital
+ *
  * @copyright Copyright (c) 2017 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
+
 namespace NottsDigital\Event;
 
 /**
@@ -27,16 +29,21 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
     {
         $this->container[] = $eventEntity;
     }
+
     /**
-     * Whether a offset exists
-     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+     * Whether a offset exists.
+     *
+     * @see http://php.net/manual/en/arrayaccess.offsetexists.php
+     *
      * @param mixed $offset <p>
-     * An offset to check for.
-     * </p>
-     * @return boolean true on success or false on failure.
-     * </p>
-     * <p>
-     * The return value will be casted to boolean if non-boolean was returned.
+     *                      An offset to check for.
+     *                      </p>
+     *
+     * @return bool true on success or false on failure.
+     *              </p>
+     *              <p>
+     *              The return value will be casted to boolean if non-boolean was returned.
+     *
      * @since 5.0.0
      */
     public function offsetExists($offset): bool
@@ -45,12 +52,16 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
-     * Offset to retrieve
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
+     * Offset to retrieve.
+     *
+     * @see http://php.net/manual/en/arrayaccess.offsetget.php
+     *
      * @param mixed $offset <p>
-     * The offset to retrieve.
-     * </p>
-     * @return mixed Can return all value types.
+     *                      The offset to retrieve.
+     *                      </p>
+     *
+     * @return mixed can return all value types
+     *
      * @since 5.0.0
      */
     public function offsetGet($offset)
@@ -59,15 +70,19 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
-     * Offset to set
-     * @link http://php.net/manual/en/arrayaccess.offsetset.php
+     * Offset to set.
+     *
+     * @see http://php.net/manual/en/arrayaccess.offsetset.php
+     *
      * @param mixed $offset <p>
-     * The offset to assign the value to.
-     * </p>
-     * @param mixed $value <p>
-     * The value to set.
-     * </p>
+     *                      The offset to assign the value to.
+     *                      </p>
+     * @param mixed $value  <p>
+     *                      The value to set.
+     *                      </p>
+     *
      * @return void
+     *
      * @since 5.0.0
      */
     public function offsetSet($offset, $value): void
@@ -76,12 +91,16 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
-     * Offset to unset
-     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
+     * Offset to unset.
+     *
+     * @see http://php.net/manual/en/arrayaccess.offsetunset.php
+     *
      * @param mixed $offset <p>
-     * The offset to unset.
-     * </p>
+     *                      The offset to unset.
+     *                      </p>
+     *
      * @return void
+     *
      * @since 5.0.0
      */
     public function offsetUnset($offset): void
@@ -90,9 +109,12 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
-     * Return the current element
-     * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed Can return any type.
+     * Return the current element.
+     *
+     * @see http://php.net/manual/en/iterator.current.php
+     *
+     * @return mixed can return any type
+     *
      * @since 5.0.0
      */
     public function current()
@@ -101,9 +123,12 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
-     * Move forward to next element
-     * @link http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
+     * Move forward to next element.
+     *
+     * @see http://php.net/manual/en/iterator.next.php
+     *
+     * @return void any returned value is ignored
+     *
      * @since 5.0.0
      */
     public function next(): void
@@ -112,9 +137,12 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
-     * Return the key of the current element
-     * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed scalar on success, or null on failure.
+     * Return the key of the current element.
+     *
+     * @see http://php.net/manual/en/iterator.key.php
+     *
+     * @return mixed scalar on success, or null on failure
+     *
      * @since 5.0.0
      */
     public function key()
@@ -123,22 +151,29 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
-     * Checks if current position is valid
-     * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean The return value will be casted to boolean and then evaluated.
-     * Returns true on success or false on failure.
+     * Checks if current position is valid.
+     *
+     * @see http://php.net/manual/en/iterator.valid.php
+     *
+     * @return bool The return value will be casted to boolean and then evaluated.
+     *              Returns true on success or false on failure.
+     *
      * @since 5.0.0
      */
     public function valid(): bool
     {
         $key = key($this->container);
-        return $key !== NULL && $key !== FALSE;
+
+        return null !== $key && false !== $key;
     }
 
     /**
-     * Rewind the Iterator to the first element
-     * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
+     * Rewind the Iterator to the first element.
+     *
+     * @see http://php.net/manual/en/iterator.rewind.php
+     *
+     * @return void any returned value is ignored
+     *
      * @since 5.0.0
      */
     public function rewind(): void
@@ -147,12 +182,15 @@ final class EventEntityCollection implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
-     * Count elements of an object
-     * @link  https://php.net/manual/en/countable.count.php
+     * Count elements of an object.
+     *
+     * @see  https://php.net/manual/en/countable.count.php
+     *
      * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
+     *             </p>
+     *             <p>
+     *             The return value is cast to an integer.
+     *
      * @since 5.1.0
      */
     public function count(): int

@@ -2,8 +2,8 @@
 
 namespace NottsDigital\Event;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class GetEventDetails implements GetEventDetailsInterface
 {
@@ -48,6 +48,7 @@ final class GetEventDetails implements GetEventDetailsInterface
 
     /**
      * @param array $payload
+     *
      * @return JsonResponse
      */
     private function getResponse(array $payload): JsonResponse
@@ -67,6 +68,7 @@ final class GetEventDetails implements GetEventDetailsInterface
 
     /**
      * @param string $group
+     *
      * @return string|null
      */
     private function getEventType(string $group): ?string
@@ -76,7 +78,7 @@ final class GetEventDetails implements GetEventDetailsInterface
                 return $type;
             }
         }
-      
+
         return null;
     }
 

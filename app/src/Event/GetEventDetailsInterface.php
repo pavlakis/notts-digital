@@ -2,17 +2,17 @@
 
 namespace NottsDigital\Event;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface GetEventDetailsInterface
 {
     public const DEFAULT_PAYLOAD = [
-        'group'     => '',
-        'subject'   => '',
-        'description'   => '',
+        'group' => '',
+        'subject' => '',
+        'description' => '',
         'date_time' => '',
-        'location'  => '',
+        'location' => '',
         'event_url' => '',
         'iso_date' => '',
         'next_event' => [],
