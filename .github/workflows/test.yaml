@@ -19,3 +19,5 @@ jobs:
         run:  composer test-docs
       - name: run static analysis
         run:  composer run-static-analysis
+      - name: run coding standards
+        run:  composer check-styles

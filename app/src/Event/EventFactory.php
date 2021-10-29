@@ -26,6 +26,7 @@ class EventFactory
 
     /**
      * @param string $eventType|null
+     *
      * @return EventInterface
      */
     public function createFromEventType(?string $eventType): EventInterface

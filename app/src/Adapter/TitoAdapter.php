@@ -1,15 +1,16 @@
 <?php
 /**
- * Nottingham Digital events
+ * Nottingham Digital events.
  *
- * @link      https://github.com/pavlakis/notts-digital
+ * @see      https://github.com/pavlakis/notts-digital
+ *
  * @copyright Copyright (c) 2017 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
+
 namespace NottsDigital\Adapter;
 
 use Goutte\Client;
-use NottsDigital\Adapter\AdapterInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 class TitoAdapter implements AdapterInterface
@@ -48,14 +49,15 @@ class TitoAdapter implements AdapterInterface
 
     /**
      * @param string $group
+     *
      * @return void
      */
     public function fetch(string $group)
     {
-        $this->group    = $group;
+        $this->group = $group;
 
         try {
-            $crawler = $this->client->request('GET', $this->baseUrl . '/' . $this->config[$group]['url'] );
+            $crawler = $this->client->request('GET', $this->baseUrl.'/'.$this->config[$group]['url']);
             $this->event = $crawler->filter('.events .future > a')->eq(0);
         } catch (\InvalidArgumentException $e) {
             $this->event = new Crawler();
@@ -78,7 +80,8 @@ class TitoAdapter implements AdapterInterface
         $dateStr = '';
         try {
             $dateStr = $this->event->text();
-        } catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
+        }
 
         preg_match("/(\w+)(\s{1})(\d{1,2})([a-zA-z]{2}),\s{1}(\d{4})/", $dateStr, $date);
 
@@ -99,8 +102,9 @@ class TitoAdapter implements AdapterInterface
     {
         $url = '';
         try {
-            $url = $this->getBaseUrl() . $this->event->attr('href');
-        } catch (\Exception $e) {}
+            $url = $this->getBaseUrl().$this->event->attr('href');
+        } catch (\Exception $e) {
+        }
 
         return $url;
     }

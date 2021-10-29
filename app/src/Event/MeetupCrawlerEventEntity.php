@@ -1,11 +1,13 @@
 <?php
 /**
- * Nottingham Digital events
+ * Nottingham Digital events.
  *
- * @link      https://github.com/pavlakis/notts-digital
+ * @see      https://github.com/pavlakis/notts-digital
+ *
  * @copyright Copyright (c) 2021 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
+
 namespace NottsDigital\Event;
 
 use Symfony\Component\DomCrawler\Crawler;
@@ -32,7 +34,7 @@ final class MeetupCrawlerEventEntity implements EventEntityInterface
     }
 
     /**
-     * // Tuesday, October 19, 2021
+     * // Tuesday, October 19, 2021.
      *
      * // .eventTimeDisplay.eventDateTime--hover
      * // .eventTimeDisplay-startDate (Tuesday, October 19, 2021)
@@ -46,8 +48,8 @@ final class MeetupCrawlerEventEntity implements EventEntityInterface
     public function getDate(): \DateTime
     {
         try {
-            $timeStr =  $this->meetupPageCrawler->filter('span.eventTimeDisplay-startDate-time')->text();
-            $dateStrMixed =  $this->meetupPageCrawler->filter('span.eventTimeDisplay-startDate')->text();
+            $timeStr = $this->meetupPageCrawler->filter('span.eventTimeDisplay-startDate-time')->text();
+            $dateStrMixed = $this->meetupPageCrawler->filter('span.eventTimeDisplay-startDate')->text();
             $dateStr = str_ireplace($timeStr, '', $dateStrMixed);
         } catch (\Exception $e) {
             throw new \InvalidArgumentException('Could not retrieve date.');
@@ -55,7 +57,7 @@ final class MeetupCrawlerEventEntity implements EventEntityInterface
 
         $date = \DateTime::createFromFormat(
             'l, F j, Y g:i A',
-            $dateStr. ' ' . $timeStr
+            $dateStr.' '.$timeStr
         );
 
         if (!$date instanceof \DateTime) {
@@ -81,7 +83,7 @@ final class MeetupCrawlerEventEntity implements EventEntityInterface
         $isoDate = '';
 
         if ($this->getDate() instanceof \DateTime) {
-            $date = $this->getDate()->format('l jS F Y') . ' at ' . $this->getDate()->format('g:ia');
+            $date = $this->getDate()->format('l jS F Y').' at '.$this->getDate()->format('g:ia');
             $isoDate = $this->getDate()->format('c');
         }
 
@@ -91,7 +93,7 @@ final class MeetupCrawlerEventEntity implements EventEntityInterface
             'date_time' => $date,
             'location' => $this->getLocation(),
             'event_url' => $this->getUrl(),
-            'iso_date' => $isoDate
+            'iso_date' => $isoDate,
         ];
     }
 }

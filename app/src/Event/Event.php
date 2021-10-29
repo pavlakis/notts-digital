@@ -1,8 +1,9 @@
 <?php
 /**
- * Nottingham Digital events
+ * Nottingham Digital events.
  *
- * @link      https://github.com/pavlakis/notts-digital
+ * @see      https://github.com/pavlakis/notts-digital
+ *
  * @copyright Copyright (c) 2017 Antonios Pavlakis
  * @license   https://github.com/pavlakis/notts-digital/blob/master/LICENSE (BSD 3-Clause License)
  */
@@ -24,9 +25,10 @@ class Event implements EventInterface
     }
 
     /**
-     * Gets event
+     * Gets event.
      *
      * @param string $group
+     *
      * @return Event
      */
     public function getByGroup($group)
@@ -42,24 +44,22 @@ class Event implements EventInterface
     public function toArray(): array
     {
         $eventInfo = [
-            'group'     => $this->adapter->getGroupName(),
+            'group' => $this->adapter->getGroupName(),
             'group_photo' => $this->adapter->getGroupPhoto(),
             'group_description' => $this->adapter->getGroupDescription(),
-            'next_event' => []
+            'next_event' => [],
         ];
 
         foreach ($this->adapter->getEventEntityCollection() as $key => $eventEntity) {
-
-            /** @var EventEntityInterface $eventEntity */
-            if ($key === 0) {
+            /* @var EventEntityInterface $eventEntity */
+            if (0 === $key) {
                 $eventInfo = array_merge($eventInfo, $eventEntity->toArray());
                 continue;
             }
 
-            if ($key === 1) {
+            if (1 === $key) {
                 $eventInfo['next_event'] = $eventEntity->toArray();
             }
-
         }
 
         return $eventInfo;

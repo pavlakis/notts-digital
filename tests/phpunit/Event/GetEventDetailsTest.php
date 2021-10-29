@@ -2,12 +2,12 @@
 
 namespace NottsDigital\tests\Event;
 
-use NottsDigital\Event\GetEventDetailsInterface;
+use PHPUnit\Framework\TestCase;
+use NottsDigital\Event\EventFactory;
+use NottsDigital\Event\GetEventDetails;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ServerRequestInterface;
-use NottsDigital\Event\GetEventDetails;
-use NottsDigital\Event\EventFactory;
-use PHPUnit\Framework\TestCase;
+use NottsDigital\Event\GetEventDetailsInterface;
 
 class GetEventDetailsTest extends TestCase
 {
@@ -26,7 +26,7 @@ class GetEventDetailsTest extends TestCase
         $this->eventFactory = $this->createMock(EventFactory::class);
         $this->request = $this->createMock(ServerRequestInterface::class);
     }
-   
+
     /**
      * @test
      */
@@ -51,16 +51,16 @@ class GetEventDetailsTest extends TestCase
         static::assertSame(200, $response->getStatusCode());
         static::assertSame('*', $response->getHeader('Access-Control-Allow-Origin')[0]);
     }
-      
+
     public function getEvent()
     {
         $eventFactory = $this->createMock(EventFactory::class);
-        $getEventDetails = new GetEventDetails(['group'=>['name'=>'phpMinds']], $eventFactory);
+        $getEventDetails = new GetEventDetails(['group' => ['name' => 'phpMinds']], $eventFactory);
 
         $this->request->method('getQueryParams')->willReturn([]);
         static::assertSame(\json_encode($this->getDefaultPayload(), JSON_PRETTY_PRINT), $getEventDetails->getEvent($this->request)->getBody()->getContents());
-
     }
+
     /**
      * @return array
      */
