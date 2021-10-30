@@ -6,3 +6,4 @@ var/*
 .token
 tests/coverage/*
 tests/phpunit/coverage.xml
+.serverless/
