@@ -13,10 +13,6 @@ $container['config'] = function ($c) {
     return include __DIR__.'/configs/config.php';
 };
 
-<<<<<<< HEAD
-$container['groups'] = function ($c){
-    return (new \NottsDigital\Config\ArrayGroupConfig(__DIR__.'/configs'))->fetchConfig();
-=======
 $container['groups'] = function($c){
     return (new \NottsDigital\Config\ApiGroupConfig(
         $c['config']['groups']['path'],
@@ -24,7 +20,6 @@ $container['groups'] = function($c){
         $c['api.log'],
         $c['file.cache']
     ))->fetchConfig();
->>>>>>> 3ec4c15 (Use an API group config to fetch groups from GitHub repository)
 };
 
 $container['api.log'] = function ($c) {
