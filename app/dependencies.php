@@ -13,7 +13,7 @@ $container['config'] = function ($c) {
     return include __DIR__.'/configs/config.php';
 };
 
-$container['groups'] = function($c){
+$container['groups'] = function ($c) {
     return (new \NottsDigital\Config\ApiGroupConfig(
         $c['config']['groups']['path'],
         $c['http.client'],
