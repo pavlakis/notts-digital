@@ -93,8 +93,8 @@ final class ApiGroupConfig implements GroupConfigInterface
         return $groups;
     }
 
-    private function isValid($groupsJson): bool
+    private function isValid(string $groupsJson): bool
     {
-        return is_string($groupsJson) && false !== \json_decode($groupsJson, true);
+        return false !== \json_decode($groupsJson, true, 512, JSON_THROW_ON_ERROR);
     }
 }
