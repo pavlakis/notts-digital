@@ -18,7 +18,7 @@ final class ArrayGroupConfig implements GroupConfigInterface
 
     public function fetchConfig(): array
     {
-        $groupFilename = $this->groupConfigDir . '/groups.php';
+        $groupFilename = $this->groupConfigDir.'/groups.php';
         if (!\file_exists($groupFilename)) {
             throw new \LogicException(\sprintf('Group config not found on %s location', $groupFilename));
         }

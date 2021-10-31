@@ -64,7 +64,6 @@ final class ApiGroupConfig implements GroupConfigInterface
                 $this->cache->save($cacheId, $groupsJson);
 
                 return $this->getGroups($groupsJson);
-
             } catch (\GuzzleHttp\Exception\RequestException $e) {
                 $this->logger->error(
                     'Could not fetch group details with exception {exception}', [
