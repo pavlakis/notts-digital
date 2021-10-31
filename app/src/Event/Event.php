@@ -48,6 +48,12 @@ class Event implements EventInterface
             'group_photo' => $this->adapter->getGroupPhoto(),
             'group_description' => $this->adapter->getGroupDescription(),
             'next_event' => [],
+            'subject' => '',
+            'description' => '',
+            'date_time' => '',
+            'location' => '',
+            'event_url' => '',
+            'iso_date' => '',
         ];
 
         foreach ($this->adapter->getEventEntityCollection() as $key => $eventEntity) {
