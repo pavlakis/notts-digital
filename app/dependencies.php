@@ -14,7 +14,12 @@ $container['config'] = function ($c) {
 };
 
 $container['groups'] = function ($c) {
-    return include __DIR__.'/configs/groups.php';
+    return (new \NottsDigital\Config\ApiGroupConfig(
+        $c['config']['groups']['path'],
+        $c['http.client'],
+        $c['api.log'],
+        $c['file.cache']
+    ))->fetchConfig();
 };
 
 $container['api.log'] = function ($c) {
